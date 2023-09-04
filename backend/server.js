@@ -5,14 +5,14 @@ const app = express();
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const connectDB = require("./config/dbConn");
+const CardRoutes = require("./routes/CardRoutes")
 const mongoose = require("mongoose");
 const { logEvents } = require("./middleware/logger");
 const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
-
 const PORT = process.env.PORT || 8072;
 
-console.log(process.env.NODE_ENV);
+console.log(process.env.MONGO_URL);
 
 connectDB();
 
@@ -31,6 +31,12 @@ app.use(
 app.use(cors(corsOptions));
 
 app.use(express.json()); //this is a buit in middleware
+
+// app.use("/users", require("./routes/userRoutes"));
+// app.use("/leaveRequests", require("./routes/leaveRoutes"));
+// app.use("/report", require("./routes/reportRoutes"));
+// app.use("/leavePolicy", require("./routes/leavePolicyRoutes"));
+app.use("/cart",CardRoutes);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
