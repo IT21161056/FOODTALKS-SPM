@@ -5,9 +5,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { alanAtom, command, data } from "./atom/alanAtom";
 
+//import pages
 import Login from "./pages/Login";
 import NavBar from "./pages/NavBar";
 import Registration from "./pages/Registration";
+import Profile from "./pages/Profile";
 
 function App() {
   const [newCommand, setCommand] = useAtom(command);
@@ -35,6 +37,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
+        <Route path="/profile" exact element={<Profile />} />
       </Routes>
     </BrowserRouter>
   );
