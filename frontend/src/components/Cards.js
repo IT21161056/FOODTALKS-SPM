@@ -26,11 +26,8 @@ const Cards = () => {
   const [message, setMessage] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newValue, setValue] = useAtom(value);
-
-
-  const [data, setData] = useState(Cardsdata);
+  
   const [cardData, setCardData] = useState([]);
-
 
   useEffect(() => {
 
@@ -38,21 +35,27 @@ const Cards = () => {
       for (let i = 0; i < cardData.length; i++) {
 
         if (newAlanAtom) {
-          newAlanAtom.playText(`${cardData[i].dish}` + 'price is' + `${cardData[i].price}`+`rupees`)
+          newAlanAtom.playText(`${cardData[i].dish}` + 'price is' + `${cardData[i].price}` + `rupees`)
         }
 
       }
     } else if (message == 'noodles') {
       window.open(`http://localhost:3000/order/64dd8b78c40d567c3883a80c`)
-    } else if(message == 'order_burger'){
+    } else if (message == 'order_burger') {
       window.open(`http://localhost:3000/order/64d3c75180485394970aba0b`)
-    }else if(message == 'open_cart'){
+    } else if (message == 'open_cart') {
+      newAlanAtom.playText('Opening the cart')
       window.open('http://localhost:3000/cartitem')
+    } else if (message == 'chicken_burger') {
+       addToCart(cardData[1])
+    }else if(message == 'chicken_rice'){
+        addToCart(cardData[0])
+    }else if(message == 'chicken_noodles'){
+        addToCart(cardData[2])
     }
 
 
   }, [message])
-
 
   const dispatch = useDispatch()
 
@@ -142,41 +145,42 @@ const Cards = () => {
 
   const [cartItems, setCartItems] = useState([]);
 
+
   const addToCart = (element) => {
 
-    if(sessionStorage.getItem("cartItems") == null){
+    if (sessionStorage.getItem("cartItems") == null) {
 
       var cartItems = []
-            cartItems.push(element);
-            sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-            toast.success('Item Added!',{
-                autoClose:100,
-                position: "top-center",
-            })
+      cartItems.push(element);
+      sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+      toast.success('Item Added!', {
+        autoClose: 100,
+        position: "top-center",
+      })
 
-    }else{
+    } else {
 
-           var localItems = []
+      var localItems = []
 
-            localItems = JSON.parse(sessionStorage.getItem("cartItems")); 
+      localItems = JSON.parse(sessionStorage.getItem("cartItems"));
 
-            let checkedItems = localItems.filter(item => {
-                if(item._id != element._id){
-                    return item;
-                }
-                toast.error('Item already Added!',{
-                  autoClose:100,
-                  position: "top-center",
-              })
-            })
+      let checkedItems = localItems.filter(item => {
+        if (item._id != element._id) {
+          return item;
+        }
+        toast.error('Item already Added!', {
+          autoClose: 100,
+          position: "top-center",
+        })
+      })
 
-            checkedItems.push(element)
-            sessionStorage.setItem("cartItems", JSON.stringify(checkedItems));
-           
+      checkedItems.push(element)
+      sessionStorage.setItem("cartItems", JSON.stringify(checkedItems));
+
     }
-  
+
   };
-  
+
 
   return (
     <div className='container mt-3'>

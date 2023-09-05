@@ -7,9 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, Typography } from '@mui/material';
-
-
+import { Button, IconButton, Typography } from '@mui/material';
+import { json } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const CartItem = () => {
 
@@ -24,12 +24,12 @@ const CartItem = () => {
     setTotalAmount(amount);
   }; 
   
+
   React.useEffect(() => {
     calculateTotalAmount();
   }, [cart]);
 
 
-  console.log(cart);
   React.useEffect(() => {
 
     function fetchAllData() {
@@ -41,6 +41,49 @@ const CartItem = () => {
     }
     fetchAllData();
   }, []);
+
+
+  //increment quantity
+  const incrementQuantity =(itemid) => {
+      const updatedCartItems = cart.map((item) => {
+        if(item._id == itemid){
+          return {...item,qnty:item.qnty+1}
+        }else{
+          return item;
+        }
+      });
+      setCart(updatedCartItems)
+      sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
+  }
+
+
+
+  //decrement quantity
+  const decremetQuantity = (itemid) => {
+      const updatedCartItems = cart.map((item) => {
+        if(item._id == itemid){
+          if(item.qnty == 0){
+            return {...item,qnty:item.qnty}
+          }else{
+            return {...item,qnty:item.qnty-1}
+          }
+        }else{
+            return item
+        }
+      });
+      setCart(updatedCartItems)
+      sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
+  }
+
+  const handleRemove = (itemid) => {
+      const updatedCartItems = cart.filter((item) => {
+        if(item._id != itemid){
+           return item
+        }
+      })
+      setCart(updatedCartItems);
+      sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
+  }
 
 
   return (
@@ -56,6 +99,7 @@ const CartItem = () => {
               <TableCell sx={{ fontWeight: 'bold' }}>Price</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Quantity</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Image</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
 
@@ -66,11 +110,14 @@ const CartItem = () => {
                 <TableCell >{item.dish}</TableCell>
                 <TableCell >{item.price}</TableCell>
                 <TableCell sx={{fontSize:15}} >
-                <button style={{margin:15,border:'none'}} onClick={()=>{}}>+</button>{item.qnty}
-                <button style={{margin:15,border:'none'}} onClick={()=>{}}>-</button></TableCell>
+                <button style={{margin:15,border:'none'}} onClick={()=> incrementQuantity(item._id)}>+</button>{item.qnty}
+                <button style={{margin:15,border:'none'}} onClick={()=> decremetQuantity(item._id)}>-</button></TableCell>
                 <TableCell >
                 <img style={{ borderRadius: '20px', width: '80px', height: '80px' }} src={item.image} alt='food' />
                 </TableCell>
+                <TableCell><IconButton onClick={()=>handleRemove(item._id)} sx={{color:'red'}}>
+                  <DeleteIcon/>
+                </IconButton></TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -78,6 +125,8 @@ const CartItem = () => {
         </Table>
       </TableContainer>
       <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}>Total price :{totalAmount}</Typography>
+      <Button sx={{display:'flex',marginLeft:135,marginTop:2,
+      backgroundColor:'#b3ecff',color:'black'}}>Procced</Button>
     </div>
   )
 }
