@@ -1,4 +1,5 @@
 import alanBtn from "@alan-ai/alan-sdk-web";
+import { ALAN_KEY } from "./config/alanKey";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -19,7 +20,7 @@ function App() {
   useEffect(() => {
     setAlanAtom(
       alanBtn({
-        key: process.env.ALAN_KEY,
+        key: ALAN_KEY,
         onCommand: ({ command, data }) => {
           console.log(command);
           console.log(data);
