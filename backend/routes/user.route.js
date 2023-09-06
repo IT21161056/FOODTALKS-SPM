@@ -9,4 +9,4 @@ router.route("/").get(usersController.getAllUsers);
 router.route("/:id").put(usersController.updateUser);
 router.route("/:id").delete(usersController.deleteUser);
 
-module.exports = router;
+module.exports = router; //f
