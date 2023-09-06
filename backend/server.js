@@ -12,7 +12,7 @@ const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 const PORT = process.env.PORT || 8072;
 
-console.log(process.env.MONGO_URL);
+// console.log(process.env.MONGO_URL);
 
 connectDB();
 
