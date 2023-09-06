@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import Cardsdata from './CardsData';
 import './style.css'
 import Dropdown from 'react-bootstrap/Dropdown';
-import { useDispatch } from 'react-redux';
+// import { useDispatch } from 'react-redux';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import moment from 'moment';
-import { ADD } from '../redux/actions/action'
+// import { ADD } from '../redux/actions/action'
 import { alanAtom, command, value } from "../../src/alanAtom"
-import alanBtn from "@alan-ai/alan-sdk-web";
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -57,12 +54,12 @@ const Cards = () => {
 
   }, [message])
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const send = (e) => {
-    dispatch(ADD(e));
-    console.log(e)
-  }
+  // const send = (e) => {
+  //   dispatch(ADD(e));
+  //   console.log(e)
+  // }
 
   const generatePDF = () => {
     const doc = new jsPDF();

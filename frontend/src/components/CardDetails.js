@@ -1,55 +1,55 @@
 import React, { useEffect, useState } from 'react'
-import Table from 'react-bootstrap/Navbar';
-import DeleteIcon from '@mui/icons-material/Delete';
-import './style.css'
-import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { ADD, DLT, REMOVE } from '../redux/actions/action';
-import { IconButton } from '@mui/material';
+// import Table from 'react-bootstrap/Navbar';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import './style.css'
+// import { useNavigate, useParams } from 'react-router-dom';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { ADD, DLT, REMOVE } from '../redux/actions/action';
+// import { IconButton } from '@mui/material';
 
 const CardDetails = () => {
 
-  const [data, setData] = useState([]);
-  console.log(data);
+  // const [data, setData] = useState([]);
+  // console.log(data);
 
-  const { id } = useParams();
-  //console.log(id)
+  // const { id } = useParams();
+  // //console.log(id)
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const getdata = useSelector((state) => state.cartreducer.carts)
-  //console.log(getdata.length)
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const getdata = useSelector((state) => state.cartreducer.carts)
+  // //console.log(getdata.length)
 
-  const compare = () => {
-    let comparedata = getdata.filter((e) => {
-      return e.id == id;
-    })
-    setData(comparedata)
-  }
+  // const compare = () => {
+  //   let comparedata = getdata.filter((e) => {
+  //     return e.id == id;
+  //   })
+  //   setData(comparedata)
+  // }
 
-  useEffect(() => {
-    compare();
-  }, [id])
+  // useEffect(() => {
+  //   compare();
+  // }, [id])
 
-  const send = (e) => {
-    dispatch(ADD(e));
-    console.log(e)
-  }
+  // const send = (e) => {
+  //   dispatch(ADD(e));
+  //   console.log(e)
+  // }
 
-  const dlt = (id) => {
-    dispatch(DLT(id))
-    navigate("/");
-  }
+  // const dlt = (id) => {
+  //   dispatch(DLT(id))
+  //   navigate("/");
+  // }
 
-  const remove = (item) => {
-    dispatch(REMOVE(item))
-  }
+  // const remove = (item) => {
+  //   dispatch(REMOVE(item))
+  // }
 
   return (
     <>
       <div className='container mt-2'>
         <h2 className='text-center'>Items details page</h2>
-        <section className='container mt-3'>
+        {/* <section className='container mt-3'>
           <div className='itemsdetails'>
             {
               data.map((ele) => {
@@ -89,7 +89,7 @@ const CardDetails = () => {
               })
             }
           </div>
-        </section>
+        </section> */}
       </div>
     </>
   )

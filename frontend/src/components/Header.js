@@ -11,45 +11,45 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { DLT } from '../redux/actions/action';
+// import { DLT } from '../redux/actions/action';
 
 const Header = () => {
 
-    const getdata = useSelector((state) => state.cartreducer.carts)
-    console.log(getdata.length)
+    // const getdata = useSelector((state) => state.cartreducer.carts)
+    // console.log(getdata.length)
 
-    const [price, setPrice] = useState(0);
-    console.log(price);
+    // const [price, setPrice] = useState(0);
+    // console.log(price);
 
     const navigate = useNavigate()
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
+    // const [anchorEl, setAnchorEl] = React.useState(null);
+    // const open = Boolean(anchorEl);
 
     const handleClick = (event) => {
         navigate("/addnew")
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // const handleClose = () => {
+    //     setAnchorEl(null);
+    // };
 
-    const dlt = (id) => {
-        dispatch(DLT(id))
-    }
+    // // const dlt = (id) => {
+    //     dispatch(DLT(id))
+    // }
 
-    const total = () => {
-        let price = 0;
-        getdata.map((ele, k) => {
-            price = ele.price * ele.qnty + price;
-        })
-        setPrice(price);
-    }
+    // const total = () => {
+    //     let price = 0;
+    //     getdata.map((ele, k) => {
+    //         price = ele.price * ele.qnty + price;
+    //     })
+    //     setPrice(price);
+    // }
 
-    useEffect(() => {
-        total()
-    }, [total])
+    // useEffect(() => {
+    //     total()
+    // }, [total])
 
     return (
         <>
@@ -57,19 +57,19 @@ const Header = () => {
                 <Container style={{ color: 'white',paddingTop:10,marginBottom:5}} >
                     <Link style={{textDecoration:'none'}} to='/'>Home</Link>
                     <Link to="/cartitem">
-                        <Badge badgeContent={getdata.length} color="primary"
+                        <Badge badgeContent={1} color="primary"
                             id="demo-positioned-button"
-                            aria-controls={open ? 'demo-positioned-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
+                            // aria-controls={open ? 'demo-positioned-menu' : undefined}
+                            // aria-haspopup="true"
+                            // aria-expanded={open ? 'true' : undefined}
+                            // onClick={handleClick}
                         >
                             <ShoppingCartIcon />
                         </Badge>
                     </Link>
                 </Container>
 
-                <Menu
+                {/* <Menu
                     id="demo-positioned-menu"
                     aria-labelledby="demo-positioned-button"
                     anchorEl={anchorEl}
@@ -113,7 +113,7 @@ const Header = () => {
                                                                         <small>price <b>${e.price}</b></small><br></br>
                                                                         <small>Quantity <b>{e.qnty}</b></small><br></br>
                                                                         <small>
-                                                                            <IconButton sx={{ color: "red" }} onClick={() => dlt(e.id)} >
+                                                                            <IconButton sx={{ color: "red" }}  >  
                                                                                 <DeleteIcon />
                                                                             </IconButton>
                                                                         </small>
@@ -137,7 +137,7 @@ const Header = () => {
                             </div>
 
                     }
-                </Menu>
+                </Menu> */}
 
             </Navbar>
         </>
