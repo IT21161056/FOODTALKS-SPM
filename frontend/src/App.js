@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     setAlanAtom(
       alanBtn({
-        key: "f302eaf49649acf3c6473b5423e04b5d2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        key: process.env.ALAN_KEY,
         onCommand: ({ command, data }) => {
           console.log(command);
           console.log(data);

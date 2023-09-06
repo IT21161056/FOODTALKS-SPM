@@ -39,12 +39,12 @@ const Registraion = () => {
     password: "",
   });
 
-  useEffect(() => {
-    if (newAlanAtom) {
-      newAlanAtom.activate();
-      newAlanAtom.setVisualState({ path: pageName.pathname });
-    }
-  }, [pageName, newAlanAtom]);
+  // useEffect(() => {
+  //   if (newAlanAtom) {
+  //     newAlanAtom.activate();
+  //     newAlanAtom.setVisualState({ path: pageName.pathname });
+  //   }
+  // }, [pageName, newAlanAtom]);
 
   console.log(pageName.pathname);
 
