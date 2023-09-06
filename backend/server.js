@@ -10,6 +10,8 @@ const { logEvents } = require("./middleware/logger");
 const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 
+
+const CardRoutes = require("./routes/CardRoutes")//viraj 
 const PORT = process.env.PORT || 8072;
 
 console.log(process.env.NODE_ENV);
@@ -31,6 +33,8 @@ app.use(
 app.use(cors(corsOptions));
 
 app.use(express.json()); //this is a buit in middleware
+app.use("/cart",CardRoutes);//viraj route
+
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
