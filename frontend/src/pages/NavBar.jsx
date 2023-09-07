@@ -14,6 +14,9 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { Link } from "react-router-dom";
 
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Badge} from '@mui/material';
+
 const pages = [
   { pageName: "Products", route: "/#" },
   { pageName: "Pricing", route: "/#" },
@@ -150,6 +153,18 @@ export default function NavBar() {
               </Button>
             </Link>
           </Box>
+
+            {/*viraj*/}
+            <Box sx={{marginRight:15}}>
+            <Link to="/cartitem">
+                        <Badge badgeContent={1} color="secondary" sx={{color:'white'}}
+                            id="demo-positioned-button"
+                        >
+                            <ShoppingCartIcon />
+                        </Badge>
+                    </Link>
+            </Box>
+          {/*viraj*/}
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

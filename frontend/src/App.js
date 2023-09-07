@@ -1,4 +1,5 @@
 import alanBtn from "@alan-ai/alan-sdk-web";
+import { ALAN_KEY } from "./config/alanKey";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -13,6 +14,16 @@ import Profile from "./pages/Profile";
 import OrderCheckout from "./pages/OrderCheckout";
 import Step1 from "./pages/Step1";
 
+//viraj imports
+import CardDetails from "./components/CardDetails";
+import Cards from "./components/Cards";
+import CartItem from "./components/CartItem";
+import Header from "./components/Header";
+import AddProduct from "./Onlinestore/AddProduct";
+import OrderItem from "./Onlinestore/OrderItem";
+import UpdateCard from "./Onlinestore/UpdateCard";
+import ViewCart from "./Onlinestore/ViewCart";
+
 function App() {
   const [newCommand, setCommand] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
@@ -21,7 +32,7 @@ function App() {
   useEffect(() => {
     setAlanAtom(
       alanBtn({
-        key: "f302eaf49649acf3c6473b5423e04b5d2e956eca572e1d8b807a3e2338fdd0dc/stage",
+        key: ALAN_KEY,
         onCommand: ({ command, data }) => {
           console.log(command);
           console.log(data);
@@ -36,6 +47,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      {/* <Header/> */}
       <Routes>
         <Route path="/" element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
@@ -63,6 +75,14 @@ function App() {
         
         <Route path="/step1" exact element={<Step1 />} />
         <Route path="/step1/orderCheckOut" exact element={<OrderCheckout/>} />
+          {/* viraj routes*/}
+        <Route path="/addnew" element={<AddProduct />}></Route>
+        <Route path="/update/:id" element={<UpdateCard />}></Route>
+        <Route  path='/menu'     element={<Cards/>}/>
+        <Route  path='/cart/:id' element={<CardDetails/>}  />
+        <Route  path='/order/:id' element={<OrderItem/>}  />
+        <Route  path='/view/:id' element={<ViewCart/>}  />
+        <Route path='/cartitem' element={<CartItem/>} />
       </Routes>
     </BrowserRouter>
   );

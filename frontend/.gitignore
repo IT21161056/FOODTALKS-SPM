@@ -5,6 +5,10 @@
 node_modules
 /.pnp
 .pnp.js
+.env
+config
+
+config
 
 # testing
 /coverage
