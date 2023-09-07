@@ -45,6 +45,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar />
+      {/* <Header/> */}
       <Routes>
         <Route path="/" element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
