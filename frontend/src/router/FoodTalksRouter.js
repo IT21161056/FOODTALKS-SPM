@@ -13,6 +13,7 @@ import AddProduct from "../pages/AddProduct";
 import OrderItem from "../pages/OrderItem";
 import UpdateCard from "../pages/UpdateCard";
 import ViewCart from "../pages/ViewCart";
+import OrderCheckout from "../pages/OrderCheckout";
 
 export default function FoodTalksRouter() {
   return (
@@ -28,6 +29,12 @@ export default function FoodTalksRouter() {
       <Route path="/order/:id" element={<OrderItem />} />
       <Route path="/view/:id" element={<ViewCart />} />
       <Route path="/cartitem" element={<CartItem />} />
+
+      {/* pasindu routes */}
+      <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
+
+      {/* viraj routes*/}
+      <Route path="/addnew" element={<AddProduct />}></Route>
     </Routes>
   );
 }
