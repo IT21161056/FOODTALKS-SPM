@@ -15,7 +15,6 @@ import Profile from "./pages/Profile";
 //imports pasindu
 import OrderCheckout from "./pages/OrderCheckout";
 
-
 import Layout from "./layout/Layout";
 
 function App() {
@@ -40,31 +39,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <NavBar /> */}
-      {/* <Header/> */}
-      {/* <Routes>
-        <Route path="/" element={<Registration />} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/profile" exact element={<Profile />} />
-
-
-        {/* pasindu routes */}
-        <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
-
-        {/* viraj routes*/}
-        <Route path="/addnew" element={<AddProduct />}></Route>
-
-
-      {/* viraj routes*/}
-      {/* <Route path="/addnew" element={<AddProduct />}></Route>
-
-        <Route path="/update/:id" element={<UpdateCard />}></Route>
-        <Route path="/menu" element={<Cards />} />
-        <Route path="/cart/:id" element={<CardDetails />} />
-        <Route path="/order/:id" element={<OrderItem />} />
-        <Route path="/view/:id" element={<ViewCart />} />
-        <Route path="/cartitem" element={<CartItem />} />
-      </Routes> */}
       <Layout />
     </BrowserRouter>
   );
