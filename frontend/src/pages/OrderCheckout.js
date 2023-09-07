@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
-import "react-datepicker/dist/react-datepicker.css";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 //<a href="https://storyset.com/online">Online illustrations by Storyset</a>
 
