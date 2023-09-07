@@ -40,8 +40,29 @@ function App() {
         <Route path="/" element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/profile" exact element={<Profile />} />
+
+
+
+
+
+
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <Route path="/step1" exact element={<Step1 />} />
-        <Route path="/orderCheckOut" exact element={<OrderCheckout/>} />
+        <Route path="/step1/orderCheckOut" exact element={<OrderCheckout/>} />
       </Routes>
     </BrowserRouter>
   );
