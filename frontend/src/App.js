@@ -53,36 +53,16 @@ function App() {
         <Route path="/login" exact element={<Login />} />
         <Route path="/profile" exact element={<Profile />} />
 
-
-
-
-
-
-
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         <Route path="/step1" exact element={<Step1 />} />
-        <Route path="/step1/orderCheckOut" exact element={<OrderCheckout/>} />
-          {/* viraj routes*/}
+        <Route path="/step1/orderCheckOut" exact element={<OrderCheckout />} />
+        {/* viraj routes*/}
         <Route path="/addnew" element={<AddProduct />}></Route>
         <Route path="/update/:id" element={<UpdateCard />}></Route>
-        <Route  path='/menu'     element={<Cards/>}/>
-        <Route  path='/cart/:id' element={<CardDetails/>}  />
-        <Route  path='/order/:id' element={<OrderItem/>}  />
-        <Route  path='/view/:id' element={<ViewCart/>}  />
-        <Route path='/cartitem' element={<CartItem/>} />
+        <Route path="/menu" element={<Cards />} />
+        <Route path="/cart/:id" element={<CardDetails />} />
+        <Route path="/order/:id" element={<OrderItem />} />
+        <Route path="/view/:id" element={<ViewCart />} />
+        <Route path="/cartitem" element={<CartItem />} />
       </Routes>
     </BrowserRouter>
   );
