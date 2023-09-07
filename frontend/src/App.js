@@ -11,8 +11,10 @@ import Login from "./pages/Login";
 import NavBar from "./pages/NavBar";
 import Registration from "./pages/Registration";
 import Profile from "./pages/Profile";
+
+//imports pasindu
 import OrderCheckout from "./pages/OrderCheckout";
-import Step1 from "./pages/Step1";
+
 
 import Layout from "./layout/Layout";
 
@@ -45,10 +47,17 @@ function App() {
         <Route path="/login" exact element={<Login />} />
         <Route path="/profile" exact element={<Profile />} />
 
-        <Route path="/step1" exact element={<Step1 />} />
-        <Route path="/step1/orderCheckOut" exact element={<OrderCheckout />} /> */}
+
+        {/* pasindu routes */}
+        <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
+
+        {/* viraj routes*/}
+        <Route path="/addnew" element={<AddProduct />}></Route>
+
+
       {/* viraj routes*/}
       {/* <Route path="/addnew" element={<AddProduct />}></Route>
+
         <Route path="/update/:id" element={<UpdateCard />}></Route>
         <Route path="/menu" element={<Cards />} />
         <Route path="/cart/:id" element={<CardDetails />} />
