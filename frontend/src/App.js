@@ -10,6 +10,8 @@ import Login from "./pages/Login";
 import NavBar from "./pages/NavBar";
 import Registration from "./pages/Registration";
 import Profile from "./pages/Profile";
+import OrderCheckout from "./pages/OrderCheckout";
+import Step1 from "./pages/Step1";
 
 function App() {
   const [newCommand, setCommand] = useAtom(command);
@@ -38,6 +40,8 @@ function App() {
         <Route path="/" element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/profile" exact element={<Profile />} />
+        <Route path="/step1" exact element={<Step1 />} />
+        <Route path="/orderCheckOut" exact element={<OrderCheckout/>} />
       </Routes>
     </BrowserRouter>
   );

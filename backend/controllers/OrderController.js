@@ -1,5 +1,4 @@
 const Order = require('../models/OrderModel');
-const Customer = require('../models/Customer');
 const asyncHandler = require('express-async-handler');
 
 const getAllOrders = asyncHandler(async (req, res) => {
@@ -20,6 +19,23 @@ const getAllOrders = asyncHandler(async (req, res) => {
 
     res.json(orderWithCustomer);
 })
+
+//get single order
+const getSingleOrder = async (req, res) => {
+
+    const { id } = req.params;
+    let singleOrder
+
+    try {
+        singleOrder = await Order.findOne({ _id: id });
+        res.status(200).json(singleOrder)
+
+    } catch (error) {
+
+        res.status(401).json(error)
+    }
+
+}
 
 //Add new order
 
@@ -103,6 +119,7 @@ const deleteOrder = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllOrders,
+    getSingleOrder,
     addNewOrder,
     updateOrder,
     deleteOrder

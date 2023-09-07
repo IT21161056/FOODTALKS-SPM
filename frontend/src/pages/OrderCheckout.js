@@ -1,12 +1,28 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
+//import { useFormContext } from "react-hook-form";
 import {useNavigate, useLocation, useParams} from "react-router-dom"
 import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
-import DatePicker from "react-datepicker";
-import { Controller } from 'react-hook-form';
+//import DatePicker from "react-datepicker";
+//import { Controller } from 'react-hook-form';
 import "react-datepicker/dist/react-datepicker.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Checkbox from "@mui/material/Checkbox";
+import CircularProgress from "@mui/material/CircularProgress";
+import Container from "@mui/material/Container";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
 
 export default function OrderCheckout () {
 
@@ -68,19 +84,19 @@ export default function OrderCheckout () {
     }
   }, [message]);
 
-  function getOrderData() {
-    newAlanAtom.activate();
-    newAlanAtom.playText(
-      "In here you can you can add your personal details to submit the order"
-    );
-  }
+  // function getOrderData() {
+  //   newAlanAtom.activate();
+  //   newAlanAtom.playText(
+  //     "In here you can you can add your personal details to submit the order"
+  //   );
+  // }
   
-   useEffect(() => {
-    // getOrderData();
-    newAlanAtom.activate();
-    // newAlanAtom.callProjectApi("getOrderData");
-    newAlanAtom.setVisualState({ path: pageName.pathname });
-  }, [pageName]);
+  //  useEffect(() => {
+  //   // getOrderData();
+  //   newAlanAtom.activate();
+  //   // newAlanAtom.callProjectApi("getOrderData");
+  //   newAlanAtom.setVisualState({ path: pageName.pathname });
+  // }, [pageName]);
 
   // const { register, handleSubmit, control, watch, formState: { errors } } = useFormContext();
   // const onSubmit = data => console.log(data);
