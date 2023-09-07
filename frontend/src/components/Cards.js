@@ -17,6 +17,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link, NavLink } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Cards = () => {
 
 
@@ -208,13 +210,13 @@ const Cards = () => {
                       <Dropdown.Menu>
 
                         <Dropdown.Item>
-                          <NavLink to={`view/${element._id}`} className="text-decoration-none">
+                          <NavLink to={`/view/${element._id}`} className="text-decoration-none">
                             <RemoveRedEyeIcon style={{ color: "green " }}></RemoveRedEyeIcon><span>View</span>
                           </NavLink>
                         </Dropdown.Item>
 
                         <Dropdown.Item >
-                          <NavLink to={`update/${element._id}`} className="text-decoration-none">
+                          <NavLink to={`/update/${element._id}`} className="text-decoration-none">
                             <ModeEditIcon style={{ color: "#9900cc" }}></ModeEditIcon><span>Update</span>
                           </NavLink>
                         </Dropdown.Item>
