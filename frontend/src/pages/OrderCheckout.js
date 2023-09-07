@@ -1,12 +1,11 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
 import {useNavigate, useLocation, useParams} from "react-router-dom"
 import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
-import DatePicker from "react-datepicker";
-import { Controller } from 'react-hook-form';
 import "react-datepicker/dist/react-datepicker.css";
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+//<a href="https://storyset.com/online">Online illustrations by Storyset</a>
 
 export default function OrderCheckout () {
 
@@ -16,7 +15,7 @@ export default function OrderCheckout () {
     var total = window.location.search;
     const urlParams = new URLSearchParams(total);
     const totalAmount = urlParams.get('total');
-    setTotalAmount(totalAmount); // Set the total amount in the state
+    setTotalAmount(totalAmount);  // Set the total amount in the state
   }, []);
 
 
@@ -24,139 +23,241 @@ export default function OrderCheckout () {
   const pageName = useLocation();
 
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
-  const [message, setMessage] = useAtom(command);
-  const [newAlanData, setAlanData] = useAtom(data);
-  const [fullName, setFullName] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [deliverLocation, setDeliverLocation] = useState("");
-  const [deliverDate, setDeliverDate] = useState(new Date());
+  const [newCommand, setNewCommand] = useAtom(command);
+  const [newData, setData] = useAtom(data);
   
 
-  const order = {
-    fullName: fullName,
-    mobileNumber: mobileNumber,
-    deliverLocation: deliverLocation,
-    deliverDate: deliverDate
-  }
+  const [order, setOrder] = useState({
+    name: "",
+    mobileNumber: "",
+    totalAmount: "",
+    deliverLocation: "",
+    deliverDate: ""
+  });
 
-  console.log(fullName);
-  console.log(mobileNumber);
-  console.log(deliverLocation);
-  console.log(deliverDate);
+  // useEffect(() => {
+  //   if (newAlanAtom) {
+  //     newAlanAtom.activate();
+  //     newAlanAtom.setVisualState({ path: pageName.pathname });
+  //   }
+  // }, [pageName, newAlanAtom]);
 
-   useEffect(() => {
-    if (message === "openForm") {
-           navigate("/orderCheckout");
-    }
-    if (message === "gotoStep1") {
-      navigate("/");
-    }
-    if (message === "getFullName") {
-      setFullName(newAlanData);
-    }
-     if (message === "getMobileNumber") {
-      setMobileNumber(newAlanData);
-    }
-    if (message === "getDeliverLocation") {
-      setDeliverLocation(newAlanData);
-    }
-    if (message === "getDeliverDate") {
-      setDeliverDate(newAlanData);
-    }
-    if (message === "submit") {
-      console.log(order);
-    }
-  }, [message]);
+  // console.log(pageName.pathname);
 
-  function getOrderData() {
-    newAlanAtom.activate();
-    newAlanAtom.playText(
-      "In here you can you can add your personal details to submit the order"
-    );
-  }
-  
-   useEffect(() => {
-    // getOrderData();
-    newAlanAtom.activate();
-    // newAlanAtom.callProjectApi("getOrderData");
-    newAlanAtom.setVisualState({ path: pageName.pathname });
-  }, [pageName]);
+    useEffect(() => {
+    if (newCommand === "setName") {
+      setOrder((prv) => {
+        return {
+          ...prv,
+          name: newData,
+        };
+      });
+    }
+    if (newCommand === "setMobileNumber") {
+      setOrder((prv) => {
+        return {
+          ...prv,
+          mobileNumber: newData,
+        };
+      });
+    }
+    if (newCommand === "setDeliverLocation") {
+      setOrder((prv) => {
+        return {
+          ...prv,
+          deliverLocation: newData,
+        };
+      });
+    }
+    if (newCommand === "setDeliverDate") {
+      setOrder((prv) => {
+        return {
+          ...prv,
+          deliverDate: newData,
+        };
+      });
+    }
+  }, [newCommand]);
 
-  // const { register, handleSubmit, control, watch, formState: { errors } } = useFormContext();
-  // const onSubmit = data => console.log(data);
+  /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
 
-  // console.log(watch("example")); // watch input value by passing the name of it
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      name: data.get("name"),
+      mobileNumber: data.get("mobileNumber"),
+      totalAmount: data.get("totalAmount"),
+      deliverLocation: data.get("deliverLocation"),
+      deliverDate: data.get("deliverDate")
+    });
+  };
+
+  console.log(order);
 
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
+
     <form>
 
-    <label>Full-Name : </label>
-      <input
-        type="text"
-        // {...register("fullName", {
-        //   required: "Required",
-        // })}
-        value={fullName}
-        onChange={(e) => setFullName(e.target.value)}
-      />
-      {/* {errors.customerName && <span style={{color:'red'}}>This field is required</span>} */}
+      <Box 
+            display="flex" 
+            flexDirection="column"
+            maxWidth={800}
+            border={1}
+            borderColor={'#1976d2'} 
+            justifyContent="center"
+            alignItems="center"
+            margin="auto"
+            marginTop={5}
+            padding={3}
+            borderRadius={5}
+            boxShadow={'5px 5px 10px #ccc'}
+            sx={{":hover": {
+              boxShadow:'10px 10px 20px #ccc'
+            }}}
+          >
 
-      <label>Mobile No</label>
-      <input 
-        type="number"
-      // {...register("phone", { 
-      //   required: true })} 
-          value={mobileNumber}
-          onChange={(e) => setMobileNumber(e.target.value)}
-        />
-      {/* {errors.phone && <span style={{color:'red'}}>This field is required</span>} */}
-      
-      <label>Deliver Location</label>
-      <input 
-        type="text"
-        // {...register("location", { 
-        //   required: true })} 
-        value={deliverLocation}
-        onChange={(e) => setDeliverLocation(e.target.value)}
-      />
-      {/* {errors.location && <span style={{color:'red'}}>This field is required</span>}
-     */}
+          <Typography variant='h4' padding={3} textAlign="center">
+              Personal Information
+          </Typography>
 
-      <label>Total Amount :</label>
-      <input
-      type="text"
-        // {...register("amount", {
-        //  required: true })} 
-          value={totalAmount}
-          onChange={(e) => setTotalAmount(e.target.value)}
-      />
-      {/* {errors.amount && <span style={{color:'red'}}>This field is required</span>} */}
-      
-
-      {/* const formatDate = (date) => {
-        return date ? date.toLocaleDateString() : '' // Check if date is not null before formatting
-      }; */}
-
-      {/* <label>Deliver Date: </label>
-      <Controller
-        control={control}
-        name="fromDate"
-        render={({ field: { onChange, onBlur, value, ref } }) => (
-          <DatePicker
-            onChange={(date) => {
-              onChange(date); // send value to hook form
-              setDeliverDate(date); // Update the selected date in the state
-            }}
-            onBlur={onBlur} // notify when input is touched/blur
-            selected={value}
-            minDate={new Date()}
-          />
-        )}
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                      margin='normal'
+                      type={"text"}
+                      variant="outlined"
+                      style={{ width: '600px' }}
+                      autoComplete="given-name"
+                      name="name"
+                      required
+                      size="small"
+                      id="name"
+                      label="Name"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrder((p) => {
+                          return {
+                            ...p,
+                            name: e.target.value,
+                          };
+                        })
+                      }
+                      value={order.name}
+                    />
+            </Grid>
         
-      /> */}
+            <Grid item xs={12}>
+              <TextField
+                      margin="normal"
+                      type={"tel"}
+                      variant="outlined"
+                      style={{ width: '300px' }}
+                      name="mobileNumber"
+                      required
+                      fullWidth
+                      size="small"
+                      id="mobileNumber"
+                      label="Mobile Number"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrder((p) => {
+                          return {
+                            ...p,
+                            mobileNumber: e.target.value,
+                          };
+                        })
+                      }
+                      value={order.mobileNumber}
+                    />
+            </Grid>
 
-      <button type="submit" className="demo">Submit</button>
+            <Grid item xs={12}>
+              <TextField
+                      margin="normal"
+                      type={"text"}
+                      variant="outlined"
+                      style={{ width: '300px' }}
+                      name="totalAmount"
+                      required
+                      fullWidth
+                      size="small"
+                      id="totalAmount"
+                      label="Total Amount"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrder((p) => {
+                          return {
+                            ...p,
+                            totalAmount: e.target.value,
+                          };
+                        })
+                      }
+                      value={order.totalAmount}
+                    />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                      margin="normal"
+                      type={"text"}
+                      variant="outlined"
+                      style={{ width: '600px' }}
+                      name="deliverLocation"
+                      required
+                      fullWidth
+                      size="small"
+                      id="deliverLocation"
+                      label="Deliver Location"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrder((p) => {
+                          return {
+                            ...p,
+                            deliverLocation: e.target.value,
+                          };
+                        })
+                      }
+                      value={order.deliverLocation}
+                    />
+            </Grid>
+
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                      margin="normal"
+                      type={"date"}
+                      variant="outlined"
+                      style={{ width: '300px' }}
+                      name="deliverDate"
+                      required
+                      fullWidth
+                      size="small"
+                      id="deliverDate"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrder((p) => {
+                          return {
+                            ...p,
+                            deliverDate: e.target.value,
+                          };
+                        })
+                      }
+                      value={order.deliverDate}
+                    />
+            </Grid>
+          </Grid>
+          <Button
+            type="submit" 
+            sx={{margin: 3, borderRadius: 3}} 
+            variant='contained' 
+            color='primary'
+            onSubmit={handleSubmit}
+          >
+              Submit Order
+          </Button>
+      </Box>
+
     </form>
   );
 }
