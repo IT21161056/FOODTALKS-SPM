@@ -14,15 +14,7 @@ import Profile from "./pages/Profile";
 import OrderCheckout from "./pages/OrderCheckout";
 import Step1 from "./pages/Step1";
 
-//viraj imports
-import CardDetails from "./components/CardDetails";
-import Cards from "./components/Cards";
-import CartItem from "./components/CartItem";
-import Header from "./components/Header";
-import AddProduct from "./Onlinestore/AddProduct";
-import OrderItem from "./Onlinestore/OrderItem";
-import UpdateCard from "./Onlinestore/UpdateCard";
-import ViewCart from "./Onlinestore/ViewCart";
+import Layout from "./layout/Layout";
 
 function App() {
   const [newCommand, setCommand] = useAtom(command);
@@ -46,24 +38,25 @@ function App() {
 
   return (
     <BrowserRouter>
-      <NavBar />
+      {/* <NavBar /> */}
       {/* <Header/> */}
-      <Routes>
+      {/* <Routes>
         <Route path="/" element={<Registration />} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/profile" exact element={<Profile />} />
 
         <Route path="/step1" exact element={<Step1 />} />
-        <Route path="/step1/orderCheckOut" exact element={<OrderCheckout />} />
-        {/* viraj routes*/}
-        <Route path="/addnew" element={<AddProduct />}></Route>
+        <Route path="/step1/orderCheckOut" exact element={<OrderCheckout />} /> */}
+      {/* viraj routes*/}
+      {/* <Route path="/addnew" element={<AddProduct />}></Route>
         <Route path="/update/:id" element={<UpdateCard />}></Route>
         <Route path="/menu" element={<Cards />} />
         <Route path="/cart/:id" element={<CardDetails />} />
         <Route path="/order/:id" element={<OrderItem />} />
         <Route path="/view/:id" element={<ViewCart />} />
         <Route path="/cartitem" element={<CartItem />} />
-      </Routes>
+      </Routes> */}
+      <Layout />
     </BrowserRouter>
   );
 }
