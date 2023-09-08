@@ -52,7 +52,7 @@ export default function OrderCheckout() {
       setOrder((prv) => {
         return {
           ...prv,
-          name: newData,
+          customerName: newData,
         };
       });
     }
@@ -90,6 +90,13 @@ export default function OrderCheckout() {
     }
   }, [newCommand]);
 
+  // console.log(customerName);
+  // console.log(mobileNumber);
+  // console.log(city);
+  // console.log(deliverLocation);
+  // console.log(deliverDate);
+  // console.log(totalAmount);
+
   /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
 
   const handleSubmit = (event) => {
@@ -111,6 +118,9 @@ export default function OrderCheckout() {
     <form>
       <Box
         display="flex"
+        position="absolute"
+        top={90}
+        left={280}
         flexDirection="column"
         maxWidth={800}
         border={1}
@@ -144,7 +154,7 @@ export default function OrderCheckout() {
               required
               size="small"
               id="customerName"
-              label="customerName"
+              label="Name"
               autoFocus
               onChange={(e) =>
                 setOrder((p) => {
@@ -292,6 +302,7 @@ export default function OrderCheckout() {
               sx={{ margin: 3, borderRadius: 3, width: '200px'}}
               variant="contained"
               color="primary"
+              onClick={() => navigate('/cartItem')}
               
             >
               Cancel Order
@@ -313,6 +324,9 @@ export default function OrderCheckout() {
 
       <Box
         display="flex"
+        position="absolute"
+        top={90}
+        left={1200}
         flexDirection="column"
         maxWidth={300}
         border={1}
@@ -330,7 +344,17 @@ export default function OrderCheckout() {
           },
         }}
       >
-        <Typography>Total Amount</Typography>
+        <Typography 
+          variant="h5" 
+          textAlign="center"
+          marginBottom={4}
+        >
+          Total Amount
+        </Typography>
+
+        <Typography>
+          RS: {totalAmount}
+        </Typography>
       </Box>
     </form>
   );
