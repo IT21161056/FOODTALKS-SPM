@@ -110,7 +110,7 @@ const Cards = () => {
   useEffect(() => {
     sendRequest().then((data) => setCardData(data))
 
-  }, [cardData])
+  }, [])
 
   //  useEffect(() => {
   //   const alanInstance = alanBtn({
@@ -132,14 +132,16 @@ const Cards = () => {
 
   // }, [])
 
-
+  //delete logic implemented
   const deletequotation = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:8072/cart/delete/${id}`);
-
-    } catch (err) {
-      console.log(err);
+      await axios.delete(`http://localhost:8072/cart/delete/${id}`);
+      const newdata = cardData.filter((el) => el._id !== id); 
+      setCardData(newdata);
+    } catch (error) {
+      console.error(error);
     }
+
   }
 
   const [cartItems, setCartItems] = useState([]);
@@ -191,7 +193,7 @@ const Cards = () => {
           <Button name='Add product' className='addbtn'>+ Add Product</Button>
         </Link>
       </div>
-      <div style={{ position: 'absolute', top: '112px', display: 'flex', marginLeft: '-80px' }}>
+      <div style={{ position: 'absolute', top: '122px', display: 'flex', marginLeft: '-80px' }}>
         <Button variant='success' onClick={generatePDF} style={{ backgroundColor: 'green', margin: '20px' }}>Generate report</Button>
       </div>
 
