@@ -30,7 +30,7 @@ export default function OrderCheckout() {
   const [newData, setData] = useAtom(data);
 
   const [order, setOrder] = useState({
-    name: "",
+    customerName: "",
     mobileNumber: "",
     city: "",
     deliverLocation: "",
@@ -48,7 +48,7 @@ export default function OrderCheckout() {
   // console.log(pageName.pathname);
 
   useEffect(() => {
-    if (newCommand === "setName") {
+    if (newCommand === "setCustomerName") {
       setOrder((prv) => {
         return {
           ...prv,
@@ -140,21 +140,21 @@ export default function OrderCheckout() {
               variant="outlined"
               style={{ width: "600px" }}
               autoComplete="given-name"
-              name="name"
+              name="customerName"
               required
               size="small"
-              id="name"
-              label="Name"
+              id="customerName"
+              label="customerName"
               autoFocus
               onChange={(e) =>
                 setOrder((p) => {
                   return {
                     ...p,
-                    name: e.target.value,
+                    customerName: e.target.value,
                   };
                 })
               }
-              value={order.name}
+              value={order.customerName}
             />
           </Grid>
 

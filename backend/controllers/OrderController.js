@@ -37,19 +37,20 @@ const getSingleOrder = async (req, res) => {
 //Add new order
 
 const addNewOrder = async (req, res) => {
-  const { customerName, mobileNumber, location, amount, deliverDate } =
+  const { customerName, mobileNumber, totalAmount, city, deliverLocation, deliverDate } =
     req.body;
 
   //Confirm data
-  if (!customerName || !mobileNumber || !location || !amount || !deliverDate) {
+  if (!customerName || !mobileNumber || !totalAmount || !city || !deliverLocation || !deliverDate) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   const order = await Order.create({
     customerName,
     mobileNumber,
-    location,
-    amount,
+    totalAmount,
+    city,
+    deliverLocation,
     deliverDate,
   });
 
@@ -66,14 +67,15 @@ const updateOrder = async (req, res) => {
   const {
     customerName,
     mobileNumber,
-    location,
-    amount,
+    totalAmount,
+    city,
+    deliverLocation,
     deliverDate,
-    deliveryPersonName,
+    //deliveryPersonName,
   } = req.body;
 
   //Confirm data
-  if (!customerName || !location || !mobileNumber || !amount || !deliverDate) {
+  if (customerName, mobileNumber, totalAmount, city, deliverLocation, deliverDate ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -96,9 +98,10 @@ const updateOrder = async (req, res) => {
   }
 
   order.customerName = customerName;
-  order.location = location;
   order.mobileNumber = mobileNumber;
-  order.amount = amount;
+  order.totalAmount = totalAmount;
+  order.city = city;
+  order.deliverLocation = deliverLocation;
   order.deliverDate = deliverDate;
   //order.deliveryPersonName = deliveryPersonName
 
