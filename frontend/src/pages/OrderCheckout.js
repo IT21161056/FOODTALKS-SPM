@@ -10,11 +10,17 @@ export default function OrderCheckout() {
   const [totalAmount, setTotalAmount] = useState(null);
 
   useEffect(() => {
-    var total = window.location.search;
+    let total = window.location.search;
     const urlParams = new URLSearchParams(total);
     const totalAmount = urlParams.get("total");
     setTotalAmount(totalAmount); // Set the total amount in the state
   }, []);
+
+  const past = new Date('2023-01-01').toISOString().split('T')[0];
+  const [minDate, setminDate] = useState(past);
+
+  const today = new Date().toISOString().split('T')[0];
+  const [maxDate, setMaxDate] = useState(today);
 
   const navigate = useNavigate();
   const pageName = useLocation();
@@ -26,9 +32,10 @@ export default function OrderCheckout() {
   const [order, setOrder] = useState({
     name: "",
     mobileNumber: "",
-    totalAmount: "",
+    city: "",
     deliverLocation: "",
     deliverDate: "",
+    totalAmount: ""
   });
 
   // useEffect(() => {
@@ -54,6 +61,14 @@ export default function OrderCheckout() {
         return {
           ...prv,
           mobileNumber: newData,
+        };
+      });
+    }
+    if (newCommand === "setCity") {
+      setOrder((prv) => {
+        return {
+          ...prv,
+          city: newData,
         };
       });
     }
@@ -83,9 +98,10 @@ export default function OrderCheckout() {
     console.log({
       name: data.get("name"),
       mobileNumber: data.get("mobileNumber"),
-      totalAmount: data.get("totalAmount"),
+      city: data.get("city"),
       deliverLocation: data.get("deliverLocation"),
       deliverDate: data.get("deliverDate"),
+      totalAmount: data.get("totalAmount")
     });
   };
 
@@ -146,6 +162,7 @@ export default function OrderCheckout() {
             <TextField
               margin="normal"
               type={"tel"}
+              pattern="[0-9]{10}"
               variant="outlined"
               style={{ width: "300px" }}
               name="mobileNumber"
@@ -173,6 +190,31 @@ export default function OrderCheckout() {
               type={"text"}
               variant="outlined"
               style={{ width: "300px" }}
+              name="city"
+              required
+              fullWidth
+              size="small"
+              id="city"
+              label="City"
+              autoFocus
+              onChange={(e) =>
+                setOrder((p) => {
+                  return {
+                    ...p,
+                    city: e.target.value,
+                  };
+                })
+              }
+              value={order.city}
+            />
+          </Grid>
+
+          {/* <Grid item xs={12}>
+            <TextField
+              margin="normal"
+              type={"text"}
+              variant="outlined"
+              style={{ width: "300px" }}
               name="totalAmount"
               required
               fullWidth
@@ -190,7 +232,7 @@ export default function OrderCheckout() {
               }
               value={order.totalAmount}
             />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12}>
             <TextField
@@ -221,6 +263,7 @@ export default function OrderCheckout() {
             <TextField
               margin="normal"
               type={"date"}
+              min={maxDate} max={maxDate}
               variant="outlined"
               style={{ width: "300px" }}
               name="deliverDate"
@@ -241,15 +284,53 @@ export default function OrderCheckout() {
             />
           </Grid>
         </Grid>
-        <Button
-          type="submit"
-          sx={{ margin: 3, borderRadius: 3 }}
-          variant="contained"
-          color="primary"
-          onSubmit={handleSubmit}
-        >
-          Submit Order
-        </Button>
+
+        <Grid container spacing={0}>
+          <Grid sx={{ marginLeft: '50px' }}>
+            <Button
+              type="button"
+              sx={{ margin: 3, borderRadius: 3, width: '200px'}}
+              variant="contained"
+              color="primary"
+              
+            >
+              Cancel Order
+            </Button>
+          </Grid>
+          <Grid sx={{ marginLeft: '170px' }}>
+            <Button
+              type="submit"
+              sx={{ margin: 3, borderRadius: 3, width: '200px' }}
+              variant="contained"
+              color="primary"
+              onSubmit={handleSubmit}
+            >
+              Submit Order
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+
+      <Box
+        display="flex"
+        flexDirection="column"
+        maxWidth={300}
+        border={1}
+        borderColor={"#1976d2"}
+        justifyContent="center"
+        alignItems="center"
+        margin="auto"
+        marginTop={5}
+        padding={3}
+        borderRadius={5}
+        boxShadow={"5px 5px 10px #ccc"}
+        sx={{
+          ":hover": {
+            boxShadow: "10px 10px 20px #ccc",
+          },
+        }}
+      >
+        <Typography>Total Amount</Typography>
       </Box>
     </form>
   );

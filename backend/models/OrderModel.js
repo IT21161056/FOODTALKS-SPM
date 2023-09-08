@@ -8,32 +8,31 @@ const orderSchema = new mongoose.Schema(
             required: true
         },
 
-        phone: {
+        mobileNumber: {
             type: Number,
             required: true
         },
 
-        location: {
-            type: String,
-            required: true
-        },
-
-        amount: {
+        totalAmount: {
             type: Number,
             required: true
         },
 
-        date: {
+        city: {
             type: String,
             required: true
         },
 
-        deliveryPersonName: {
-            type : String
-        }   
-    },
-    {
-        timestamps: true
+        deliverLocation: {
+            type: String,
+            required: true
+        },
+
+        deliverDate: {
+            type: String,
+            required: true
+        }
+  
     }
 )
     
