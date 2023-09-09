@@ -10,8 +10,7 @@ const { logEvents } = require("./middleware/logger");
 const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 
-
-const CardRoutes = require("./routes/CardRoutes")//viraj 
+const CardRoutes = require("./routes/CardRoutes"); //viraj
 const OrderRoute = require("./routes/OrderRoute"); //pasindu
 
 const PORT = process.env.PORT || 8072;
@@ -35,9 +34,12 @@ app.use(
 app.use(cors(corsOptions));
 
 app.use(express.json()); //this is a buit in middleware
-app.use("/cart",CardRoutes);//viraj route
+app.use("/cart", CardRoutes); //viraj route
 app.use("/orderCheckout", OrderRoute); //pasindu route
 
+// anoj routes
+const userRoute = require("./routes/user.route.js");
+app.use("/users", userRoute);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
