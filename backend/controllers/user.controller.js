@@ -1,4 +1,4 @@
-import User from "../models/user.model";
+const User = require("../models/user.model");
 // const bcrypt = require("bcrypt");
 const session = require("express-session");
 
@@ -25,6 +25,10 @@ const getAllUsers = async (req, res) => {
 const createNewUser = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, password } = req.body;
+
+    console.log(firstName, lastName, email, phone, password);
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
     //confirm data
     if (!firstName || !lastName || !email || !phone || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -45,18 +49,20 @@ const createNewUser = async (req, res) => {
       lastName,
       email,
       phone,
-      //   password: hashedPwd,
       password,
     };
+    console.log(userObject);
 
     //create and store new user
     const user = await User.create(userObject);
+
+    console.log("aahddk");
 
     if (user) {
       //created
       res
         .status(201)
-        .json({ message: `New user ${username} created`, user: user });
+        .json({ message: `New user ${firstName} ${lastName} created` });
     } else {
       res.status(400).json({ message: "Invalid user data received" });
     }
