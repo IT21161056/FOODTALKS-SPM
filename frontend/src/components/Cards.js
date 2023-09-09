@@ -56,13 +56,6 @@ const Cards = () => {
 
   }, [message])
 
-  // const dispatch = useDispatch()
-
-  // const send = (e) => {
-  //   dispatch(ADD(e));
-  //   console.log(e)
-  // }
-
   const generatePDF = () => {
     const doc = new jsPDF();
 
@@ -111,26 +104,6 @@ const Cards = () => {
     sendRequest().then((data) => setCardData(data))
 
   }, [])
-
-  //  useEffect(() => {
-  //   const alanInstance = alanBtn({
-  //     key: '443debc3a9e2807fec25a5ebc34ae21b2e956eca572e1d8b807a3e2338fdd0dc/stage',
-  //     onCommand: ({ command, cardData, number }) => {
-  //       if (command === 'testCommand') {
-  //            //sendRequest().then((data) => setCardData(data))
-  //       } else if (command === 'highlight') {
-  //         //setactivearticl((prevArtical) => prevArtical + 1)
-  //       } else if (command === 'noodles') {
-  //         window.open(`http://localhost:8072/order/64d3c78880485394970aba0d`)
-  //       }else if(command === 'order_burger'){
-  //         window.open(`http://localhost:8072/order/64d3c75180485394970aba0b`)
-  //       }else if(command === 'play'){
-  //            alanInstance.playText('Hi')
-  //       }
-  //     }
-  //   });
-
-  // }, [])
 
   //delete logic implemented
   const deletequotation = async (id) => {
