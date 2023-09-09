@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, IconButton, Typography } from '@mui/material';
-import { json } from 'react-router-dom';
+import { Link, json } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CartItem = () => {
@@ -52,6 +52,7 @@ const CartItem = () => {
           return item;
         }
       });
+     
       setCart(updatedCartItems)
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
@@ -88,6 +89,7 @@ const CartItem = () => {
 
   return (
     <div>
+      <Link to='/menu'><Button>Go back</Button></Link>
       <Typography sx={{display:'flex',justifyContent:'center',fontSize:30}}>Your Cart</Typography>
       <TableContainer component={Paper} sx={{ width: 1050, display: 'flex', marginLeft: 30}}>
         <Table sx={{ minWidth: 100, gap: '2rem' }} aria-label="caption table">

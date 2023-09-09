@@ -38,20 +38,20 @@ const Cards = () => {
         }
 
       }
-    } else if (message == 'noodles') {
+    } 
+    if (message == 'noodles') {
       window.open(`http://localhost:3000/order/64dd8b78c40d567c3883a80c`)
-    } else if (message == 'order_burger') {
+    } 
+    if (message == 'order_burger') {
       window.open(`http://localhost:3000/order/64d3c75180485394970aba0b`)
-    } else if (message == 'open_cart') {
+    }
+    if (message == 'open_cart') {
       newAlanAtom.playText('Opening the cart')
       window.open('http://localhost:3000/cartitem')
-    } else if (message == 'chicken_burger') {
-       addToCart(cardData[1])
-    }else if(message == 'chicken_rice'){
-        addToCart(cardData[0])
-    }else if(message == 'chicken_noodles'){
-        addToCart(cardData[2])
-    }
+    } 
+    if (message == 'chicken_burger') {
+      addToCart(cardData[0])
+     }
 
 
   }, [message])
