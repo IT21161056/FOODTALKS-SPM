@@ -39,6 +39,7 @@ const Cards = () => {
 
       }
     } 
+    
     if (message == 'noodles') {
       window.open(`http://localhost:3000/order/64dd8b78c40d567c3883a80c`)
     } 
@@ -49,9 +50,13 @@ const Cards = () => {
       newAlanAtom.playText('Opening the cart')
       window.open('http://localhost:3000/cartitem')
     } 
+
     if (message == 'chicken_burger') {
       addToCart(cardData[0])
      }
+    if (message == 'egg_rotti'){
+      addToCart(cardData[1])
+    }
 
 
   }, [message])

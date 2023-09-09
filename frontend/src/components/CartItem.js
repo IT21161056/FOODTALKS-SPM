@@ -18,7 +18,7 @@ const CartItem = () => {
 
   const calculateTotalAmount = () => {
     const amount = cart.reduce((total, item) => {
-      return total + 1 * item.price; // Fix the typo here
+      return total + item.qnty * item.price; // Fix the typo here
     }, 0);
   
     setTotalAmount(amount);
@@ -52,7 +52,7 @@ const CartItem = () => {
           return item;
         }
       });
-     
+      calculateTotalAmount();
       setCart(updatedCartItems)
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
@@ -72,6 +72,7 @@ const CartItem = () => {
             return item
         }
       });
+      calculateTotalAmount();
       setCart(updatedCartItems)
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
@@ -89,7 +90,6 @@ const CartItem = () => {
 
   return (
     <div>
-      <Link to='/menu'><Button>Go back</Button></Link>
       <Typography sx={{display:'flex',justifyContent:'center',fontSize:30}}>Your Cart</Typography>
       <TableContainer component={Paper} sx={{ width: 1050, display: 'flex', marginLeft: 30}}>
         <Table sx={{ minWidth: 100, gap: '2rem' }} aria-label="caption table">
@@ -126,7 +126,8 @@ const CartItem = () => {
 
         </Table>
       </TableContainer>
-      <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}>Total price :{totalAmount}</Typography>
+      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:80,marginLeft:20}}>Go to menu</Button></Link>
+      <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
       <Button sx={{display:'flex',marginLeft:135,marginTop:2,
       backgroundColor:'#b3ecff',color:'black'}}>Procced</Button>
     </div>
