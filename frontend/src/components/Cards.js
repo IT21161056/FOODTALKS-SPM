@@ -57,7 +57,7 @@ const Cards = () => {
     if (message == 'egg_rotti'){
       addToCart(cardData[1])
     }
-
+    
 
   }, [message])
 

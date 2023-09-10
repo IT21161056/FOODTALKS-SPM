@@ -12,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
@@ -28,6 +28,8 @@ const settings = ["Profile", "Account", "Dashboard", "Logout"];
 export default function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const location = useLocation();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -152,6 +154,7 @@ export default function NavBar() {
           {/*viraj*/}
           <Box sx={{ marginRight: 5 }}>
             <Link to="/cartitem">
+              {location.pathname === '/menu' ?
               <Badge
                 badgeContent={1}
                 color="secondary"
@@ -160,6 +163,7 @@ export default function NavBar() {
               >
                 <ShoppingCartIcon />
               </Badge>
+               :"" }
             </Link>
           </Box>
           {/*viraj*/}
