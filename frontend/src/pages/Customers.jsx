@@ -82,10 +82,7 @@ export default function Customers() {
 
   return (
     <TableContainer sx={{ maxHeight: "60vh", padding: 1 }}>
-      <Typography
-        mb={2}
-        sx={{ fontWeight: 600, fontSize: 20, color: "HighlightText" }}
-      >
+      <Typography mb={2} sx={{ fontWeight: 600, fontSize: 20, color: "black" }}>
         Customer List
       </Typography>
       <Paper sx={{ width: "100%" }}>
