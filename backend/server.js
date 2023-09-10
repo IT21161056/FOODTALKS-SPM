@@ -31,7 +31,7 @@ app.use(
     rolling: true,
   })
 );
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json()); //this is a buit in middleware
 app.use("/cart", CardRoutes); //viraj route

@@ -14,8 +14,8 @@ import Typography from "@mui/material/Typography";
 import React from "react";
 import { Link } from "react-router-dom";
 
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge} from '@mui/material';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge } from "@mui/material";
 
 const pages = [
   { pageName: "Products", route: "/#" },
@@ -75,6 +75,7 @@ export default function NavBar() {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              href=""
             >
               <MenuIcon />
             </IconButton>
@@ -124,19 +125,10 @@ export default function NavBar() {
             LOGO
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
+            <Link
+              to="/"
+              style={{ color: "ButtonText", textDecoration: "none" }}
             >
-              Login
-            </Button>
-            <Button
-              onClick={handleCloseNavMenu}
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Login
-            </Button>
-            <Link to="/">
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -144,7 +136,10 @@ export default function NavBar() {
                 Register
               </Button>
             </Link>
-            <Link to="/login">
+            <Link
+              to="/login"
+              style={{ color: "ButtonText", textDecoration: "none" }}
+            >
               <Button
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
@@ -154,16 +149,19 @@ export default function NavBar() {
             </Link>
           </Box>
 
-            {/*viraj*/}
-            <Box sx={{marginRight:15}}>
+          {/*viraj*/}
+          <Box sx={{ marginRight: 5 }}>
             <Link to="/cartitem">
-                        <Badge badgeContent={1} color="secondary" sx={{color:'white'}}
-                            id="demo-positioned-button"
-                        >
-                            <ShoppingCartIcon />
-                        </Badge>
-                    </Link>
-            </Box>
+              <Badge
+                badgeContent={1}
+                color="secondary"
+                sx={{ color: "white" }}
+                id="demo-positioned-button"
+              >
+                <ShoppingCartIcon />
+              </Badge>
+            </Link>
+          </Box>
           {/*viraj*/}
 
           <Box sx={{ flexGrow: 0 }}>
@@ -188,11 +186,13 @@ export default function NavBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
+              {/* {settings.map((setting) => ( */}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Link to="/profile">
+                  <Typography textAlign="center">Profile</Typography>
+                </Link>
+              </MenuItem>
+              {/* ))} */}
             </Menu>
           </Box>
         </Toolbar>

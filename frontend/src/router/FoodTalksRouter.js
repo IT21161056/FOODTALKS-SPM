@@ -16,6 +16,7 @@ import OrderCheckout from "../pages/OrderCheckout";
 
 import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
+import Profile from "../pages/Profile";
 
 export default function FoodTalksRouter() {
   return (
@@ -24,6 +25,7 @@ export default function FoodTalksRouter() {
         {/* Anoj home routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Registraion />} />
+        <Route path="/profile" element={<Profile />} />
 
         {/* viraj routes */}
         <Route path="/addnew" element={<AddProduct />}></Route>
