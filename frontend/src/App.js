@@ -41,6 +41,7 @@ function App() {
     <BrowserRouter>
       <Layout />
     </BrowserRouter>
+
   );
 }
 
