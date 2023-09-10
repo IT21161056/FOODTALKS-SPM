@@ -38,7 +38,8 @@ const Registraion = () => {
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
-    phone: 0,
+    address: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -49,44 +50,64 @@ const Registraion = () => {
   //     newAlanAtom.setVisualState({ path: pageName.pathname });
   //   }
   // }, [pageName, newAlanAtom]);
-
+  console.log(user);
   useEffect(() => {
-    if (newCommand === "setFirstName") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          firstName: newData,
-        };
-      });
-    }
-    if (newCommand === "setLastName") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          lastName: newData,
-        };
-      });
-    }
-    if (newCommand === "setEmail") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          email: newData.toLowerCase(),
-        };
-      });
-    }
-    if (newCommand === "setPassword") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          password: newData.replace(/\s+/g, ""),
-        };
-      });
+    try {
+      if (newCommand === "setFirstName") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            firstName: newData,
+          };
+        });
+      }
+      if (newCommand === "setLastName") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            lastName: newData,
+          };
+        });
+      }
+      if (newCommand === "setEmail") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            email: newData.toLowerCase(),
+          };
+        });
+      }
+      if (newCommand === "setPassword") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            password: newData.replace(/\s+/g, ""),
+          };
+        });
+      }
+      if (newCommand === "setAddress") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            address: newData,
+          };
+        });
+      }
+      if (newCommand === "setPhone") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            phone: newData,
+          };
+        });
+      }
+    } finally {
+      setCommand("");
     }
   }, [newCommand]);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event?.preventDefault();
     // const data = new FormData(event.currentTarget);
     // await new Promise((resolve) => setTimeout(resolve, 3000));
     // console.log({
@@ -106,8 +127,9 @@ const Registraion = () => {
         setUser({
           firstName: "",
           lastName: "",
+          address: "",
           email: "",
-          phone: 0,
+          phone: "",
           password: "",
         });
       })
@@ -143,12 +165,7 @@ const Registraion = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -189,6 +206,26 @@ const Registraion = () => {
                     })
                   }
                   value={user.lastName}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
+                  id="address"
+                  label="Address"
+                  name="address"
+                  autoComplete="family-name"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        address: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.address}
                 />
               </Grid>
               <Grid item xs={12}>
