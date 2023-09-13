@@ -13,7 +13,11 @@ import AddProduct from "../pages/AddProduct";
 import OrderItem from "../pages/OrderItem";
 import UpdateCard from "../pages/UpdateCard";
 import ViewCart from "../pages/ViewCart";
+
+//pasindu imports
 import OrderCheckout from "../pages/OrderCheckout";
+import AllOrders from "../pages/AllOrders";
+import UpdateOrder from "../pages/UpdateOrder";
 
 export default function FoodTalksRouter() {
   return (
@@ -32,6 +36,8 @@ export default function FoodTalksRouter() {
 
       {/* pasindu routes */}
       <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
+      <Route path="/dashBoard/allOrders" exact element={<AllOrders />} />
+      <Route path="/dashBoard/updateOrder" exact element={<UpdateOrder />} />
 
       {/* viraj routes*/}
       <Route path="/addnew" element={<AddProduct />}></Route>

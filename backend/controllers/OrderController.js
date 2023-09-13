@@ -13,7 +13,7 @@ const getAllOrders = async (req, res) => {
   //Add customer name to each order before sending the response
   const orderWithCustomer = await Promise.all(
     orders.map(async (order) => {
-      const customer = await Customer.findById(order.customer).lean().exec();
+      const customer = await Order.findById(order.customer).lean().exec();
       return { ...order, customerName: customer.customerName };
     })
   );
@@ -37,21 +37,20 @@ const getSingleOrder = async (req, res) => {
 //Add new order
 
 const addNewOrder = async (req, res) => {
-  const { customerName, mobileNumber, totalAmount, city, deliverLocation, deliverDate } =
-    req.body;
+  const { customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount } = req.body;
 
   //Confirm data
-  if (!customerName || !mobileNumber || !totalAmount || !city || !deliverLocation || !deliverDate) {
+  if (!customerName || !mobileNumber || !city || !deliverLocation || !deliverDate || !totalAmount) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
   const order = await Order.create({
     customerName,
     mobileNumber,
-    totalAmount,
     city,
     deliverLocation,
     deliverDate,
+    totalAmount,
   });
 
   if (order) {
@@ -67,15 +66,14 @@ const updateOrder = async (req, res) => {
   const {
     customerName,
     mobileNumber,
-    totalAmount,
     city,
     deliverLocation,
     deliverDate,
-    //deliveryPersonName,
+    totalAmount
   } = req.body;
 
   //Confirm data
-  if (customerName, mobileNumber, totalAmount, city, deliverLocation, deliverDate ) {
+  if (customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount ) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -99,10 +97,10 @@ const updateOrder = async (req, res) => {
 
   order.customerName = customerName;
   order.mobileNumber = mobileNumber;
-  order.totalAmount = totalAmount;
   order.city = city;
   order.deliverLocation = deliverLocation;
   order.deliverDate = deliverDate;
+  order.totalAmount = totalAmount;
   //order.deliveryPersonName = deliveryPersonName
 
   const updateOrder = await order.save();

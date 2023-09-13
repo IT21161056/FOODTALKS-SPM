@@ -12,27 +12,27 @@ const orderSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
-
-        totalAmount: {
-            type: Number,
-            required: true
-        },
-
+        
         city: {
             type: String,
             required: true
         },
-
+        
         deliverLocation: {
             type: String,
             required: true
         },
-
+        
         deliverDate: {
             type: String,
             required: true
+        },
+
+        totalAmount: {
+            type: Number,
+            required: true
         }
-  
+
     }
 )
     
