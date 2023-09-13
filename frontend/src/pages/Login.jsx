@@ -1,20 +1,16 @@
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Snackbar from "@mui/material/Snackbar";
 import Avatar from "@mui/material/Avatar";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Container from "@mui/material/Container";
+import { Alert, Box, Container, Grid, TextField, Button } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -49,31 +45,82 @@ export default function Login() {
     pass: "",
   });
 
+  console.log(loginCredentials);
+  console.log(newCommand);
+
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = () => {
+    setState((prv) => {
+      return {
+        ...prv,
+        open: true,
+      };
+    });
+  };
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  function login(e) {
+    e.preventDefault();
+    axios
+      .post("http://localhost:8072/users/login", loginCredentials)
+      .then((res) => {
+        console.log(res.data.userID);
+        sessionStorage.setItem("userID", JSON.stringify(res.data.userID));
+        setLoginCredentials({
+          email: "",
+          pass: "",
+        });
+        handleClick();
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
   useEffect(() => {
-    if (newCommand === "loginEmail") {
-      setLoginCredentials((prv) => {
-        return { ...prv, email: newCommand };
-      });
-    }
-    if (newCommand === "loginPassword") {
-      setLoginCredentials((prv) => {
-        return { ...prv, pass: newCommand };
-      });
+    try {
+      if (newCommand === "loginEmail") {
+        setLoginCredentials((prv) => {
+          return { ...prv, email: newCommand };
+        });
+      }
+      if (newCommand === "loginPassword") {
+        setLoginCredentials((prv) => {
+          return { ...prv, pass: newCommand };
+        });
+      }
+      if (newCommand === "userlogin") {
+        handleSubmit();
+      }
+    } finally {
+      setCommand("");
     }
   }, [newCommand]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleSubmit = () => {
+    console.log(loginCredentials);
   };
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Loggin Successfully!
+          </Alert>
+        </Snackbar>
         <CssBaseline />
         <Box
           sx={{
@@ -91,12 +138,7 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box
-            component="form"
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
-          >
+          <Box component="form" onSubmit={login} sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -125,7 +167,7 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
-              value={loginCredentials.email}
+              value={loginCredentials.pass}
               onChange={(e) =>
                 setLoginCredentials((p) => {
                   return {
@@ -135,15 +177,13 @@ export default function Login() {
                 })
               }
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={login}
             >
               Sign In
             </Button>

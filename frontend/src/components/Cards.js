@@ -38,30 +38,28 @@ const Cards = () => {
         }
 
       }
-    } else if (message == 'noodles') {
+    } 
+    
+    if (message == 'noodles') {
       window.open(`http://localhost:3000/order/64dd8b78c40d567c3883a80c`)
-    } else if (message == 'order_burger') {
+    } 
+    if (message == 'order_burger') {
       window.open(`http://localhost:3000/order/64d3c75180485394970aba0b`)
-    } else if (message == 'open_cart') {
+    }
+    if (message == 'open_cart') {
       newAlanAtom.playText('Opening the cart')
       window.open('http://localhost:3000/cartitem')
-    } else if (message == 'chicken_burger') {
-       addToCart(cardData[1])
-    }else if(message == 'chicken_rice'){
-        addToCart(cardData[0])
-    }else if(message == 'chicken_noodles'){
-        addToCart(cardData[2])
-    }
+    } 
 
+    if (message == 'chicken_burger') {
+      addToCart(cardData[0])
+     }
+    if (message == 'egg_rotti'){
+      addToCart(cardData[1])
+    }
+    
 
   }, [message])
-
-  // const dispatch = useDispatch()
-
-  // const send = (e) => {
-  //   dispatch(ADD(e));
-  //   console.log(e)
-  // }
 
   const generatePDF = () => {
     const doc = new jsPDF();
@@ -110,36 +108,18 @@ const Cards = () => {
   useEffect(() => {
     sendRequest().then((data) => setCardData(data))
 
-  }, [cardData])
+  }, [])
 
-  //  useEffect(() => {
-  //   const alanInstance = alanBtn({
-  //     key: '443debc3a9e2807fec25a5ebc34ae21b2e956eca572e1d8b807a3e2338fdd0dc/stage',
-  //     onCommand: ({ command, cardData, number }) => {
-  //       if (command === 'testCommand') {
-  //            //sendRequest().then((data) => setCardData(data))
-  //       } else if (command === 'highlight') {
-  //         //setactivearticl((prevArtical) => prevArtical + 1)
-  //       } else if (command === 'noodles') {
-  //         window.open(`http://localhost:8072/order/64d3c78880485394970aba0d`)
-  //       }else if(command === 'order_burger'){
-  //         window.open(`http://localhost:8072/order/64d3c75180485394970aba0b`)
-  //       }else if(command === 'play'){
-  //            alanInstance.playText('Hi')
-  //       }
-  //     }
-  //   });
-
-  // }, [])
-
-
+  //delete logic implemented
   const deletequotation = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:8072/cart/delete/${id}`);
-
-    } catch (err) {
-      console.log(err);
+      await axios.delete(`http://localhost:8072/cart/delete/${id}`);
+      const newdata = cardData.filter((el) => el._id !== id); 
+      setCardData(newdata);
+    } catch (error) {
+      console.error(error);
     }
+
   }
 
   const [cartItems, setCartItems] = useState([]);
@@ -191,7 +171,7 @@ const Cards = () => {
           <Button name='Add product' className='addbtn'>+ Add Product</Button>
         </Link>
       </div>
-      <div style={{ position: 'absolute', top: '112px', display: 'flex', marginLeft: '-80px' }}>
+      <div style={{ position: 'absolute', top: '122px', display: 'flex', marginLeft: '-80px' }}>
         <Button variant='success' onClick={generatePDF} style={{ backgroundColor: 'green', margin: '20px' }}>Generate report</Button>
       </div>
 

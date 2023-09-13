@@ -1,5 +1,5 @@
 import alanBtn from "@alan-ai/alan-sdk-web";
-import { ALAN_KEY } from "./config/alanKey";
+import { ALAN_KEY } from "./config/alankey";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -41,6 +41,7 @@ function App() {
     <BrowserRouter>
       <Layout />
     </BrowserRouter>
+
   );
 }
 

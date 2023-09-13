@@ -1,4 +1,4 @@
-import User from "../models/user.model";
+const User = require("../models/user.model");
 // const bcrypt = require("bcrypt");
 const session = require("express-session");
 
@@ -24,9 +24,13 @@ const getAllUsers = async (req, res) => {
 //@access Private
 const createNewUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, phone, password } = req.body;
+    const { firstName, lastName, address, email, phone, password } = req.body;
+
+    console.log(firstName, lastName, address, email, phone, password);
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
     //confirm data
-    if (!firstName || !lastName || !email || !phone || !password) {
+    if (!firstName || !lastName || !address || !email || !phone || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -43,11 +47,12 @@ const createNewUser = async (req, res) => {
     const userObject = {
       firstName,
       lastName,
+      address,
       email,
       phone,
-      //   password: hashedPwd,
       password,
     };
+    console.log(userObject);
 
     //create and store new user
     const user = await User.create(userObject);
@@ -56,7 +61,7 @@ const createNewUser = async (req, res) => {
       //created
       res
         .status(201)
-        .json({ message: `New user ${username} created`, user: user });
+        .json({ message: `New user ${firstName} ${lastName} created` });
     } else {
       res.status(400).json({ message: "Invalid user data received" });
     }
@@ -71,6 +76,8 @@ const createNewUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    console.log(email, password);
     const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(404).send("User not found");
@@ -79,11 +86,11 @@ const loginUser = async (req, res) => {
       // return res.json({ message: "Already logged in!", session: session });
       req.session.destroy();
     }
-    const isMatch = await bcrypt.compare(password, user.password);
+    // const isMatch = await bcrypt.compare(password, user.password);
 
-    if (!isMatch) {
-      return res.status(404).send("wrong password");
-    }
+    // if (!isMatch) {
+    //   return res.status(404).send("wrong password");
+    // }
     console.log(req.sessionID);
     req.session.authenticated = true;
     if (user.isAdmin) {
@@ -100,13 +107,14 @@ const loginUser = async (req, res) => {
 };
 
 const getSingleUser = async (req, res) => {
+  let userID = req.params.id;
   try {
-    const userID = req.session.userID;
+    // const userID = req.session.userID;
     if (!userID) {
       return res.json({ message: "UserID undefined" });
     }
 
-    const user = await User.findById(userID).select("-password");
+    const user = await User.findById(userID);
 
     if (!user) {
       return res.json({ message: "User not found" });
@@ -145,22 +153,13 @@ const updateUser = async (req, res) => {
     user.phone = phone;
     user.password = password;
 
-    if (password) {
-      // Hash passwrod
-      user.password = await bcrypt.hash(password, 10);
-    }
-    const updatedUser = await user
-      .save()
-      .then(() => {
-        res.json({
-          message: `${
-            updatedUser.firstName + " " + updatedUser.lastName
-          } updated`,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // if (password) {
+    //   // Hash passwrod
+    //   user.password = await bcrypt.hash(password, 10);
+    // }
+    const updatedUser = await user.save();
+
+    res.json({ message: "User details updated.", user: updatedUser });
   } catch (error) {
     res.json({ message: error.message });
   }

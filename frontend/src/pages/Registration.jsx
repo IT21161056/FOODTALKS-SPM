@@ -16,14 +16,17 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { resolvePath, useLocation } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
+import axios from "axios";
 
 const Registraion = () => {
   const pageName = useLocation();
   const [newCommand, setCommand] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newData, setData] = useAtom(data);
+
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
   console.log(newAlanAtom);
   // const inputString = "Hello   Wo  rld"; // Example string with multiple spaces
@@ -33,8 +36,10 @@ const Registraion = () => {
   // console.log(stringWithoutSpaces);
 
   const [user, setUser] = useState({
-    firstname: "",
+    firstName: "",
     lastName: "",
+    address: "",
+    phone: "",
     email: "",
     password: "",
   });
@@ -45,54 +50,94 @@ const Registraion = () => {
   //     newAlanAtom.setVisualState({ path: pageName.pathname });
   //   }
   // }, [pageName, newAlanAtom]);
-
-  console.log(pageName.pathname);
-
+  console.log(user);
   useEffect(() => {
-    if (newCommand === "setFirstName") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          firstname: newData,
-        };
-      });
-    }
-    if (newCommand === "setLastName") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          lastName: newData,
-        };
-      });
-    }
-    if (newCommand === "setEmail") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          email: newData.toLowerCase(),
-        };
-      });
-    }
-    if (newCommand === "setPassword") {
-      setUser((prv) => {
-        return {
-          ...prv,
-          password: newData.replace(/\s+/g, ""),
-        };
-      });
+    try {
+      if (newCommand === "setFirstName") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            firstName: newData,
+          };
+        });
+      }
+      if (newCommand === "setLastName") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            lastName: newData,
+          };
+        });
+      }
+      if (newCommand === "setEmail") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            email: newData.toLowerCase(),
+          };
+        });
+      }
+      if (newCommand === "setPassword") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            password: newData.replace(/\s+/g, ""),
+          };
+        });
+      }
+      if (newCommand === "setAddress") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            address: newData,
+          };
+        });
+      }
+      if (newCommand === "setPhone") {
+        setUser((prv) => {
+          return {
+            ...prv,
+            phone: newData,
+          };
+        });
+      }
+    } finally {
+      setCommand("");
     }
   }, [newCommand]);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleSubmit = async (event) => {
+    event?.preventDefault();
+    // const data = new FormData(event.currentTarget);
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    // console.log({
+    //   firstname: data.get("firstName"),
+    //   lastName: data.get("lastName"),
+    //   email: data.get("email"),
+    //   password: data.get("password"),
+    // });
+
+    setIsSubmiting(true);
+
+    axios
+      .post("http://localhost:8072/users", user)
+      .then((res) => {
+        alert(res.data.message);
+        setIsSubmiting(false);
+        setUser({
+          firstName: "",
+          lastName: "",
+          address: "",
+          email: "",
+          phone: "",
+          password: "",
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
-  console.log(user);
   return (
     <Container
       maxWidth="md"
@@ -120,12 +165,7 @@ const Registraion = () => {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
-          <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 3 }}
-          >
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -141,11 +181,11 @@ const Registraion = () => {
                     setUser((p) => {
                       return {
                         ...p,
-                        firstname: e.target.value,
+                        firstName: e.target.value,
                       };
                     })
                   }
-                  value={user.firstname}
+                  value={user.firstName}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -173,6 +213,26 @@ const Registraion = () => {
                   required
                   fullWidth
                   size="small"
+                  id="address"
+                  label="Address"
+                  name="address"
+                  autoComplete="family-name"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        address: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.address}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
                   id="email"
                   label="Email Address"
                   name="email"
@@ -186,6 +246,27 @@ const Registraion = () => {
                     })
                   }
                   value={user.email}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="number"
+                  required
+                  fullWidth
+                  size="small"
+                  id="phone"
+                  label="Phone"
+                  name="phone"
+                  autoComplete="phone"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        phone: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.phone}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -209,23 +290,21 @@ const Registraion = () => {
                   value={user.password}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
+            {/* <Grid container justifyContent="center">
+              <Grid item> */}
             <Button
-              type="submit"
               fullWidth
+              type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2 }} //margin top(mt) margin bottom (mb)
+              disabled={isSubmiting}
             >
-              Sign Up
+              {isSubmiting ? <CircularProgress size={30} /> : "Sign Up"}
             </Button>
+            {/* </Grid>
+            </Grid> */}
+
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2">

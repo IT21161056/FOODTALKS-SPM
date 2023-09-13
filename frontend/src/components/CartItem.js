@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, IconButton, Typography } from '@mui/material';
-import { json } from 'react-router-dom';
+import { Link, json } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CartItem = () => {
@@ -18,7 +18,7 @@ const CartItem = () => {
 
   const calculateTotalAmount = () => {
     const amount = cart.reduce((total, item) => {
-      return total + 1 * item.price; // Fix the typo here
+      return total + item.qnty * item.price; // Fix the typo here
     }, 0);
   
     setTotalAmount(amount);
@@ -52,6 +52,7 @@ const CartItem = () => {
           return item;
         }
       });
+      calculateTotalAmount();
       setCart(updatedCartItems)
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
@@ -71,6 +72,7 @@ const CartItem = () => {
             return item
         }
       });
+      calculateTotalAmount();
       setCart(updatedCartItems)
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
@@ -124,7 +126,8 @@ const CartItem = () => {
 
         </Table>
       </TableContainer>
-      <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}>Total price :{totalAmount}</Typography>
+      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:80,marginLeft:20}}>Go to menu</Button></Link>
+      <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
       <Button sx={{display:'flex',marginLeft:135,marginTop:2,
       backgroundColor:'#b3ecff',color:'black'}}>Procced</Button>
     </div>
