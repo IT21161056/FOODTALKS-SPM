@@ -43,6 +43,7 @@ export default function FoodTalksRouter() {
 
       {/* pasindu routes */}
         <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
+
       </Route>
 
       <Route path="/dashboard" element={<Dashboard />}>
@@ -51,11 +52,14 @@ export default function FoodTalksRouter() {
 
         {/* viraj routes*/}
         <Route path="/dashboard/addnew" element={<AddProduct />}></Route>
+
+        {/* Pasindu dashboard rotes */}
+        <Route path="/dashboard/allOrders" element={<AllOrders />} />
+        <Route path="/dashboard/updateOrder" element={<UpdateOrder />} />
+
+
       </Route>
 
-      {/* Pasindu dashboard rotes */}
-      <Route path="/dashBoard/allOrders" exact element={<AllOrders />} />
-      <Route path="/dashBoard/updateOrder" exact element={<UpdateOrder />} />
     </Routes>
   );
 }

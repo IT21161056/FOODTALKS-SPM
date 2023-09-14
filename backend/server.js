@@ -35,7 +35,7 @@ app.use(cors());
 
 app.use(express.json()); //this is a buit in middleware
 app.use("/cart", CardRoutes); //viraj route
-app.use("/orderCheckout", OrderRoute); //pasindu route
+app.use("/order", OrderRoute); //pasindu route
 
 // anoj routes
 const userRoute = require("./routes/user.route.js");

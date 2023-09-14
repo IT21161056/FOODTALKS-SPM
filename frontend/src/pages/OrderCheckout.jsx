@@ -4,6 +4,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import axios from "axios";
 
 export default function OrderCheckout() {
   const [totalAmount, setTotalAmount] = useState(null);
@@ -28,7 +29,7 @@ export default function OrderCheckout() {
   const [newCommand, setNewCommand] = useAtom(command);
   const [newData, setData] = useAtom(data);
 
-  const [order, setOrder] = useState({
+  const [orderDetails, setOrderDetails] = useState({
     customerName: "",
     mobileNumber: "",
     city: "",
@@ -48,7 +49,7 @@ export default function OrderCheckout() {
 
   useEffect(() => {
     if (newCommand === "setCustomerName") {
-      setOrder((prv) => {
+      setOrderDetails((prv) => {
         return {
           ...prv,
           customerName: newData,
@@ -56,7 +57,7 @@ export default function OrderCheckout() {
       });
     }
     if (newCommand === "setMobileNumber") {
-      setOrder((prv) => {
+      setOrderDetails((prv) => {
         return {
           ...prv,
           mobileNumber: newData,
@@ -64,7 +65,7 @@ export default function OrderCheckout() {
       });
     }
     if (newCommand === "setCity") {
-      setOrder((prv) => {
+      setOrderDetails((prv) => {
         return {
           ...prv,
           city: newData,
@@ -72,7 +73,7 @@ export default function OrderCheckout() {
       });
     }
     if (newCommand === "setDeliverLocation") {
-      setOrder((prv) => {
+      setOrderDetails((prv) => {
         return {
           ...prv,
           deliverLocation: newData,
@@ -80,7 +81,7 @@ export default function OrderCheckout() {
       });
     }
     if (newCommand === "setDeliverDate") {
-      setOrder((prv) => {
+      setOrderDetails((prv) => {
         return {
           ...prv,
           deliverDate: newData,
@@ -89,33 +90,75 @@ export default function OrderCheckout() {
     }
   }, [newCommand]);
 
-  // console.log(customerName);
-  // console.log(mobileNumber);
-  // console.log(city);
-  // console.log(deliverLocation);
-  // console.log(deliverDate);
-  // console.log(totalAmount);
-
   /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      mobileNumber: data.get("mobileNumber"),
-      city: data.get("city"),
-      deliverLocation: data.get("deliverLocation"),
-      deliverDate: data.get("deliverDate"),
-      totalAmount: data.get("totalAmount")
-    });
+    console.log(data);
   };
 
-  console.log(order);
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = () => {
+    setState((prv) => {
+      return {
+        open: true,
+      };
+    });
+  };
+   const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  function submitData(event) {
+    event.preventDefault();
+    axios
+    .post("http://localhost:8072/order/add", orderDetails)
+    .then((response) => {
+      alert("order added successfully!");
+      console.log(response.data.orderId);
+      setOrderDetails({
+        customerName: "",
+        mobileNumber: "",
+        city: "",
+        deliverLocation: "",
+        deliverDate: "",
+        totalAmount: ""
+      });
+      handleClick();
+    })
+    .catch((error) => {
+      if (error.response) {
+      // The server responded with an error status code (e.g., 400)
+
+      console.log("Server responded with status code: " + error.response.status);
+      console.log("Response data:", error.response.data);
+
+    } else if (error.request) {
+      // The request was made but no response was received
+      
+      console.log("No response received. The request was made.");
+
+    } else {
+      // An error occurred during the request setup
+      console.log("Error setting up the request:", error.message);
+    }
+    })
+  }
+
+
+
+  console.log(orderDetails);
 
   return (
-    <form>
-      <Box
+      <Box component="form" 
+        onSubmit={submitData}
         display="flex"
         position="absolute"
         top={90}
@@ -156,14 +199,14 @@ export default function OrderCheckout() {
               label="Name"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     customerName: e.target.value,
                   };
                 })
               }
-              value={order.customerName}
+              value={orderDetails.customerName}
             />
           </Grid>
 
@@ -182,14 +225,14 @@ export default function OrderCheckout() {
               label="Mobile Number"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     mobileNumber: e.target.value,
                   };
                 })
               }
-              value={order.mobileNumber}
+              value={orderDetails.mobileNumber}
             />
           </Grid>
 
@@ -207,14 +250,14 @@ export default function OrderCheckout() {
               label="City"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     city: e.target.value,
                   };
                 })
               }
-              value={order.city}
+              value={orderDetails.city}
             />
           </Grid>
 
@@ -232,14 +275,14 @@ export default function OrderCheckout() {
               label="Total Amount"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     totalAmount: e.target.value,
                   };
                 })
               }
-              value={order.totalAmount}
+              value={orderDetails.totalAmount}
             />
           </Grid> */}
 
@@ -257,14 +300,14 @@ export default function OrderCheckout() {
               label="Deliver Location"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     deliverLocation: e.target.value,
                   };
                 })
               }
-              value={order.deliverLocation}
+              value={orderDetails.deliverLocation}
             />
           </Grid>
 
@@ -282,14 +325,14 @@ export default function OrderCheckout() {
               id="deliverDate"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     deliverDate: e.target.value,
                   };
                 })
               }
-              value={order.deliverDate}
+              value={orderDetails.deliverDate}
             />
           </Grid>
         </Grid>
@@ -313,48 +356,45 @@ export default function OrderCheckout() {
               sx={{ margin: 3, borderRadius: 3, width: '200px' }}
               variant="contained"
               color="primary"
-              onSubmit={handleSubmit}
             >
               Submit Order
             </Button>
           </Grid>
         </Grid>
-      </Box>
 
-      <Box
-        display="flex"
-        position="absolute"
-        top={90}
-        left={1200}
-        flexDirection="column"
-        maxWidth={300}
-        border={1}
-        borderColor={"#1976d2"}
-        justifyContent="center"
-        alignItems="center"
-        margin="auto"
-        marginTop={5}
-        padding={3}
-        borderRadius={5}
-        boxShadow={"5px 5px 10px #ccc"}
-        sx={{
-          ":hover": {
-            boxShadow: "10px 10px 20px #ccc",
-          },
-        }}
-      >
-        <Typography 
-          variant="h5" 
-          textAlign="center"
-          marginBottom={4}
+        <Box
+          display="flex"
+          position="absolute"
+          top={0}
+          left={900}
+          flexDirection="column"
+          maxWidth={300}
+          border={1}
+          borderColor={"#1976d2"}
+          justifyContent="center"
+          alignItems="center"
+          margin="auto"
+          padding={4}
+          borderRadius={5}
+          boxShadow={"5px 5px 10px #ccc"}
+          sx={{
+            ":hover": {
+              boxShadow: "10px 10px 20px #ccc",
+            },
+          }}
         >
-          Total Amount
-        </Typography>
+          <Typography 
+            variant="h5" 
+            textAlign="center"
+            marginBottom={4}
+          >
+            Total Amount
+          </Typography>
 
-        <Typography>
-          RS: {totalAmount}
-        </Typography>
+          <Typography>
+            RS: {totalAmount}
+          </Typography>
+        </Box>
       </Box>
-    </form>
   );
 }
