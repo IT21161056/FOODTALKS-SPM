@@ -9,15 +9,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from '@mui/icons-material/Edit';
 
-const AllOrders = () => {
+  function preventDefault(event) {
+    event.preventDefault();
+  }  
+export default function AllOrders () {
 
     const [orders, setOrders] = React.useState([]);
     const [deliverPerson, setDeliverPerson] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
+
 
   {/* Fetch all the orders using useEffect*/}
 
@@ -26,7 +31,7 @@ const AllOrders = () => {
 
         setIsLoading(true);
 
-        axios.get("http://localhost:8072/order")
+        axios.get("http://localhost:8072/order/")
         .then((res) => {
           setIsLoading(false);
           setOrders(res.data);
@@ -41,13 +46,15 @@ const AllOrders = () => {
     }, []);
 
     const deleteOrder = async (orderId) => {
-      axios.delete("http://loclhost:8072/order/delete" + orderId)
+      axios
+      .delete("http://localhost:8072/order/delete" + orderId)
       .then(() => {
         setIsLoading(false);
         const newOrder = orders.filter((item) => item._id != orderId);
         setOrders(newOrder);
       })
       .catch((err) => {
+        console.log("deletion order id " +orderId);
         alert(err);
       });
     };
@@ -88,15 +95,15 @@ const AllOrders = () => {
                     <TableCell >{item.city}</TableCell>
                     <TableCell >{item.deliverLocation}</TableCell>
                     <TableCell >{item.deliverDate}</TableCell>
+                    <TableCell >{item.deliverPerson}</TableCell>
                     <TableCell >{item.totalAmount}</TableCell>
                     <TableCell >
+                      <Button sx={{backgroundColor: "primary"}}
+                        onClick={() => <Link to ={`/dashboard/updateOrder${item._id}`}></Link>}                
+                      ></Button>
                       <IconButton
                         children={<DeleteForeverIcon/>}
                         onClick={() => deleteOrder(item._id)}
-                      />
-                      <IconButton
-                        children={<EditIcon/>}
-                        onClick={() => <Link to ={`/dashboard/updateOrder${item._id}`}></Link>}
                       />
                     </TableCell>
                   </TableRow>
@@ -110,5 +117,3 @@ const AllOrders = () => {
       </TableContainer>
   )
 }
-
-export default AllOrders;

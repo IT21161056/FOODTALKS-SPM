@@ -1,34 +1,31 @@
 const Order = require("../models/OrderModel");
 
-const getAllOrders = async (req, res) => {
+const getAllOrders = async (request, response) => {
   //get all orders from MongoDB
 
-  const orders = await Order.find().lean();
+  try{
+    const orders = await Order.find().lean();
 
-  //If no orders
-  if (!orders?.length) {
-    return res.status(400).json({ message: "No orders found" });
+    //If no orders
+    if (!orders) {
+      return response.status(400).json({ message: "No orders found" });
+    }
+
+    response.json(orders);
+  } catch (error){
+    response.json({message: error.message});
   }
-
-  //Add customer name to each order before sending the response
-  const orderWithCustomer = await Promise.all(
-    orders.map(async (order) => {
-      const customer = await Order.findById(order.customer).lean().exec();
-      return { ...order, customerName: customer.customerName };
-    })
-  );
-
-  res.json(orderWithCustomer);
 };
 
 //get single order
 const getSingleOrder = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params.id;
   let singleOrder;
 
   try {
     singleOrder = await Order.findOne({ _id: id });
     res.status(200).json(singleOrder);
+
   } catch (error) {
     res.status(401).json(error);
   }
@@ -36,12 +33,12 @@ const getSingleOrder = async (req, res) => {
 
 //Add new order
 
-const addNewOrder = async (req, res) => {
+const addNewOrder = async (request, response) => {
   const { customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount } = req.body;
 
   //Confirm data
   if (!customerName || !mobileNumber || !city || !deliverLocation || !deliverDate || !totalAmount) {
-    return res.status(400).json({ message: "All fields are required" });
+    return response.status(400).json({ message: "All fields are required" });
   }
 
   const order = await Order.create({
@@ -54,15 +51,15 @@ const addNewOrder = async (req, res) => {
   });
 
   if (order) {
-    return res.status(201).json({ message: "New Order created" });
+    return response.status(201).json({ message: "New Order created" });
   } else {
-    return req.status(400).json({ message: "Invalid order data recived" });
+    return request.status(400).json({ message: "Invalid order data recived" });
   }
 };
 
 //Update order
 
-const updateOrder = async (req, res) => {
+const updateOrder = async (request, response) => {
   const {
     customerName,
     mobileNumber,
@@ -70,18 +67,18 @@ const updateOrder = async (req, res) => {
     deliverLocation,
     deliverDate,
     totalAmount
-  } = req.body;
+  } = request.body;
 
   //Confirm data
   if (customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount ) {
-    return res.status(400).json({ message: "All fields are required" });
+    return response.status(400).json({ message: "All fields are required" });
   }
 
   //Confirm order exist to update
   const order = await Order.findById(id).exec();
 
   if (!order) {
-    return res.status(400).json({ message: "Order not found" });
+    return response.status(400).json({ message: "Order not found" });
   }
 
   //Cehck for duplicate order
@@ -92,7 +89,7 @@ const updateOrder = async (req, res) => {
 
   //Allow renmaing of the original order
   if (duplicate && duplicate?._id.toString() !== id) {
-    return res.status(409).json({ message: "Duplicate Order" });
+    return response.status(409).json({ message: "Duplicate Order" });
   }
 
   order.customerName = customerName;
@@ -105,29 +102,40 @@ const updateOrder = async (req, res) => {
 
   const updateOrder = await order.save();
 
-  res.json(`'${updateOrder.order}' updated`);
+  response.json(`'${updateOrder.order}' updated`);
 };
 
 //Delete order
 
-const deleteOrder = async (req, res) => {
-  const { id } = req.body;
+const deleteOrder = async ( request, response ) => {
+  try{
+    const { orderId } = request.params.id;
 
-  //Confirm data
-  if (!id) {
-    return res.status(400).json({ message: "Order ID required" });
+    await Order.findByIdAndDelete(orderId)
+    .then(() => {
+      response.status(200).json({ message: "Order deleted" });
+    })
+    .catch((error) => {
+
+      //Confirm data
+      if (!id) {
+        return response.status(400).json({ message: "Order ID required" });
+      }
+
+      //Confirm order exists to delete
+
+      if (!Order) {
+        return response.status(400).json({ message: "Order not found" });
+      }
+
+      else{
+        response.json({ message: "Error with delete item ", error: error.message});
+      }
+    });
+  } catch (error) {
+    response.json({message: error.message});
   }
 
-  //Confirm order exists to delete
-  const order = await Order.findById(id).exec();
-
-  if (!order) {
-    return res.status(400).json({ message: "Order not found" });
-  }
-
-  const result = await order.deleteOrder();
-
-  const reply = `Order '${result.order}' with ID ${result._id} deleted`;
 };
 
 module.exports = {

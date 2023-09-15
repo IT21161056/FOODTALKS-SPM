@@ -35,7 +35,7 @@ export default function OrderCheckout() {
     city: "",
     deliverLocation: "",
     deliverDate: "",
-    totalAmount: totalAmount
+    totalAmount: 500
   });
 
   // useEffect(() => {
@@ -147,6 +147,7 @@ export default function OrderCheckout() {
 
     } else {
       // An error occurred during the request setup
+
       console.log("Error setting up the request:", error.message);
     }
     })
@@ -260,31 +261,6 @@ export default function OrderCheckout() {
               value={orderDetails.city}
             />
           </Grid>
-
-          {/* <Grid item xs={12}>
-            <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="totalAmount"
-              required
-              fullWidth
-              size="small"
-              id="totalAmount"
-              label="Total Amount"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    totalAmount: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.totalAmount}
-            />
-          </Grid> */}
 
           <Grid item xs={12}>
             <TextField
