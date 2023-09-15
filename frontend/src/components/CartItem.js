@@ -129,7 +129,7 @@ const CartItem = () => {
       <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:80,marginLeft:20}}>Go to menu</Button></Link>
       <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
       <Button sx={{display:'flex',marginLeft:135,marginTop:2,
-      backgroundColor:'#b3ecff',color:'black'}}>Procced</Button>
+      backgroundColor:'#b3ecff',color:'black'}}>Procced to pay</Button>
     </div>
   )
 }
