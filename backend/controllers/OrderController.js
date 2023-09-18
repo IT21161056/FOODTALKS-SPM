@@ -109,9 +109,9 @@ const updateOrder = async (request, response) => {
 
 const deleteOrder = async ( request, response ) => {
   try{
-    const { orderId } = request.params.id;
-
-    await Order.findByIdAndDelete(orderId)
+    const id = request.params.id;
+console.log(request.params.id)
+    await Order.findByIdAndDelete(id)
     .then(() => {
       response.status(200).json({ message: "Order deleted" });
     })
