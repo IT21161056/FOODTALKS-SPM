@@ -34,7 +34,7 @@ const getSingleOrder = async (req, res) => {
 //Add new order
 
 const addNewOrder = async (request, response) => {
-  const { customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount } = req.body;
+  const { customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount } = request.body;
 
   //Confirm data
   if (!customerName || !mobileNumber || !city || !deliverLocation || !deliverDate || !totalAmount) {

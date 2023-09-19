@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
@@ -7,6 +6,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 
 export default function OrderCheckout() {
+
   const [totalAmount, setTotalAmount] = useState(null);
 
   useEffect(() => {
@@ -26,8 +26,10 @@ export default function OrderCheckout() {
   const pageName = useLocation();
 
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
-  const [newCommand, setNewCommand] = useAtom(command);
+  const [newCommand, setCommand] = useAtom(command);
   const [newData, setData] = useAtom(data);
+
+  //console.log(newAlanAtom);
 
   const [orderDetails, setOrderDetails] = useState({
     customerName: "",
@@ -38,91 +40,63 @@ export default function OrderCheckout() {
     totalAmount: 500
   });
 
-  // useEffect(() => {
-  //   if (newAlanAtom) {
-  //     newAlanAtom.activate();
-  //     newAlanAtom.setVisualState({ path: pageName.pathname });
-  //   }
-  // }, [pageName, newAlanAtom]);
-
-  // console.log(pageName.pathname);
+  console.log(orderDetails);
 
   useEffect(() => {
-    if (newCommand === "setCustomerName") {
-      setOrderDetails((prv) => {
-        return {
-          ...prv,
-          customerName: newData,
-        };
-      });
-    }
-    if (newCommand === "setMobileNumber") {
-      setOrderDetails((prv) => {
-        return {
-          ...prv,
-          mobileNumber: newData,
-        };
-      });
-    }
-    if (newCommand === "setCity") {
-      setOrderDetails((prv) => {
-        return {
-          ...prv,
-          city: newData,
-        };
-      });
-    }
-    if (newCommand === "setDeliverLocation") {
-      setOrderDetails((prv) => {
-        return {
-          ...prv,
-          deliverLocation: newData,
-        };
-      });
-    }
-    if (newCommand === "setDeliverDate") {
-      setOrderDetails((prv) => {
-        return {
-          ...prv,
-          deliverDate: newData,
-        };
-      });
+    try{
+      if (newCommand === "setCustomerName") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            customerName: newData,
+          };
+        });
+      }
+      if (newCommand === "setMobileNumber") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            mobileNumber: newData,
+          };
+        });
+      }
+      if (newCommand === "setCity") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            city: newData.toLowerCase(),
+          };
+        });
+      }
+      if (newCommand === "setDeliverLocation") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            deliverLocation: newData,
+          };
+        });
+      }
+      if (newCommand === "setDeliverDate") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            deliverDate: newData,
+          };
+        });
+      }
+    } finally {
+      setCommand("");
     }
   }, [newCommand]);
-
-  /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data);
-  };
-
-  const [state, setState] = React.useState({
-    open: false,
-    vertical: "top",
-    horizontal: "center",
-  });
-  const { vertical, horizontal, open } = state;
-
-  const handleClick = () => {
-    setState((prv) => {
-      return {
-        open: true,
-      };
-    });
-  };
-   const handleClose = () => {
-    setState({ ...state, open: false });
-  };
 
   function submitData(event) {
     event.preventDefault();
     axios
     .post("http://localhost:8072/order/add", orderDetails)
     .then((response) => {
+      
       alert("order added successfully!");
-      console.log(response.data.orderId);
+      // console.log(response.data.orderId);
       setOrderDetails({
         customerName: "",
         mobileNumber: "",
@@ -131,7 +105,6 @@ export default function OrderCheckout() {
         deliverDate: "",
         totalAmount: ""
       });
-      handleClick();
     })
     .catch((error) => {
       if (error.response) {
@@ -152,10 +125,6 @@ export default function OrderCheckout() {
     }
     })
   }
-
-
-
-  console.log(orderDetails);
 
   return (
       <Box component="form" 

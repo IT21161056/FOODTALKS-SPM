@@ -12,9 +12,6 @@ import NavBar from "./pages/NavBar";
 import Registration from "./pages/Registration";
 import Profile from "./pages/Profile";
 
-//imports pasindu
-import OrderCheckout from "./pages/OrderCheckout";
-
 import Layout from "./layout/Layout";
 
 function App() {

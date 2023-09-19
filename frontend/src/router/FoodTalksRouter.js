@@ -42,7 +42,7 @@ export default function FoodTalksRouter() {
 
 
       {/* pasindu routes */}
-        <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
+        <Route path="/order" exact element={<OrderCheckout />} />
 
       </Route>
 
