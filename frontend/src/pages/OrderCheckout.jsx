@@ -4,6 +4,7 @@ import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import Container from "@mui/material/Container";
 
 export default function OrderCheckout() {
 
@@ -15,12 +16,6 @@ export default function OrderCheckout() {
     const totalAmount = urlParams.get("total");
     setTotalAmount(totalAmount); // Set the total amount in the state
   }, []);
-
-  const past = new Date('2023-01-01').toISOString().split('T')[0];
-  const [minDate, setminDate] = useState(past);
-
-  const today = new Date().toISOString().split('T')[0];
-  const [maxDate, setMaxDate] = useState(today);
 
   const navigate = useNavigate();
   const pageName = useLocation();
@@ -36,11 +31,20 @@ export default function OrderCheckout() {
     mobileNumber: "",
     city: "",
     deliverLocation: "",
-    deliverDate: "",
+    deliverDate: getCurrentDate(),
     totalAmount: 500
   });
 
   console.log(orderDetails);
+
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Add 1 to month because it's zero-based
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
 
   useEffect(() => {
     try{
@@ -127,46 +131,38 @@ export default function OrderCheckout() {
   }
 
   return (
-      <Box component="form" 
-        onSubmit={submitData}
-        display="flex"
-        position="absolute"
-        top={90}
-        left={280}
-        flexDirection="column"
-        maxWidth={800}
-        border={1}
-        borderColor={"#1976d2"}
-        justifyContent="center"
-        alignItems="center"
-        margin="auto"
-        marginTop={5}
-        padding={3}
-        borderRadius={5}
-        boxShadow={"5px 5px 10px #ccc"}
-        sx={{
-          ":hover": {
-            boxShadow: "10px 10px 20px #ccc",
-          },
-        }}
-      >
-        <Typography variant="h4" padding={3} textAlign="center">
-          Personal Information
-        </Typography>
-
+  <Container
+    maxWidth="md"
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      height: "90vh",
+    }}
+  >
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        border: 1,
+        borderRadius: 10,
+        borderColor: "#1976d2",
+        pt: 10, pl: 10, pr: 10, pb: 10
+      }}
+    >
+      <Typography component="h1" variant="h4" sx={{ mb: 2}}>
+        Personal Information
+      </Typography>
+      <Box component="form" onSubmit={submitData} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "600px" }}
-              autoComplete="given-name"
               name="customerName"
               required
+              fullWidth
               size="small"
               id="customerName"
-              label="Name"
+              label="Customer Name"
               autoFocus
               onChange={(e) =>
                 setOrderDetails((p) => {
@@ -182,11 +178,8 @@ export default function OrderCheckout() {
 
           <Grid item xs={12}>
             <TextField
-              margin="normal"
               type={"tel"}
               pattern="[0-9]{10}"
-              variant="outlined"
-              style={{ width: "300px" }}
               name="mobileNumber"
               required
               fullWidth
@@ -208,10 +201,6 @@ export default function OrderCheckout() {
 
           <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "300px" }}
               name="city"
               required
               fullWidth
@@ -233,10 +222,6 @@ export default function OrderCheckout() {
 
           <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "600px" }}
               name="deliverLocation"
               required
               fullWidth
@@ -256,13 +241,10 @@ export default function OrderCheckout() {
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"date"}
-              min={maxDate} max={maxDate}
-              variant="outlined"
-              style={{ width: "300px" }}
+              type="date"
+              min={ getCurrentDate() } 
               name="deliverDate"
               required
               fullWidth
@@ -281,65 +263,26 @@ export default function OrderCheckout() {
             />
           </Grid>
         </Grid>
-
-        <Grid container spacing={0}>
-          <Grid sx={{ marginLeft: '50px' }}>
-            <Button
-              type="button"
-              sx={{ margin: 3, borderRadius: 3, width: '200px'}}
-              variant="contained"
-              color="primary"
-              onClick={() => navigate('/cartItem')}
-              
-            >
-              Cancel Order
-            </Button>
-          </Grid>
-          <Grid sx={{ marginLeft: '170px' }}>
-            <Button
-              type="submit"
-              sx={{ margin: 3, borderRadius: 3, width: '200px' }}
-              variant="contained"
-              color="primary"
-            >
-              Submit Order
-            </Button>
-          </Grid>
-        </Grid>
-
-        <Box
-          display="flex"
-          position="absolute"
-          top={0}
-          left={900}
-          flexDirection="column"
-          maxWidth={300}
-          border={1}
-          borderColor={"#1976d2"}
-          justifyContent="center"
-          alignItems="center"
-          margin="auto"
-          padding={4}
-          borderRadius={5}
-          boxShadow={"5px 5px 10px #ccc"}
-          sx={{
-            ":hover": {
-              boxShadow: "10px 10px 20px #ccc",
-            },
-          }}
+        <Button
+          type="button"
+          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
+          variant="contained"
+          color="primary"
+          onClick={() => navigate('/cartItem')}
         >
-          <Typography 
-            variant="h5" 
-            textAlign="center"
-            marginBottom={4}
-          >
-            Total Amount
-          </Typography>
-
-          <Typography>
-            RS: {totalAmount}
-          </Typography>
-        </Box>
+          Cancel Order
+        </Button>
+        <Button
+          type="submit"
+          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
+          variant="contained"
+          color="primary"
+        >
+          Submit Order
+        </Button>
       </Box>
-  );
+    </Box>
+  </Container>
+);
+
 }
