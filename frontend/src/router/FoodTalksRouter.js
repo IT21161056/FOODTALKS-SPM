@@ -18,6 +18,7 @@ import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
 import Profile from "../pages/Profile";
 
+import DeliveryManagement from "../pages/DeliveryManagement";
 export default function FoodTalksRouter() {
   return (
     <Routes>
@@ -46,6 +47,12 @@ export default function FoodTalksRouter() {
 
         {/* viraj routes*/}
         <Route path="/dashboard/addnew" element={<AddProduct />}></Route>
+
+        {/* harini routes */}
+        <Route
+          path="/dashboard/manageDelivery"
+          element={<DeliveryManagement />}
+        ></Route>
       </Route>
     </Routes>
   );
