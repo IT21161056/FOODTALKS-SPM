@@ -41,6 +41,10 @@ app.use("/orderCheckout", OrderRoute); //pasindu route
 const userRoute = require("./routes/user.route.js");
 app.use("/users", userRoute);
 
+// harini routes
+const deliveryRoute = require("./routes/delivery.route.js");
+app.use("/delivery", deliveryRoute);
+
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
