@@ -55,7 +55,7 @@ export default function FoodTalksRouter() {
 
         {/* Pasindu dashboard rotes */}
         <Route path="/dashboard/allOrders" element={<AllOrders />} />
-        <Route path="/dashboard/updateOrder" element={<UpdateOrder />} />
+        <Route path="/dashboard/updateOrder/:id" element={<UpdateOrder />} />
 
 
       </Route>

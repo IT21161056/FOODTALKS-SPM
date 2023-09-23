@@ -31,6 +31,10 @@ const orderSchema = new mongoose.Schema(
         totalAmount: {
             type: Number,
             required: true
+        },
+
+        deliveryPerson: {
+            type: String
         }
 
     }

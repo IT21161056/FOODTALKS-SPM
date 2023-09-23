@@ -100,7 +100,7 @@ export default function OrderCheckout() {
     .then((response) => {
       
       alert("order added successfully!");
-      // console.log(response.data.orderId);
+      console.log(response.data.orderId);
       setOrderDetails({
         customerName: "",
         mobileNumber: "",
@@ -111,7 +111,7 @@ export default function OrderCheckout() {
       });
     })
     .catch((error) => {
-      if (error.response) {
+    if (error.response ) {
       // The server responded with an error status code (e.g., 400)
 
       console.log("Server responded with status code: " + error.response.status);

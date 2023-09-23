@@ -47,7 +47,7 @@ export default function AllOrders () {
 
     const deleteOrder = async (orderId) => {
       axios
-      .delete("http://localhost:8072/order/delete/" + orderId)
+      .delete("http://localhost:8072/order/delete/${orderId}")
       .then(() => {
         setIsLoading(false);
         const newOrder = orders.filter((item) => item._id != orderId);
@@ -98,10 +98,14 @@ export default function AllOrders () {
                     <TableCell >{item.deliverPerson}</TableCell>
                     <TableCell >{item.totalAmount}</TableCell>
                     <TableCell >
-                      <IconButton sx={{backgroundColor: "primary"}}
-                      children={<EditIcon/>}
-                        onClick={() => <Link to ={`/dashboard/updateOrder${item._id}`}></Link>}                
-                      ></IconButton>
+                      <IconButton sx={{ backgroundColor: "primary" }}>
+                        <Link
+                          to={`/dashboard/updateOrder/${item._id}`}
+                          state={{ orderData: item }}
+                        >
+                        <EditIcon />
+                        </Link>
+                      </IconButton>
                       <IconButton
                         children={<DeleteForeverIcon/>}
                         onClick={() => deleteOrder(item._id)}

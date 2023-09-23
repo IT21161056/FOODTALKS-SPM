@@ -66,11 +66,12 @@ const updateOrder = async (request, response) => {
     city,
     deliverLocation,
     deliverDate,
-    totalAmount
+    totalAmount,
+    deliveryPerson
   } = request.body;
 
   //Confirm data
-  if (customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount ) {
+  if (customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount, deliveryPerson ) {
     return response.status(400).json({ message: "All fields are required" });
   }
 
@@ -98,7 +99,7 @@ const updateOrder = async (request, response) => {
   order.deliverLocation = deliverLocation;
   order.deliverDate = deliverDate;
   order.totalAmount = totalAmount;
-  //order.deliveryPersonName = deliveryPersonName
+  order.deliveryPerson = deliveryPerson;
 
   const updateOrder = await order.save();
 
@@ -110,7 +111,9 @@ const updateOrder = async (request, response) => {
 const deleteOrder = async ( request, response ) => {
   try{
     const id = request.params.id;
-console.log(request.params.id)
+
+    //console.log(request.params.id)
+    
     await Order.findByIdAndDelete(id)
     .then(() => {
       response.status(200).json({ message: "Order deleted" });

@@ -1,253 +1,231 @@
-import React from "react";
-import { useState } from "react";
-import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
+import axios from "axios";
+import Container from "@mui/material/Container";
 
-export default function OrderCheckout() {
 
-const [order, setOrder] = useState({
+const UpdateOrder = () => {
+
+  const navigate = useNavigate();
+
+  const [employee, setEmployee] = useState([]); 
+
+  const [orderDetails, setOrderDetails] = useState({
     customerName: "",
     mobileNumber: "",
     city: "",
     deliverLocation: "",
     deliverDate: "",
-    totalAmount: ""
+    totalAmount: "",
+    deliveryPerson: ""
   });
+  
+  console.log(orderDetails);
 
-  const handleSubmit = (event) => {
+  const employeeId = useParams();
+  const employeeName = employee.name;
+
+  console.log(employee);
+
+  const orderId = useParams();
+  const orderName = orderDetails.customerName;
+  console.log(orderName);
+
+  useEffect(() => {
+    function fetchAllData(){
+      axios
+        .get(`http://localhost:8072/singleOrder/${orderId.id}`)
+        .then(( response ) => {
+          setOrderDetails(response.data);
+        }).catch(( error ) => {
+          alert('An error occured when fecthing particular order');
+          console.log(error);
+        })
+    }
+    fetchAllData();
+  }, []);
+  
+  console.log("order id : "+orderId.id);
+
+  useEffect(() => {
+    function fetchEmployeeData() {
+      axios
+        .get('http:/loclhost"8072/employee/')
+        .then(( response ) => {
+          setEmployee(response.data);
+        }).catch(( error ) => {
+          alert("An error occures when fecthing employee data!!");
+          console.log(error);
+        });
+    }
+    fetchEmployeeData();
+  }, [])
+
+  function updateOrderData( event ){
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      mobileNumber: data.get("mobileNumber"),
-      city: data.get("city"),
-      deliverLocation: data.get("deliverLocation"),
-      deliverDate: data.get("deliverDate"),
-      totalAmount: data.get("totalAmount")
-    });
-  };
+    axios
+      .put('http://localhost:8072/order/update/'+orderId.id, orderDetails)
+      .then(() => {
+        alert("Order Successfully Updated!");
+        navigate("/dashboard/allOrders");
+      }).catch(( error ) => {
+        alert("An error occured when updating the order!!");
+        console.log( error );
+      })
+  }
+
+   function onChange(e){
+     const {name, value} = e.target;
+    setOrderDetails((prevData) => ({
+        ...prevData,
+        [name] : value
+        
+      }));
+    }
+
 
   return (
-    <form>
+      <Container
+      maxWidth="md"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        height: "90vh",
+      }}
+    >
       <Box
-        display="flex"
-        position="absolute"
-        top={80}
-        left={340}
-        bottom={40}
-        flexDirection="column"
-        maxWidth={1000}
-        border={1}
-        borderColor={"#1976d2"}
-        justifyContent="center"
-        alignItems="center"
-        margin="auto"
-        marginTop={5}
-        padding={3}
-        borderRadius={5}
-        boxShadow={"5px 5px 10px #ccc"}
         sx={{
-          ":hover": {
-            boxShadow: "10px 10px 20px #ccc",
-          },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          pt: 10, pl: 10, pr: 10, pb: 10
         }}
       >
-        <Typography variant="h4" padding={3} textAlign="center">
-          Update Order
+        <Typography component="h1" onSubmit={updateOrderData} variant="h4" sx={{ mb: 2}}>
+          Update Order Details 
         </Typography>
+        <Box component="form" sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                name="customerName"
+                required
+                fullWidth
+                size="small"
+                id="customerName"
+                label="Customer Name"
+                autoFocus
+                onChange={onChange} 
+                value={orderDetails.customerName}               
+              />
+            </Grid>
 
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "600px" }}
-              autoComplete="given-name"
-              name="customerName"
-              required
-              size="small"
-              id="customerName"
-              label="Name"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    customerName: e.target.value,
-                  };
-                })
-              }
-              value={order.customerName}
-            />
+            <Grid item xs={12}>
+              <TextField
+                type={"tel"}
+                pattern="[0-9]{10}"
+                name="mobileNumber"
+                required
+                fullWidth
+                size="small"
+                id="mobileNumber"
+                label="Mobile Number"
+                autoFocus 
+                onChange={onChange} value={orderDetails.mobileNumber} 
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name="city"
+                required
+                fullWidth
+                size="small"
+                id="city"
+                label="City"
+                autoFocus 
+                onChange={onChange} value={orderDetails.city}              
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name="deliverLocation"
+                required
+                fullWidth
+                size="small"
+                id="deliverLocation"
+                label="Deliver Location"
+                autoFocus 
+                onChange={onChange} value={orderDetails.deliverLocation} 
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name="deliverDate"
+                required
+                fullWidth
+                size="small"
+                id="deliverDate"
+                label="Deliver Date"
+                autoFocus  
+                onChange={onChange} value={orderDetails.deliverDate} 
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                name="totalAmount"
+                required
+                fullWidth
+                size="small"
+                id="totalAmount"
+                label="Total Amount"
+                autoFocus
+                onChange={onChange} value={orderDetails.totalAmount} 
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <Select
+                name="deliveryPerson"
+                required
+                fullWidth
+                size="small"
+                id="deliveryPerson"
+                autoFocus
+                onChange={onChange} value={employee.employeeName || ''} 
+              >
+                <MenuItem value="">Select delivery person</MenuItem>
+                {
+                  employee.map(( emp ) => {
+                    return <MenuItem 
+                              key={emp._id} 
+                              value={emp.employeeName}
+                            >
+                              {emp.employeeName}
+                            </MenuItem>
+                  })
+                }
+              </Select>
+            </Grid>
+
           </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              margin="normal"
-              type={"tel"}
-              pattern="[0-9]{10}"
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="mobileNumber"
-              required
-              fullWidth
-              size="small"
-              id="mobileNumber"
-              label="Mobile Number"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    mobileNumber: e.target.value,
-                  };
-                })
-              }
-              value={order.mobileNumber}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="city"
-              required
-              fullWidth
-              size="small"
-              id="city"
-              label="City"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    city: e.target.value,
-                  };
-                })
-              }
-              value={order.city}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="totalAmount"
-              required
-              fullWidth
-              size="small"
-              id="totalAmount"
-              label="Total Amount"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    totalAmount: e.target.value,
-                  };
-                })
-              }
-              value={order.totalAmount}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "600px" }}
-              name="deliverLocation"
-              required
-              fullWidth
-              size="small"
-              id="deliverLocation"
-              label="Deliver Location"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    deliverLocation: e.target.value,
-                  };
-                })
-              }
-              value={order.deliverLocation}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="deliverPerson"
-              required
-              fullWidth
-              size="small"
-              id="deliverPerson"
-              label="Deliver person name"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    deliverPerson: e.target.value,
-                  };
-                })
-              }
-              value={order.deliverPerson}
-            />
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <TextField
-              margin="normal"
-              type={"date"}
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="deliverDate"
-              required
-              fullWidth
-              size="small"
-              id="deliverDate"
-              autoFocus
-              onChange={(e) =>
-                setOrder((p) => {
-                  return {
-                    ...p,
-                    deliverDate: e.target.value,
-                  };
-                })
-              }
-              value={order.deliverDate}
-            />
-          </Grid>
-
-        </Grid>
-
-        <Grid container spacing={0}>
-          <Grid sx={{ marginLeft: '350px' }}>
-            <Button
-              type="submit"
-              sx={{ margin: 3, borderRadius: 3, width: '200px', backgroundColor: 'grey' }}
-              variant="contained"
-              color="primary"
-              onSubmit={handleSubmit}
-            >
-              Update Order
-            </Button>
-          </Grid>
-        </Grid>
+          <Button
+            type="button"
+            sx={{ mt: 3, borderRadius: 3, width: '200px' }}
+            variant="contained"
+            color="primary"
+            onClick={() => navigate('/cartItem')}
+          >
+            Update Order
+          </Button>
+        </Box>
       </Box>
+    </Container>
+    );
+  }
 
-    </form>
-  );
-}
+export default UpdateOrder
