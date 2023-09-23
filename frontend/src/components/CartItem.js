@@ -90,6 +90,7 @@ const CartItem = () => {
 
   return (
     <div>
+      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:50,marginLeft:30}}>Go to menu</Button></Link>
       <Typography sx={{display:'flex',justifyContent:'center',fontSize:30}}>Your Cart</Typography>
       <TableContainer component={Paper} sx={{ width: 1050, display: 'flex', marginLeft: 30}}>
         <Table sx={{ minWidth: 100, gap: '2rem' }} aria-label="caption table">
@@ -126,10 +127,11 @@ const CartItem = () => {
 
         </Table>
       </TableContainer>
-      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:80,marginLeft:20}}>Go to menu</Button></Link>
       <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
+      <Link to='/order'  style={{ textDecoration: 'none' }} >
       <Button sx={{display:'flex',marginLeft:135,marginTop:2,
       backgroundColor:'#b3ecff',color:'black'}}>Procced to pay</Button>
+      </Link>
     </div>
   )
 }

@@ -52,6 +52,10 @@ const Cards = () => {
       newAlanAtom.playText('Opening the cart')
       window.open('http://localhost:3000/cartitem')
     }
+    if(message == 'menu_back'){
+      newAlanAtom.playText('Going back to menu')
+      window.open('http://localhost:3000/menu')
+    }
 
     if (message == 'chicken_burger') {
       addToCart(cardData[0])
@@ -128,41 +132,31 @@ const Cards = () => {
 
 
   const addToCart = (element) => {
-
-    if (sessionStorage.getItem("cartItems") == null) {
-
-      var cartItems = []
-      cartItems.push(element);
-      sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-      toast.success('Item Added!', {
-        autoClose: 100,
-        position: "top-center",
-      })
-
-    } else {
-
-      var localItems = []
-
-      localItems = JSON.parse(sessionStorage.getItem("cartItems"));
-
-      let checkedItems = localItems.filter(item => {
-        if (item._id != element._id) {
-          return item;
-        }
+    let cartItems = [];
+  
+    if (sessionStorage.getItem("cartItems") !== null) {
+      cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+  
+      const alreadyAdded = cartItems.some(item => item._id === element._id);
+  
+      if (alreadyAdded) {
         toast.error('Item already Added!', {
           autoClose: 100,
           position: "top-center",
-        })
-      })
-
-      checkedItems.push(element)
-      sessionStorage.setItem("cartItems", JSON.stringify(checkedItems));
-
+        });
+        return;
+      }
     }
-
+  
+    cartItems.push(element);
+    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
+    toast.success('Item Added!', {
+      autoClose: 100,
+      position: "top-center",
+    });
   };
-  // search
-  // btnsearch
+  
   return (
     <div className='container mt-3'>
       <h2 className='text-center'>Today Menu</h2>
