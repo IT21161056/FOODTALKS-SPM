@@ -12,7 +12,11 @@ import AddProduct from "../pages/AddProduct";
 import OrderItem from "../pages/OrderItem";
 import UpdateCard from "../pages/UpdateCard";
 import ViewCart from "../pages/ViewCart";
+
+//pasindu imports
 import OrderCheckout from "../pages/OrderCheckout";
+import AllOrders from "../pages/AllOrders";
+import UpdateOrder from "../pages/UpdateOrder";
 
 import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
@@ -37,8 +41,10 @@ export default function FoodTalksRouter() {
         <Route path="/view/:id" element={<ViewCart />} />
         <Route path="/cartitem" element={<CartItem />} />
 
-        {/* pasindu routes */}
-        <Route path="/orderCheckOut" exact element={<OrderCheckout />} />
+
+      {/* pasindu routes */}
+        <Route path="/order" exact element={<OrderCheckout />} />
+
       </Route>
 
       <Route path="/dashboard" element={<Dashboard />}>
@@ -48,12 +54,18 @@ export default function FoodTalksRouter() {
         {/* viraj routes*/}
         <Route path="/dashboard/addnew" element={<AddProduct />}></Route>
 
+        {/* Pasindu dashboard rotes */}
+        <Route path="/dashboard/allOrders" element={<AllOrders />} />
+        <Route path="/dashboard/updateOrder/:id" element={<UpdateOrder />} />
+
+
         {/* harini routes */}
         <Route
           path="/dashboard/manageDelivery"
           element={<DeliveryManagement />}
         ></Route>
       </Route>
+
     </Routes>
   );
 }

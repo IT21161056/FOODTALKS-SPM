@@ -30,7 +30,7 @@ export const mainListItems = (
         <ShoppingCartIcon />
       </ListItemIcon>
       <Link
-        to="/dashboard"
+        to="/dashboard/allOrders"
         style={{ color: "ButtonText", textDecoration: "none" }}
       >
         Orders

@@ -3,40 +3,41 @@ const mongoose = require('mongoose');
 const orderSchema = new mongoose.Schema(
     {
 
-        name: {
+        customerName: {
             type: String,
             required: true
         },
 
-        phone: {
+        mobileNumber: {
+            type: Number,
+            required: true
+        },
+        
+        city: {
+            type: String,
+            required: true
+        },
+        
+        deliverLocation: {
+            type: String,
+            required: true
+        },
+        
+        deliverDate: {
+            type: String,
+            required: true
+        },
+
+        totalAmount: {
             type: Number,
             required: true
         },
 
-        location: {
-            type: String,
-            required: true
-        },
+        deliveryPerson: {
+            type: String
+        }
 
-        amount: {
-            type: Number,
-            required: true
-        },
-
-        date: {
-            type: String,
-            required: true
-        },
-
-        deliveryPersonName: {
-            type : String
-        }   
-    },
-    {
-        timestamps: true
     }
 )
     
-
-
 module.exports = mongoose.model('OrderModel', orderSchema);
