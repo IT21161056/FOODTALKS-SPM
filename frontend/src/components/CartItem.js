@@ -8,13 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, IconButton, Typography } from '@mui/material';
-import { Link, json } from 'react-router-dom';
+import { Link, json, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CartItem = () => {
 
   const [cart, setCart] = React.useState([]);
   const [totalAmount, setTotalAmount] = React.useState(0);
+  const navigate = useNavigate()
 
   const calculateTotalAmount = () => {
     const amount = cart.reduce((total, item) => {
@@ -58,7 +59,6 @@ const CartItem = () => {
   }
 
 
-
   //decrement quantity
   const decremetQuantity = (itemid) => {
       const updatedCartItems = cart.map((item) => {
@@ -87,6 +87,9 @@ const CartItem = () => {
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
 
+  const goToOrder =(total) =>{
+    navigate(`/order?total=${total}`)
+  }
 
   return (
     <div>
@@ -128,10 +131,9 @@ const CartItem = () => {
         </Table>
       </TableContainer>
       <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
-      <Link to='/order'  style={{ textDecoration: 'none' }} >
-      <Button sx={{display:'flex',marginLeft:135,marginTop:2,
+     
+      <Button  onClick={() => goToOrder(totalAmount)}  sx={{display:'flex',marginLeft:135,marginTop:2,
       backgroundColor:'#b3ecff',color:'black'}}>Procced to pay</Button>
-      </Link>
     </div>
   )
 }
