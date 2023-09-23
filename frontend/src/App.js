@@ -6,15 +6,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { alanAtom, command, data } from "./atom/alanAtom";
 
-//import pages
-import Login from "./pages/Login";
-import NavBar from "./pages/NavBar";
-import Registration from "./pages/Registration";
-import Profile from "./pages/Profile";
-
-//imports pasindu
-import OrderCheckout from "./pages/OrderCheckout";
-
 import Layout from "./layout/Layout";
 
 function App() {
@@ -41,7 +32,6 @@ function App() {
     <BrowserRouter>
       <Layout />
     </BrowserRouter>
-
   );
 }
 
