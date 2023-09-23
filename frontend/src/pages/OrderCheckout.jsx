@@ -1,16 +1,17 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import { useAtom } from "jotai";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
-//<a href="https://storyset.com/online">Online illustrations by Storyset</a>
+import axios from "axios";
+import Container from "@mui/material/Container";
 
 export default function OrderCheckout() {
+
   const [totalAmount, setTotalAmount] = useState(null);
 
   useEffect(() => {
-    var total = window.location.search;
+    let total = window.location.search;
     const urlParams = new URLSearchParams(total);
     const totalAmount = urlParams.get("total");
     setTotalAmount(totalAmount); // Set the total amount in the state
@@ -20,134 +21,165 @@ export default function OrderCheckout() {
   const pageName = useLocation();
 
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
-  const [newCommand, setNewCommand] = useAtom(command);
+  const [newCommand, setCommand] = useAtom(command);
   const [newData, setData] = useAtom(data);
 
-  const [order, setOrder] = useState({
-    name: "",
+  //console.log(newAlanAtom);
+
+  const [orderDetails, setOrderDetails] = useState({
+    customerName: "",
     mobileNumber: "",
-    totalAmount: "",
+    city: "",
     deliverLocation: "",
-    deliverDate: "",
+    deliverDate: getCurrentDate(),
+    totalAmount: 500
   });
 
-  // useEffect(() => {
-  //   if (newAlanAtom) {
-  //     newAlanAtom.activate();
-  //     newAlanAtom.setVisualState({ path: pageName.pathname });
-  //   }
-  // }, [pageName, newAlanAtom]);
+  console.log(orderDetails);
 
-  // console.log(pageName.pathname);
+  function getCurrentDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0"); // Add 1 to month because it's zero-based
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
 
   useEffect(() => {
-    if (newCommand === "setName") {
-      setOrder((prv) => {
-        return {
-          ...prv,
-          name: newData,
-        };
-      });
-    }
-    if (newCommand === "setMobileNumber") {
-      setOrder((prv) => {
-        return {
-          ...prv,
-          mobileNumber: newData,
-        };
-      });
-    }
-    if (newCommand === "setDeliverLocation") {
-      setOrder((prv) => {
-        return {
-          ...prv,
-          deliverLocation: newData,
-        };
-      });
-    }
-    if (newCommand === "setDeliverDate") {
-      setOrder((prv) => {
-        return {
-          ...prv,
-          deliverDate: newData,
-        };
-      });
+    try{
+      if (newCommand === "setCustomerName") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            customerName: newData,
+          };
+        });
+      }
+      if (newCommand === "setMobileNumber") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            mobileNumber: newData,
+          };
+        });
+      }
+      if (newCommand === "setCity") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            city: newData.toLowerCase(),
+          };
+        });
+      }
+      if (newCommand === "setDeliverLocation") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            deliverLocation: newData,
+          };
+        });
+      }
+      if (newCommand === "setDeliverDate") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            deliverDate: newData,
+          };
+        });
+      }
+    } finally {
+      setCommand("");
     }
   }, [newCommand]);
 
-  /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-
-  const handleSubmit = (event) => {
+  function submitData(event) {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      name: data.get("name"),
-      mobileNumber: data.get("mobileNumber"),
-      totalAmount: data.get("totalAmount"),
-      deliverLocation: data.get("deliverLocation"),
-      deliverDate: data.get("deliverDate"),
-    });
-  };
+    axios
+    .post("http://localhost:8072/order/add", orderDetails)
+    .then((response) => {
+      
+      alert("order added successfully!");
+      console.log(response.data.orderId);
+      setOrderDetails({
+        customerName: "",
+        mobileNumber: "",
+        city: "",
+        deliverLocation: "",
+        deliverDate: "",
+        totalAmount: ""
+      });
+    })
+    .catch((error) => {
+    if (error.response ) {
+      // The server responded with an error status code (e.g., 400)
 
-  console.log(order);
+      console.log("Server responded with status code: " + error.response.status);
+      console.log("Response data:", error.response.data);
+
+    } else if (error.request) {
+      // The request was made but no response was received
+      
+      console.log("No response received. The request was made.");
+
+    } else {
+      // An error occurred during the request setup
+
+      console.log("Error setting up the request:", error.message);
+    }
+    })
+  }
 
   return (
-    <form>
-      <Box
-        display="flex"
-        flexDirection="column"
-        maxWidth={800}
-        border={1}
-        borderColor={"#1976d2"}
-        justifyContent="center"
-        alignItems="center"
-        margin="auto"
-        marginTop={5}
-        padding={3}
-        borderRadius={5}
-        boxShadow={"5px 5px 10px #ccc"}
-        sx={{
-          ":hover": {
-            boxShadow: "10px 10px 20px #ccc",
-          },
-        }}
-      >
-        <Typography variant="h4" padding={3} textAlign="center">
-          Personal Information
-        </Typography>
-
+  <Container
+    maxWidth="md"
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      height: "90vh",
+    }}
+  >
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        border: 1,
+        borderRadius: 10,
+        borderColor: "#1976d2",
+        pt: 10, pl: 10, pr: 10, pb: 10
+      }}
+    >
+      <Typography component="h1" variant="h4" sx={{ mb: 2}}>
+        Personal Information
+      </Typography>
+      <Box component="form" onSubmit={submitData} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "600px" }}
-              autoComplete="given-name"
-              name="name"
+              name="customerName"
               required
+              fullWidth
               size="small"
-              id="name"
-              label="Name"
+              id="customerName"
+              label="Customer Name"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
-                    name: e.target.value,
+                    customerName: e.target.value,
                   };
                 })
               }
-              value={order.name}
+              value={orderDetails.customerName}
             />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
-              margin="normal"
               type={"tel"}
-              variant="outlined"
-              style={{ width: "300px" }}
+              pattern="[0-9]{10}"
               name="mobileNumber"
               required
               fullWidth
@@ -156,48 +188,40 @@ export default function OrderCheckout() {
               label="Mobile Number"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     mobileNumber: e.target.value,
                   };
                 })
               }
-              value={order.mobileNumber}
+              value={orderDetails.mobileNumber}
             />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "300px" }}
-              name="totalAmount"
+              name="city"
               required
               fullWidth
               size="small"
-              id="totalAmount"
-              label="Total Amount"
+              id="city"
+              label="City"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
-                    totalAmount: e.target.value,
+                    city: e.target.value,
                   };
                 })
               }
-              value={order.totalAmount}
+              value={orderDetails.city}
             />
           </Grid>
 
           <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"text"}
-              variant="outlined"
-              style={{ width: "600px" }}
               name="deliverLocation"
               required
               fullWidth
@@ -206,23 +230,21 @@ export default function OrderCheckout() {
               label="Deliver Location"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     deliverLocation: e.target.value,
                   };
                 })
               }
-              value={order.deliverLocation}
+              value={orderDetails.deliverLocation}
             />
           </Grid>
 
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12}>
             <TextField
-              margin="normal"
-              type={"date"}
-              variant="outlined"
-              style={{ width: "300px" }}
+              type="date"
+              min={ getCurrentDate() } 
               name="deliverDate"
               required
               fullWidth
@@ -230,27 +252,37 @@ export default function OrderCheckout() {
               id="deliverDate"
               autoFocus
               onChange={(e) =>
-                setOrder((p) => {
+                setOrderDetails((p) => {
                   return {
                     ...p,
                     deliverDate: e.target.value,
                   };
                 })
               }
-              value={order.deliverDate}
+              value={orderDetails.deliverDate}
             />
           </Grid>
         </Grid>
         <Button
-          type="submit"
-          sx={{ margin: 3, borderRadius: 3 }}
+          type="button"
+          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
           variant="contained"
           color="primary"
-          onSubmit={handleSubmit}
+          onClick={() => navigate('/cartItem')}
+        >
+          Cancel Order
+        </Button>
+        <Button
+          type="submit"
+          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
+          variant="contained"
+          color="primary"
         >
           Submit Order
         </Button>
       </Box>
-    </form>
-  );
+    </Box>
+  </Container>
+);
+
 }
