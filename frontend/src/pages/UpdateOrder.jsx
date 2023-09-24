@@ -6,7 +6,8 @@ import Container from "@mui/material/Container";
 
 
 const UpdateOrder = () => {
-
+  const {id} = useParams()
+  console.log('in update order >>>',id)
   const navigate = useNavigate();
 
   const [employee, setEmployee] = useState([]); 
@@ -35,8 +36,9 @@ const UpdateOrder = () => {
   useEffect(() => {
     function fetchAllData(){
       axios
-        .get(`http://localhost:8072/singleOrder/${orderId.id}`)
+        .get(`http://localhost:8072/order/singleOrder/${id}`)
         .then(( response ) => {
+          console.log(response.data)
           setOrderDetails(response.data);
         }).catch(( error ) => {
           alert('An error occured when fecthing particular order');
@@ -51,8 +53,9 @@ const UpdateOrder = () => {
   useEffect(() => {
     function fetchEmployeeData() {
       axios
-        .get('http:/loclhost"8072/employee/')
+        .get('http://localhost:8072/delivery')
         .then(( response ) => {
+          console.log(response.data)
           setEmployee(response.data);
         }).catch(( error ) => {
           alert("An error occures when fecthing employee data!!");
@@ -203,9 +206,9 @@ const UpdateOrder = () => {
                   employee.map(( emp ) => {
                     return <MenuItem 
                               key={emp._id} 
-                              value={emp.employeeName}
+                              value={emp.name}
                             >
-                              {emp.employeeName}
+                              {emp.name}
                             </MenuItem>
                   })
                 }

@@ -5,6 +5,7 @@ import { useAtom } from "jotai";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import Container from "@mui/material/Container";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function OrderCheckout() {
 
@@ -23,8 +24,9 @@ export default function OrderCheckout() {
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newCommand, setCommand] = useAtom(command);
   const [newData, setData] = useAtom(data);
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
-  //console.log(newAlanAtom);
+  console.log(newData);
 
   const [orderDetails, setOrderDetails] = useState({
     customerName: "",
@@ -49,6 +51,7 @@ export default function OrderCheckout() {
   useEffect(() => {
     try{
       if (newCommand === "setCustomerName") {
+        console.log("Setting customer name:", newData);
         setOrderDetails((prv) => {
           return {
             ...prv,
@@ -93,42 +96,43 @@ export default function OrderCheckout() {
     }
   }, [newCommand]);
 
-  function submitData(event) {
-    event.preventDefault();
+    const handleSubmit = async (event) => {
+    event?.preventDefault();
+    setIsSubmiting(true);
+
     axios
-    .post("http://localhost:8072/order/add", orderDetails)
-    .then((response) => {
-      
-      alert("order added successfully!");
-      console.log(response.data.orderId);
-      setOrderDetails({
-        customerName: "",
-        mobileNumber: "",
-        city: "",
-        deliverLocation: "",
-        deliverDate: "",
-        totalAmount: ""
-      });
-    })
-    .catch((error) => {
-    if (error.response ) {
+      .post("http://localhost:8072/order/add", orderDetails)
+      .then((res) => {
+        alert(res.data.message);
+        setIsSubmiting(false);
+        setOrderDetails({
+          customerName: "",
+          mobileNumber: "",
+          city: "",
+          deliverLocation: "",
+          deliverDate: "",
+          totalAmount: ""
+        });
+      })
+      .catch((error) => {
+      if (error.response ) {
       // The server responded with an error status code (e.g., 400)
 
-      console.log("Server responded with status code: " + error.response.status);
-      console.log("Response data:", error.response.data);
+        console.log("Server responded with status code: " + error.response.status);
+        console.log("Response data:", error.response.data);
 
-    } else if (error.request) {
+      } else if (error.request) {
       // The request was made but no response was received
       
-      console.log("No response received. The request was made.");
+       console.log("No response received. The request was made.");
 
-    } else {
+      } else {
       // An error occurred during the request setup
 
-      console.log("Error setting up the request:", error.message);
+       console.log("Error setting up the request:", error.message);
     }
     })
-  }
+  };
 
   return (
   <Container
@@ -139,13 +143,16 @@ export default function OrderCheckout() {
       height: "90vh",
     }}
   >
+  {newAlanAtom == null ? (
+    <CircularProgress />
+  ) : (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         border: 1,
-        borderRadius: 10,
+        borderRadius: 9,
         borderColor: "#1976d2",
         pt: 10, pl: 10, pr: 10, pb: 10
       }}
@@ -153,7 +160,7 @@ export default function OrderCheckout() {
       <Typography component="h1" variant="h4" sx={{ mb: 2}}>
         Personal Information
       </Typography>
-      <Box component="form" onSubmit={submitData} sx={{ mt: 3 }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -277,11 +284,13 @@ export default function OrderCheckout() {
           sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
           variant="contained"
           color="primary"
+          disabled={isSubmiting}
         >
           Submit Order
         </Button>
       </Box>
     </Box>
+  )}
   </Container>
 );
 
