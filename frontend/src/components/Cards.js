@@ -26,6 +26,7 @@ const Cards = () => {
   const [message, setMessage] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newValue, setValue] = useAtom(data);
+  const [search,setSearch] = useState("");
 
   const [cardData, setCardData] = useState([]);
 
@@ -104,17 +105,17 @@ const Cards = () => {
     doc.save('file_report.pdf');
   };
 
-  const sendRequest = async () => {
+  const sendRequest = async (search) => {
 
-    const res = await axios.get("http://localhost:8072/cart/").catch((err) => console.log(err))
+    const res = await axios.get(`http://localhost:8072/cart?search=${search}`).catch((err) => console.log(err))
     const data = await res.data;
     return data;
   }
 
   useEffect(() => {
-    sendRequest().then((data) => setCardData(data))
+    sendRequest(search).then((data) => setCardData(data))
 
-  }, [])
+  }, [search])
 
   //delete logic implemented
   const deletequotation = async (id) => {
@@ -163,18 +164,20 @@ const Cards = () => {
       <div className='searchcomponent'>
 
       <Grid >
-        <Box sx={{ width: 700,display:'flex' }} item xs={12} sm={6}>
-          <TextField  inputProps={{style: {height: "16px",width:500}}} placeholder='Search foods' />
-          <Button style={{backgroundColor:'#66d9ff',marginBottom:1,
-          marginLeft:20,paddingRight:30,paddingLeft:30}} variant='contained'>Search</Button>
+        <Box sx={{ width: 700,display:'flex',marginLeft:'150px' }} item xs={12} sm={6}>
+          <TextField  onChange={(e)=>setSearch(e.target.value)} inputProps={{style: {height: "16px",width:500}}} placeholder='Search foods' />
+          <Button style={{backgroundColor:'#3399ff',marginBottom:1,
+          marginLeft:18,paddingRight:20,paddingLeft:20,color:'white'}} variant='contained'>Search</Button>
         </Box>
       </Grid>
-
-        <Link to="/addnew">
-          <Button name='Add product' item xs={12} sm={6} className='addbtn'>+ Add Product</Button>
-        </Link>
+       
       </div>
-      <div style={{ position: 'absolute', top: '122px', display: 'flex', marginLeft: '-80px' }}>
+      <Grid style={{position:'relative',bottom:'120px',left:'900px'}}>
+      <Link to="/addnew">
+          <Button name='Add product' style={{padding:'8px',paddingBottom:'8px',paddingTop:'8px'}} item xs={8} sm={6} className='addbtn'>+ Add Product</Button>
+        </Link>
+      </Grid>
+      <div style={{ position: 'absolute', top: '108px', display: 'flex', marginLeft: '-80px',padding:'5px'}}>
         <Button variant='success' onClick={generatePDF} style={{ backgroundColor: 'green', margin: '20px' }}>Generate report</Button>
       </div>
 
@@ -184,7 +187,7 @@ const Cards = () => {
           cardData.map((element, id) => {
             return (
               <>
-                <Card className='bh' style={{ width: '18rem', mt: '40px', border: 'none' }}  >
+                <Card key={id} className='bh' style={{ width: '18rem', mt: '10px', border: 'none' }}  >
                   <Card.Img variant="top" src={element.image} style={{ height: "15rem" }} />
                   <div style={{ marginLeft: '20px', position: 'absolute', top: '10px', marginLeft: '245px', backgroundColor: 'none' }}>
                     <Dropdown >
