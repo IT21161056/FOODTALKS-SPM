@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import Container from "@mui/material/Container";
 
 
 const UpdateOrder = () => {
-  const {id} = useParams()
+
+  const {id} = useParams();
   console.log('in update order >>>',id)
   const navigate = useNavigate();
 
@@ -25,13 +26,11 @@ const UpdateOrder = () => {
   console.log(orderDetails);
 
   const employeeId = useParams();
-  const employeeName = employee.name;
-
+  const employeeName = employeeId.name;
   console.log(employee);
 
-  const orderId = useParams();
   const orderName = orderDetails.customerName;
-  console.log(orderName);
+  console.log("customer name >>> "+orderName);
 
   useEffect(() => {
     function fetchAllData(){
@@ -48,7 +47,7 @@ const UpdateOrder = () => {
     fetchAllData();
   }, []);
   
-  console.log("order id : "+orderId.id);
+  console.log("order id >>> "+id);
 
   useEffect(() => {
     function fetchEmployeeData() {
@@ -68,7 +67,7 @@ const UpdateOrder = () => {
   function updateOrderData( event ){
     event.preventDefault();
     axios
-      .put('http://localhost:8072/order/update/'+orderId.id, orderDetails)
+      .put('http://localhost:8072/order/update/'+id, orderDetails)
       .then(() => {
         alert("Order Successfully Updated!");
         navigate("/dashboard/allOrders");
@@ -105,10 +104,10 @@ const UpdateOrder = () => {
           pt: 10, pl: 10, pr: 10, pb: 10
         }}
       >
-        <Typography component="h1" onSubmit={updateOrderData} variant="h4" sx={{ mb: 2}}>
+        <Typography variant="h4" sx={{ mb: 2}}>
           Update Order Details 
         </Typography>
-        <Box component="form" sx={{ mt: 3 }}>
+        <form onSubmit={updateOrderData}> 
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
@@ -187,6 +186,7 @@ const UpdateOrder = () => {
                 id="totalAmount"
                 label="Total Amount"
                 autoFocus
+                readOnly
                 onChange={onChange} value={orderDetails.totalAmount} 
               />
             </Grid>
@@ -199,33 +199,27 @@ const UpdateOrder = () => {
                 size="small"
                 id="deliveryPerson"
                 autoFocus
-                onChange={onChange} value={employee.employeeName || ''} 
+                onChange={onChange} value={employeeName || ''} 
               >
                 <MenuItem value="">Select delivery person</MenuItem>
-                {
-                  employee.map(( emp ) => {
-                    return <MenuItem 
-                              key={emp._id} 
-                              value={emp.name}
-                            >
-                              {emp.name}
-                            </MenuItem>
-                  })
-                }
+                  {employee.map((deliverPerson) => (
+                    <MenuItem key={deliverPerson._id} value={deliverPerson.name}>
+                      {deliverPerson.name}
+                    </MenuItem>
+                 ))}
               </Select>
             </Grid>
 
           </Grid>
           <Button
-            type="button"
+            type="submit"
             sx={{ mt: 3, borderRadius: 3, width: '200px' }}
             variant="contained"
             color="primary"
-            onClick={() => navigate('/cartItem')}
           >
-            Update Order
+          Update Order
           </Button>
-        </Box>
+        </form>
       </Box>
     </Container>
     );

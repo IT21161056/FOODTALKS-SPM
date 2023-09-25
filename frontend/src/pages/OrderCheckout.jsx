@@ -34,7 +34,7 @@ export default function OrderCheckout() {
     city: "",
     deliverLocation: "",
     deliverDate: getCurrentDate(),
-    totalAmount: 500
+    totalAmount: ""
   });
 
   console.log(orderDetails);
@@ -267,6 +267,27 @@ export default function OrderCheckout() {
                 })
               }
               value={orderDetails.deliverDate}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              type="Number"
+              name="totalAmount"
+              required
+              fullWidth
+              size="small"
+              id="totalAmount"
+              autoFocus
+              onChange={(e) =>
+                setOrderDetails((p) => {
+                  return {
+                    ...p,
+                    totalAmount: e.target.value,
+                  };
+                })
+              }
+              value={totalAmount}
             />
           </Grid>
         </Grid>
