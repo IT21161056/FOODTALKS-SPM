@@ -13,7 +13,13 @@ const handleInputValidation = (e, fieldName) => {
   }
 };
 
-const formDelivery = ({ handleSubmit, handleOnChange, handleclose, rest }) => {
+const formDelivery = ({
+  handleSubmit,
+  handleOnChange,
+  handleclose,
+  rest,
+  isSubmitting,
+}) => {
   return (
     <div className="addContainer">
       <form onSubmit={handleSubmit}>
@@ -92,7 +98,9 @@ const formDelivery = ({ handleSubmit, handleOnChange, handleclose, rest }) => {
         />
         <span id="status-error">Please enter either "Yes" or "No"</span>
 
-        <button className="btn">Submit</button>
+        <button className="btn" disabled={isSubmitting}>
+          Submit
+        </button>
       </form>
     </div>
   );
