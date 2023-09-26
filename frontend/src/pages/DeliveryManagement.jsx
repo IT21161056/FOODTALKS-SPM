@@ -44,6 +44,8 @@ const DeliveryManagement = () => {
   const [totalPresentPersons, setTotalPresentPersons] = useState(0);
   const [totalNotPresentPersons, setTotalNotPresentPersons] = useState(0);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleOnChange = (e) => {
     const { value, name } = e.target;
     setFormData((preve) => {
@@ -54,13 +56,19 @@ const DeliveryManagement = () => {
     });
   };
 
+  const getFetchData = async () => {
+    const deliveries = await axios.get("http://localhost:8072/delivery/");
+    setDataList(deliveries.data);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const data = await axios.post(
       "http://localhost:8072/delivery/create",
       formData
     );
-    console.log(data);
+
     if (data.data.success) {
       setAddSection(false);
       //alert(data.data.message);
@@ -72,7 +80,9 @@ const DeliveryManagement = () => {
         mobile: "",
         status: "",
       });
-      toast.success("Record saved successfully!", { autoClose: 2000 });
+      // toast.success("Record saved successfully!", { autoClose: 2000 });
+      setIsSubmitting(false);
+      setAddSection(false);
     }
     const form = e.target;
 
@@ -90,27 +100,9 @@ const DeliveryManagement = () => {
     }
   };
 
-  const getFetchData = async () => {
-    const data = await axios.get("http://localhost:8072/delivery/");
-    console.log(data);
-    if (data.data.success) {
-      setDataList(data.data);
-      //   const presentCount = data.data.filter(
-      //     (item) => item.status === "Yes"
-      //   ).length;
-      //   const notPresentCount = data.data.filter(
-      //     (item) => item.status === "No"
-      //   ).length;
-
-      //   setTotalDeliveryPersons(data.data.length);
-      //   setTotalPresentPersons(presentCount);
-      //   setTotalNotPresentPersons(notPresentCount);
-    }
-  };
-
   useEffect(() => {
     getFetchData();
-  }, []);
+  }, [isSubmitting]);
 
   const handleDelete = async (id) => {
     const data = await axios.delete(
@@ -278,6 +270,7 @@ const DeliveryManagement = () => {
             handleOnChange={handleOnChange}
             handleclose={() => setAddSection(false)}
             rest={formData}
+            isSubmitting={isSubmitting}
           />
         )}
 

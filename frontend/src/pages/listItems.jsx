@@ -49,12 +49,17 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <ListItemButton>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItemButton>
+    <Link
+      to="/dashboard/manageMenu"
+      style={{ color: "ButtonText", textDecoration: "none" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <BarChartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Manage Menu" />
+      </ListItemButton>
+    </Link>
 
     <Link
       to="/dashboard/manageDelivery"

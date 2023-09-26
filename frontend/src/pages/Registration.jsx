@@ -6,22 +6,23 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
 import CircularProgress from "@mui/material/CircularProgress";
 import Container from "@mui/material/Container";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
+import { Alert } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { resolvePath, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
+import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 
 const Registraion = () => {
   const pageName = useLocation();
+  const navigate = useNavigate();
   const [newCommand, setCommand] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newData, setData] = useAtom(data);
@@ -35,6 +36,15 @@ const Registraion = () => {
   // const stringWithoutSpaces = inputString.replace(/\s+/g, "");
   // console.log(stringWithoutSpaces);
 
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
+
+  function speak() {
+    newAlanAtom.activate();
+    newAlanAtom.playText(
+      "Here..your can register in our system by answering questions, do you want to register?"
+    );
+  }
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -44,15 +54,75 @@ const Registraion = () => {
     password: "",
   });
 
-  // useEffect(() => {
-  //   if (newAlanAtom) {
-  //     newAlanAtom.activate();
-  //     newAlanAtom.setVisualState({ path: pageName.pathname });
-  //   }
-  // }, [pageName, newAlanAtom]);
+  const [state, setState] = React.useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = () => {
+    setState((prv) => {
+      return {
+        ...prv,
+        open: true,
+      };
+    });
+  };
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
   console.log(user);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmiting(true);
+
+    axios
+      .post("http://localhost:8072/users", user)
+      .then((res) => {
+        setIsSubmiting(false);
+        setUser({
+          firstName: "",
+          lastName: "",
+          address: "",
+          email: "",
+          phone: "",
+          password: "",
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  function register() {
+    setIsSubmiting(true);
+
+    axios
+      .post("http://localhost:8072/users", user)
+      .then((res) => {
+        setIsSubmiting(false);
+        handleClick();
+        setUser({
+          firstName: "",
+          lastName: "",
+          address: "",
+          email: "",
+          phone: "",
+          password: "",
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  }
+
   useEffect(() => {
     try {
+      if (newCommand === "goToLogin") {
+        navigate("/login");
+      }
       if (newCommand === "setFirstName") {
         setUser((prv) => {
           return {
@@ -101,43 +171,13 @@ const Registraion = () => {
           };
         });
       }
+      if (newCommand === "register") {
+        register();
+      }
     } finally {
       setCommand("");
     }
   }, [newCommand]);
-
-  const handleSubmit = async (event) => {
-    event?.preventDefault();
-    // const data = new FormData(event.currentTarget);
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
-    // console.log({
-    //   firstname: data.get("firstName"),
-    //   lastName: data.get("lastName"),
-    //   email: data.get("email"),
-    //   password: data.get("password"),
-    // });
-
-    setIsSubmiting(true);
-
-    axios
-      .post("http://localhost:8072/users", user)
-      .then((res) => {
-        alert(res.data.message);
-        setIsSubmiting(false);
-        setUser({
-          firstName: "",
-          lastName: "",
-          address: "",
-          email: "",
-          phone: "",
-          password: "",
-        });
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
   return (
     <Container
       maxWidth="md"
@@ -147,6 +187,11 @@ const Registraion = () => {
         height: "100vh",
       }}
     >
+      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          Loggin Successfully!
+        </Alert>
+      </Snackbar>
       {newAlanAtom == null ? (
         <CircularProgress />
       ) : (
@@ -302,6 +347,7 @@ const Registraion = () => {
             >
               {isSubmiting ? <CircularProgress size={30} /> : "Sign Up"}
             </Button>
+            <Button onClick={speak}>Speak</Button>
             {/* </Grid>
             </Grid> */}
 
