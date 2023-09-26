@@ -8,13 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, IconButton, Typography } from '@mui/material';
-import { Link, json } from 'react-router-dom';
+import { Link, json, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const CartItem = () => {
 
   const [cart, setCart] = React.useState([]);
   const [totalAmount, setTotalAmount] = React.useState(0);
+  const navigate = useNavigate()
 
   const calculateTotalAmount = () => {
     const amount = cart.reduce((total, item) => {
@@ -58,7 +59,6 @@ const CartItem = () => {
   }
 
 
-
   //decrement quantity
   const decremetQuantity = (itemid) => {
       const updatedCartItems = cart.map((item) => {
@@ -87,9 +87,13 @@ const CartItem = () => {
       sessionStorage.setItem("cartItems",JSON.stringify(updatedCartItems))
   }
 
+  const goToOrder =(total) =>{
+    navigate(`/order?total=${total}`)
+  }
 
   return (
     <div>
+      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:50,marginLeft:30}}>Go to menu</Button></Link>
       <Typography sx={{display:'flex',justifyContent:'center',fontSize:30}}>Your Cart</Typography>
       <TableContainer component={Paper} sx={{ width: 1050, display: 'flex', marginLeft: 30}}>
         <Table sx={{ minWidth: 100, gap: '2rem' }} aria-label="caption table">
@@ -126,10 +130,10 @@ const CartItem = () => {
 
         </Table>
       </TableContainer>
-      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:80,marginLeft:20}}>Go to menu</Button></Link>
       <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
-      <Button sx={{display:'flex',marginLeft:135,marginTop:2,
-      backgroundColor:'#b3ecff',color:'black'}}>Procced</Button>
+     
+      <Button  onClick={() => goToOrder(totalAmount)}  sx={{display:'flex',marginLeft:135,marginTop:2,
+      backgroundColor:'#b3ecff',color:'black'}}>Procced to pay</Button>
     </div>
   )
 }

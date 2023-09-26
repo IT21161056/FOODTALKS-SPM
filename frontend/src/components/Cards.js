@@ -18,6 +18,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 
 const Cards = () => {
 
@@ -25,7 +26,7 @@ const Cards = () => {
   const [message, setMessage] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newValue, setValue] = useAtom(data);
-  
+
   const [cardData, setCardData] = useState([]);
 
   useEffect(() => {
@@ -38,26 +39,31 @@ const Cards = () => {
         }
 
       }
-    } 
-    
+
+    }
+
     if (message == 'noodles') {
       window.open(`http://localhost:3000/order/64dd8b78c40d567c3883a80c`)
-    } 
+    }
     if (message == 'order_burger') {
       window.open(`http://localhost:3000/order/64d3c75180485394970aba0b`)
     }
     if (message == 'open_cart') {
       newAlanAtom.playText('Opening the cart')
       window.open('http://localhost:3000/cartitem')
-    } 
+    }
+    if(message == 'menu_back'){
+      newAlanAtom.playText('Going back to menu')
+      window.open('http://localhost:3000/menu')
+    }
 
     if (message == 'chicken_burger') {
       addToCart(cardData[0])
-     }
-    if (message == 'egg_rotti'){
+    }
+    if (message == 'egg_rotti') {
       addToCart(cardData[1])
     }
-    
+
 
   }, [message])
 
@@ -114,7 +120,7 @@ const Cards = () => {
   const deletequotation = async (id) => {
     try {
       await axios.delete(`http://localhost:8072/cart/delete/${id}`);
-      const newdata = cardData.filter((el) => el._id !== id); 
+      const newdata = cardData.filter((el) => el._id !== id);
       setCardData(newdata);
     } catch (error) {
       console.error(error);
@@ -126,49 +132,46 @@ const Cards = () => {
 
 
   const addToCart = (element) => {
-
-    if (sessionStorage.getItem("cartItems") == null) {
-
-      var cartItems = []
-      cartItems.push(element);
-      sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
-      toast.success('Item Added!', {
-        autoClose: 100,
-        position: "top-center",
-      })
-
-    } else {
-
-      var localItems = []
-
-      localItems = JSON.parse(sessionStorage.getItem("cartItems"));
-
-      let checkedItems = localItems.filter(item => {
-        if (item._id != element._id) {
-          return item;
-        }
+    let cartItems = [];
+  
+    if (sessionStorage.getItem("cartItems") !== null) {
+      cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
+  
+      const alreadyAdded = cartItems.some(item => item._id === element._id);
+  
+      if (alreadyAdded) {
         toast.error('Item already Added!', {
           autoClose: 100,
           position: "top-center",
-        })
-      })
-
-      checkedItems.push(element)
-      sessionStorage.setItem("cartItems", JSON.stringify(checkedItems));
-
+        });
+        return;
+      }
     }
-
+  
+    cartItems.push(element);
+    sessionStorage.setItem("cartItems", JSON.stringify(cartItems));
+  
+    toast.success('Item Added!', {
+      autoClose: 100,
+      position: "top-center",
+    });
   };
-
-
+  
   return (
     <div className='container mt-3'>
       <h2 className='text-center'>Today Menu</h2>
       <div className='searchcomponent'>
-        <input type='text' placeholder='Seacrh any food here' className='search' />
-        <button name='Search' value="Search" style={{ backgroundColor: '#1a75ff' }} className='btnsearch'>Search</button>
+
+      <Grid >
+        <Box sx={{ width: 700,display:'flex' }} item xs={12} sm={6}>
+          <TextField  inputProps={{style: {height: "16px",width:500}}} placeholder='Search foods' />
+          <Button style={{backgroundColor:'#66d9ff',marginBottom:1,
+          marginLeft:20,paddingRight:30,paddingLeft:30}} variant='contained'>Search</Button>
+        </Box>
+      </Grid>
+
         <Link to="/addnew">
-          <Button name='Add product' className='addbtn'>+ Add Product</Button>
+          <Button name='Add product' item xs={12} sm={6} className='addbtn'>+ Add Product</Button>
         </Link>
       </div>
       <div style={{ position: 'absolute', top: '122px', display: 'flex', marginLeft: '-80px' }}>
