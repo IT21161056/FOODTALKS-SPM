@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./deliveryManagement.css";
 import Formtable from "../components/formDelivery";
+//import {StyleSheet} from 'react-native';
 
 const DeliveryManagement = () => {
   const [addSection, setAddSection] = useState(false);
