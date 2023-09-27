@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import "./store.css"
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,12 +10,18 @@ import Paper from '@mui/material/Paper';
 import { Button, IconButton, Typography } from '@mui/material';
 import { Link, json, useNavigate } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { alanAtom, command, data } from "../atom/alanAtom"
+import { useAtom } from 'jotai';
 
 const CartItem = () => {
 
   const [cart, setCart] = React.useState([]);
   const [totalAmount, setTotalAmount] = React.useState(0);
   const navigate = useNavigate()
+
+  const [message, setMessage] = useAtom(command);
+  const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
+  const [newValue, setValue] = useAtom(data);
 
   const calculateTotalAmount = () => {
     const amount = cart.reduce((total, item) => {
@@ -25,6 +31,7 @@ const CartItem = () => {
     setTotalAmount(amount);
   }; 
   
+
 
   React.useEffect(() => {
     calculateTotalAmount();
@@ -90,6 +97,20 @@ const CartItem = () => {
   const goToOrder =(total) =>{
     navigate(`/order?total=${total}`)
   }
+
+  useEffect(() => {
+
+    if(message == 'pay'){
+      goToOrder(totalAmount)
+    }
+
+    if(message == 'total'){
+     
+        newAlanAtom.playText(`Your total is ${totalAmount}`)
+      
+    }
+
+  },[message])
 
   return (
     <div>

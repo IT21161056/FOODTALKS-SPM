@@ -102,7 +102,7 @@ const AddProduct = () => {
     }else{
   
         sendRequest()
-        .then(() => navigate("/menu")).then(toast.success("successfully added the product"))
+        .then(() => navigate("/dashboard/manageMenu")).then(toast.success("successfully added the product"))
         
     }
     return true
