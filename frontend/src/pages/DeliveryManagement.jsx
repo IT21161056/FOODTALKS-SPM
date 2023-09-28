@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./deliveryManagement.css";
 import Formtable from "../components/formDelivery";
+import styled from "styled-components";
 
 const DeliveryManagement = () => {
   const [addSection, setAddSection] = useState(false);
@@ -56,9 +57,30 @@ const DeliveryManagement = () => {
     });
   };
 
+  const showSuccessMessage = (message) => {
+    toast.success(
+      <SuccessMessage>
+        <SuccessIcon className="material-icons">check_circle</SuccessIcon>
+        {message}
+      </SuccessMessage>,
+      { autoClose: 2000 }
+    );
+  };
+
   const getFetchData = async () => {
     const deliveries = await axios.get("http://localhost:8072/delivery/");
     setDataList(deliveries.data);
+
+    const presentCount = deliveries.data.filter(
+      (item) => item.status === "Yes"
+    ).length;
+    const notPresentCount = deliveries.data.filter(
+      (item) => item.status === "No"
+    ).length;
+
+    setTotalDeliveryPersons(deliveries.data.length);
+    setTotalPresentPersons(presentCount);
+    setTotalNotPresentPersons(notPresentCount);
   };
 
   const handleSubmit = async (e) => {
@@ -71,7 +93,6 @@ const DeliveryManagement = () => {
 
     if (data.data.success) {
       setAddSection(false);
-      //alert(data.data.message);
       getFetchData();
       setFormData({
         name: "",
@@ -80,16 +101,16 @@ const DeliveryManagement = () => {
         mobile: "",
         status: "",
       });
+      showSuccessMessage("Record saved successfully!");
       // toast.success("Record saved successfully!", { autoClose: 2000 });
       setIsSubmitting(false);
-      setAddSection(false);
+      //setAddSection(false);
     }
     const form = e.target;
 
     if (form.checkValidity()) {
       // Form is valid, proceed with submission
       // You can submit the form data or perform other actions here
-      // ...
     } else {
       // Form has validation errors, display error messages
       const invalidInputs = form.querySelectorAll(":invalid");
@@ -111,7 +132,8 @@ const DeliveryManagement = () => {
     if (data.data.success) {
       getFetchData();
       //alert(data.data.message);
-      toast.success("Record deleted successfully!", { autoClose: 2000 });
+      //toast.success("Record deleted successfully!", { autoClose: 2000 });
+      showSuccessMessage("Record deleted successfully!");
     }
   };
 
@@ -125,7 +147,8 @@ const DeliveryManagement = () => {
       getFetchData();
       //alert(data.data.message)
       setEditSection(false);
-      toast.success("Record updated successfully!", { autoClose: 2000 });
+      showSuccessMessage("Record updated successfully!");
+      //toast.success("Record updated successfully!", { autoClose: 2000 });
     }
   };
 
@@ -215,39 +238,46 @@ const DeliveryManagement = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer
+        position="top-center"
+        autoClose={2000}
+        hideProgressBar={true}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <center>
         <h1>Delivery Person Management</h1>
       </center>
-      <div className="container">
-        <button className="btn btn-add" onClick={() => setAddSection(true)}>
+      <ContainerDiv>
+        <AddButton onClick={() => setAddSection(true)}>
           Add Delivery Person
-        </button>
-        <button className="btn backbtn" onClick={generatePDF}>
-          Generate PDF Report
-        </button>
+        </AddButton>
+        <BackButton onClick={generatePDF}>Generate PDF Report</BackButton>
 
-        <div className="cards">
-          <div className="card">
-            <h3>Total Delivery Persons</h3>
+        <Cards>
+          <Card>
+            <CardHeader>Total Delivery Persons</CardHeader>
             <p>{totalDeliveryPersons}</p>
-          </div>
-          <div className="card">
-            <h3>Total Present Persons</h3>
+          </Card>
+          <Card>
+            <CardHeader>Total Present Persons</CardHeader>
             <p>{totalPresentPersons}</p>
-          </div>
-          <div className="card">
-            <h3>Total Not Present Persons</h3>
+          </Card>
+          <Card>
+            <CardHeader>Total Not Present Persons</CardHeader>
             <p>{totalNotPresentPersons}</p>
-          </div>
-        </div>
+          </Card>
+        </Cards>
 
         <br />
 
         {/* Search bar */}
 
-        <input
-          className="searchInput"
+        <SearchInput
           type="text"
           placeholder="Search by name"
           value={searchQuery}
@@ -255,14 +285,14 @@ const DeliveryManagement = () => {
         />
 
         {/* Status filter dropdown */}
-        <select
+        <SelectList
           value={selectedStatus}
           onChange={(e) => setSelectedStatus(e.target.value)}
         >
           <option value="all">All</option>
           <option value="Yes">Present</option>
           <option value="No">Not Present</option>
-        </select>
+        </SelectList>
 
         {addSection && (
           <Formtable
@@ -283,18 +313,26 @@ const DeliveryManagement = () => {
           />
         )}
 
-        <div className="tableContainer">
+        <ContainerForTable>
           <TableContainer component={Paper}>
             <table>
               <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Covering Area</th>
-                  <th>Mobile</th>
-                  <th>Is present today?</th>
-                  <th>Actions</th>
-                </tr>
+                <TableHeadTr>
+                  <TableHeadTableRowTableHead>Name</TableHeadTableRowTableHead>
+                  <TableHeadTableRowTableHead>Email</TableHeadTableRowTableHead>
+                  <TableHeadTableRowTableHead>
+                    Covering Area
+                  </TableHeadTableRowTableHead>
+                  <TableHeadTableRowTableHead>
+                    Mobile
+                  </TableHeadTableRowTableHead>
+                  <TableHeadTableRowTableHead>
+                    Is present today?
+                  </TableHeadTableRowTableHead>
+                  <TableHeadTableRowTableHead>
+                    Actions
+                  </TableHeadTableRowTableHead>
+                </TableHeadTr>
               </thead>
               <tbody>
                 {filteredData
@@ -308,25 +346,19 @@ const DeliveryManagement = () => {
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((e1) => (
                     <tr key={e1.id}>
-                      <td>{e1.name}</td>
-                      <td>{e1.email}</td>
-                      <td>{e1.area}</td>
-                      <td>{e1.mobile}</td>
-                      <td>{e1.status}</td>
-                      <td>
-                        <button
-                          className="btn btn-edit"
-                          onClick={() => handleEdit(e1)}
-                        >
+                      <TableBodyTd>{e1.name}</TableBodyTd>
+                      <TableBodyTd>{e1.email}</TableBodyTd>
+                      <TableBodyTd>{e1.area}</TableBodyTd>
+                      <TableBodyTd>{e1.mobile}</TableBodyTd>
+                      <TableBodyTd>{e1.status}</TableBodyTd>
+                      <TableBodyTd>
+                        <BtnEdit onClick={() => handleEdit(e1)}>
                           <EditIcon />
-                        </button>
-                        <button
-                          className="btn btn-delete"
-                          onClick={() => handleDelete(e1._id)}
-                        >
+                        </BtnEdit>
+                        <BtnDelete onClick={() => handleDelete(e1._id)}>
                           <DeleteIcon />
-                        </button>
-                      </td>
+                        </BtnDelete>
+                      </TableBodyTd>
                     </tr>
                   ))}
               </tbody>
@@ -341,10 +373,140 @@ const DeliveryManagement = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </TableContainer>
-        </div>
-      </div>
+        </ContainerForTable>
+      </ContainerDiv>
     </>
   );
 };
+
+const ContainerDiv = styled("div")`
+  padding: 10px;
+  /* background-color: red; */
+  max-width: 1200px;
+  /* margin: 50px auto; */
+  margin: 25px auto;
+`;
+const AddButton = styled("button")`
+  border: none;
+  padding: 7px 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #194064;
+  color: white;
+  padding: 24px 24px 24px 24px;
+`;
+
+const BackButton = styled("button")`
+  border: none;
+  padding: 7px 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #194064;
+  color: white;
+  padding: 24px 24px 24px 24px;
+  margin-left: 50px;
+`;
+
+const ContainerForTable = styled("div")`
+  margin-top: 50px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+`;
+
+const TableHeadTr = styled("tr")`
+  background-color: #f0eaea;
+`;
+
+const TableHeadTableRowTableHead = styled("th")`
+  min-width: 200px;
+  background-color: royalblue;
+  padding: 15px;
+  border-radius: 5px;
+  font-weight: 18px;
+  color: #fff;
+  justify-content: center;
+  align-content: center;
+`;
+
+const TableBodyTd = styled("td")`
+  min-width: 200px;
+  padding: 7px;
+  border: 1px solid royalblue;
+  border-radius: 5px;
+  justify-content: center;
+  align-content: center;
+`;
+
+const BtnEdit = styled("button")`
+  font-size: 16px;
+  padding: 5px 10px;
+  margin: 0px 10px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+`;
+
+const BtnDelete = styled("button")`
+  font-size: 16px;
+  padding: 5px 10px;
+  margin: 0px 10px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #000;
+`;
+
+const SearchInput = styled("input")`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: width 0.3s ease-in-out; /* Add smooth transition for width changes */
+  margin-top: 20px;
+  width: 200px;
+`;
+
+const SelectList = styled("select")`
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: width 0.3s ease-in-out; /* Add smooth transition for width changes */
+  margin-top: 20px;
+  margin-left: 50px;
+  width: 200px;
+`;
+
+const Cards = styled("div")`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+`;
+
+const Card = styled("div")`
+  width: calc(33.33% - 10px); /* Adjust the width and spacing as needed */
+  padding: 10px;
+  border: 1px solid royalblue;
+  border-radius: 4px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+
+const CardHeader = styled("h3")`
+  font-size: 18px;
+  margin-bottom: 10px;
+`;
+
+const SuccessMessage = styled("div")`
+  display: flex;
+  align-items: center;
+  color: #28a745;
+`;
+
+const SuccessIcon = styled("span")`
+  font-size: 24px;
+  margin-right: 10px;
+`;
 
 export default DeliveryManagement;
