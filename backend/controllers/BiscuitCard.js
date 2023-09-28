@@ -29,9 +29,13 @@ const AddBiscuitCard = async(req,res) => {
 //get all biscut
 const getAllBiscuitCard = async(req,res) => {
 
+    const search = req.query.search || ""
+    const query ={
+        dish : {$regex:search,$options:"i"}
+    }
     try{
 
-        const biscuitcard = await Cart.find();
+        const biscuitcard = await Cart.find(query);
         res.status(200).json(biscuitcard)
 
     }catch(error){

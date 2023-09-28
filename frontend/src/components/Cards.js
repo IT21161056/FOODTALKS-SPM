@@ -26,6 +26,7 @@ const Cards = () => {
   const [message, setMessage] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newValue, setValue] = useAtom(data);
+  const [search,setSearch] = useState("");
 
   const [cardData, setCardData] = useState([]);
 
@@ -67,68 +68,66 @@ const Cards = () => {
 
   }, [message])
 
-  const generatePDF = () => {
-    const doc = new jsPDF();
+  // const generatePDF = () => {
+  //   const doc = new jsPDF();
 
-    const text = "Today Menu";
-    const textWidth = doc.getTextWidth(text);
-    const x = (doc.internal.pageSize.width - textWidth) / 2;
-    doc.text(text, x, 10);
+  //   const text = "Today Menu";
+  //   const textWidth = doc.getTextWidth(text);
+  //   const x = (doc.internal.pageSize.width - textWidth) / 2;
+  //   doc.text(text, x, 10);
 
-    // Define styles for the table.
-    const styles = {
-      font: 'helvetica',
-      fontSize: 12,
-      textColor: [0, 0, 0],
-      cellPadding: 5,
-      rowHeight: 20,
+  //   // Define styles for the table.
+  //   const styles = {
+  //     font: 'helvetica',
+  //     fontSize: 12,
+  //     textColor: [0, 0, 0],
+  //     cellPadding: 5,
+  //     rowHeight: 20,
 
-      tableWidth: 'auto',
-      // 'auto' will automatically adjust the table width based on content.
-    };
+  //     tableWidth: 'auto',
+  //     // 'auto' will automatically adjust the table width based on content.
+  //   };
 
-    doc.autoTable({
-      head: [['Resturant', 'Price', 'Dish', 'Rating', 'Quantity', 'Review']],
-      body: cardData.map((dcardData) => [
-        dcardData.resturant,
-        dcardData.price,
-        dcardData.dish,
-        dcardData.rating,
-        dcardData.qnty,
-        dcardData.review,
-      ]),
-      startY: 50,
-      styles: styles,
-    });
+  //   doc.autoTable({
+  //     head: [['Resturant', 'Price', 'Dish', 'Rating', 'Quantity', 'Review']],
+  //     body: cardData.map((dcardData) => [
+  //       dcardData.resturant,
+  //       dcardData.price,
+  //       dcardData.dish,
+  //       dcardData.rating,
+  //       dcardData.qnty,
+  //       dcardData.review,
+  //     ]),
+  //     startY: 50,
+  //     styles: styles,
+  //   });
 
-    doc.save('file_report.pdf');
-  };
+  //   doc.save('file_report.pdf');
+  // };
 
-  const sendRequest = async () => {
+  const sendRequest = async (search) => {
 
-    const res = await axios.get("http://localhost:8072/cart/").catch((err) => console.log(err))
+    const res = await axios.get(`http://localhost:8072/cart?search=${search}`).catch((err) => console.log(err))
     const data = await res.data;
     return data;
   }
 
   useEffect(() => {
-    sendRequest().then((data) => setCardData(data))
+    sendRequest(search).then((data) => setCardData(data))
 
-  }, [])
+  }, [search])
 
   //delete logic implemented
-  const deletequotation = async (id) => {
-    try {
-      await axios.delete(`http://localhost:8072/cart/delete/${id}`);
-      const newdata = cardData.filter((el) => el._id !== id);
-      setCardData(newdata);
-    } catch (error) {
-      console.error(error);
-    }
+  // const deletequotation = async (id) => {
+  //   try {
+  //     await axios.delete(`http://localhost:8072/cart/delete/${id}`);
+  //     const newdata = cardData.filter((el) => el._id !== id);
+  //     setCardData(newdata);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
 
-  }
-
-  const [cartItems, setCartItems] = useState([]);
+  // }
 
 
   const addToCart = (element) => {
@@ -163,20 +162,22 @@ const Cards = () => {
       <div className='searchcomponent'>
 
       <Grid >
-        <Box sx={{ width: 700,display:'flex' }} item xs={12} sm={6}>
-          <TextField  inputProps={{style: {height: "16px",width:500}}} placeholder='Search foods' />
-          <Button style={{backgroundColor:'#66d9ff',marginBottom:1,
-          marginLeft:20,paddingRight:30,paddingLeft:30}} variant='contained'>Search</Button>
+        <Box sx={{ width: 700,display:'flex',marginLeft:'150px' }} item xs={12} sm={6}>
+          <TextField  onChange={(e)=>setSearch(e.target.value)} inputProps={{style: {height: "16px",width:500}}} placeholder='Search foods' />
+          <Button style={{backgroundColor:'#3399ff',marginBottom:1,
+          marginLeft:18,paddingRight:20,paddingLeft:20,color:'white'}} variant='contained'>Search</Button>
         </Box>
       </Grid>
-
-        <Link to="/addnew">
-          <Button name='Add product' item xs={12} sm={6} className='addbtn'>+ Add Product</Button>
+       
+      </div>
+      {/* <Grid style={{position:'relative',bottom:'120px',left:'900px'}}>
+      <Link to="/addnew">
+          <Button name='Add product' style={{padding:'8px',paddingBottom:'8px',paddingTop:'8px'}} item xs={8} sm={6} className='addbtn'>+ Add Product</Button>
         </Link>
-      </div>
-      <div style={{ position: 'absolute', top: '122px', display: 'flex', marginLeft: '-80px' }}>
+      </Grid> */}
+      {/* <div style={{ position: 'absolute', top: '108px', display: 'flex', marginLeft: '-80px',padding:'5px'}}>
         <Button variant='success' onClick={generatePDF} style={{ backgroundColor: 'green', margin: '20px' }}>Generate report</Button>
-      </div>
+      </div> */}
 
 
       <div className='ct'>
@@ -184,9 +185,9 @@ const Cards = () => {
           cardData.map((element, id) => {
             return (
               <>
-                <Card className='bh' style={{ width: '18rem', mt: '40px', border: 'none' }}  >
+                <Card key={id} className='bh' style={{ width: '18rem', mt: '10px', border: 'none' }}  >
                   <Card.Img variant="top" src={element.image} style={{ height: "15rem" }} />
-                  <div style={{ marginLeft: '20px', position: 'absolute', top: '10px', marginLeft: '245px', backgroundColor: 'none' }}>
+                  {/* <div style={{ marginLeft: '20px', position: 'absolute', top: '10px', marginLeft: '245px', backgroundColor: 'none' }}>
                     <Dropdown >
                       <Dropdown.Toggle variant='light' className='action' id="dropdown-basic">
                       </Dropdown.Toggle>
@@ -210,7 +211,7 @@ const Cards = () => {
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
-                  </div>
+                  </div> */}
                   <Card.Body>
                     <Card.Title>{element.dish}</Card.Title>
                     <Card.Text style={{ fontSize: '17px', fontWeight: '2rem' }}>
