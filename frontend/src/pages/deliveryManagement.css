@@ -12,15 +12,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.container {
-  padding: 10px;
+/* .container {
+  padding: 10px; */
   /* background-color: red; */
-  max-width: 1200px;
+  /* max-width: 1200px; */
   /* margin: 50px auto; */
-  margin: 25px auto;
-}
+  /* margin: 25px auto;
+} */
 
-.btn {
+/* .btn {
   border: none;
   padding: 7px 15px;
   font-size: 18px;
@@ -44,9 +44,9 @@ body {
 .backbtn Link {
   color: #fff;
   text-decoration: none;
-}
+} */
 
-.addContainer {
+/* .addContainer {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.2);
   left: 0;
@@ -56,9 +56,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-}
+} */
 
-.addContainer form {
+/* .addContainer form {
   width: 400px;
   background-color: white;
   display: flex;
@@ -66,9 +66,9 @@ body {
   padding: 50px 40px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-}
+} */
 
-.addContainer form label {
+/* .addContainer form label {
   font-size: 1.2rem;
 }
 
@@ -77,26 +77,26 @@ body {
   padding: 5px;
   margin-top: 5px;
   margin-bottom: 10px;
-}
+} */
 
 /* Style for valid input fields */
-input:valid {
+/* input:valid {
   border-color: green;
-}
+} */
 
 /* Style for invalid input fields */
-input:invalid {
+/* input:invalid {
   border-color: red;
-}
+} */
 
 /* Error message style */
-input:invalid + span::after {
+/* input:invalid + span::after {
   content: attr(title); /* Display the custom error message */
-  color: red;
+  /* color: red;
   display: block;
   font-size: 12px;
   margin-top: 4px;
-}
+} */ 
 
 /* span {
   display: none;
@@ -105,14 +105,14 @@ input:invalid + span::after {
   margin-top: 4px;
 } */
 
-.addContainer form button {
+/* .addContainer form button {
   background-color: royalblue;
   color: white;
   font-weight: 500;
   margin-top: 20px;
-}
+} */
 
-.close-btn {
+/* .close-btn {
   margin-left: auto;
   font-size: 1.2rem;
   width: 20px;
@@ -122,15 +122,15 @@ input:invalid + span::after {
   border-radius: 20px;
   border: 1px solid #000;
   cursor: pointer;
-}
+} */
 
-.tableContainer {
+/* .tableContainer {
   margin-top: 50px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
-}
+} */
 
-.tableContainer table thead tr {
+/* .tableContainer table thead tr {
   background-color: #f0eaea;
 }
 
@@ -143,18 +143,18 @@ input:invalid + span::after {
   color: #fff;
   justify-content: center;
   align-content: center;
-}
+} */
 
-.tableContainer table tbody tr td {
+/* .tableContainer table tbody tr td {
   min-width: 200px;
   padding: 7px;
   border: 1px solid royalblue;
   border-radius: 5px;
   justify-content: center;
   align-content: center;
-}
+} */
 
-.btn-edit,
+/* .btn-edit,
 .btn-delete {
   font-size: 16px;
   padding: 5px 10px;
@@ -162,15 +162,15 @@ input:invalid + span::after {
   justify-content: center;
   align-items: center;
   border: 1px solid #000;
-}
+} */
 
 /* Navbar styles */
-.navbar {
+/* .navbar {
   background-color: royalblue; /* Dark background color */
-  color: white;
+  /* color: white;
   padding: 4px 0;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-}
+/* }
 
 .navbar h1 {
   font-size: 3rem;
@@ -179,78 +179,74 @@ input:invalid + span::after {
 .navbar ul {
   list-style: none;
   margin: 0;
-  padding: 0;
-  display: flex;
+  padding: 0; */
+  /* display: flex;  */
   /* justify-content: center; Center-align the list items horizontally */
-}
+/* }
 
 .navbar li {
-  margin: 0 15px; /* Add space between list items */
+  margin: 0 15px; Add space between list items
 }
 
 .navbar a {
   color: white;
   text-decoration: none;
   font-size: 18px;
-  font-weight: bold;
-  transition: color 0.3s; /* Smooth color transition on hover */
+  font-weight: bold; */
+  /* transition: color 0.3s; Smooth color transition on hover
 }
 
 .navbar a:hover {
   color: gray; /* Change color on hover */
-}
+/* } */ 
 
 /* Style the search input */
 /* CSS for the search bar */
-.searchInput {
+/* .searchInput {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
   transition: width 0.3s ease-in-out; /* Add smooth transition for width changes */
-  margin-top: 20px;
+  /* margin-top: 20px;
   width: 200px;
-}
+} */ 
 
-.earchInput:focus {
-  width: 200px; /* Adjust the width to your preference */
-}
 
-select {
+
+/* select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
-  transition: width 0.3s ease-in-out; /* Add smooth transition for width changes */
+  transition: width 0.3s ease-in-out; 
   margin-top: 20px;
   margin-left: 50px;
   width: 200px;
-}
+} */
 
-select:focus {
-  width: 200px; /* Adjust the width to your preference */
-}
 
-.cards {
+
+/* .cards {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
 .card {
-  width: calc(33.33% - 10px); /* Adjust the width and spacing as needed */
+  width: calc(33.33% - 10px); 
   padding: 10px;
   border: 1px solid royalblue;
   border-radius: 4px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
+} */
 
 /* Style the cards' headings and content as needed */
-.card h3 {
+/* .card h3 {
   font-size: 18px;
   margin-bottom: 10px;
-}
+} */
 
 /* Add any additional styles or adjustments as needed */
 
