@@ -20,13 +20,13 @@ export default function OrderCheckout() {
 
   const navigate = useNavigate();
   const pageName = useLocation();
-
-  const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newCommand, setCommand] = useAtom(command);
+  const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newData, setData] = useAtom(data);
   const [isSubmiting, setIsSubmiting] = useState(false);
 
   console.log(newData);
+  console.log(newAlanAtom);
 
   const [orderDetails, setOrderDetails] = useState({
     customerName: "",
@@ -48,58 +48,9 @@ export default function OrderCheckout() {
     return `${year}-${month}-${day}`;
   }
 
-  useEffect(() => {
-    try{
-      if (newCommand === "setCustomerName") {
-        console.log("Setting customer name:", newData);
-        setOrderDetails((prv) => {
-          return {
-            ...prv,
-            customerName: newData,
-          };
-        });
-      }
-      if (newCommand === "setMobileNumber") {
-        setOrderDetails((prv) => {
-          return {
-            ...prv,
-            mobileNumber: newData,
-          };
-        });
-      }
-      if (newCommand === "setCity") {
-        setOrderDetails((prv) => {
-          return {
-            ...prv,
-            city: newData.toLowerCase(),
-          };
-        });
-      }
-      if (newCommand === "setDeliverLocation") {
-        setOrderDetails((prv) => {
-          return {
-            ...prv,
-            deliverLocation: newData,
-          };
-        });
-      }
-      if (newCommand === "setDeliverDate") {
-        setOrderDetails((prv) => {
-          return {
-            ...prv,
-            deliverDate: newData,
-          };
-        });
-      }
-    } finally {
-      setCommand("");
-    }
-  }, [newCommand]);
-
     const handleSubmit = async (event) => {
     event?.preventDefault();
     setIsSubmiting(true);
-
     axios
       .post("http://localhost:8072/order/add", orderDetails)
       .then((res) => {
@@ -134,6 +85,51 @@ export default function OrderCheckout() {
     })
   };
 
+  console.log(orderDetails.customerName);
+  // console.log(orderDetails.mobileNumber);
+  // console.log(orderDetails.city);
+  // console.log(orderDetails.deliverLocation);
+
+  useEffect(() => {
+    try{
+      if (newCommand === "setCustomerName") {
+        console.log("hello");
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            customerName: newData,
+          };
+        });
+      }
+      if (newCommand === "setMobileNumber") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            mobileNumber: newData,
+          };
+        });
+      }
+      if (newCommand === "setCity") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            city: newData.toLowerCase(),
+          };
+        });
+      }
+      if (newCommand === "setDeliverLocation") {
+        setOrderDetails((prv) => {
+          return {
+            ...prv,
+            deliverLocation: newData,
+          };
+        });
+      }
+    } finally {
+      setCommand("");
+    }
+  }, [newCommand]);
+
   return (
   <Container
     maxWidth="md"
@@ -152,9 +148,10 @@ export default function OrderCheckout() {
         flexDirection: "column",
         alignItems: "center",
         border: 1,
-        borderRadius: 9,
+        boxShadow: 8,
+        borderRadius: 4,
         borderColor: "#1976d2",
-        pt: 10, pl: 10, pr: 10, pb: 10
+        pt: 8, pl: 8, pr: 8, pb: 10
       }}
     >
       <Typography component="h1" variant="h4" sx={{ mb: 2}}>
@@ -185,8 +182,6 @@ export default function OrderCheckout() {
 
           <Grid item xs={12}>
             <TextField
-              type={"tel"}
-              pattern="[0-9]{10}"
               name="mobileNumber"
               required
               fullWidth
@@ -293,7 +288,7 @@ export default function OrderCheckout() {
         </Grid>
         <Button
           type="button"
-          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
+          sx={{ mt: 3, ml: 9, mr: 14, borderRadius: 3, width: '200px' }}
           variant="contained"
           color="primary"
           onClick={() => navigate('/cartItem')}
@@ -302,7 +297,7 @@ export default function OrderCheckout() {
         </Button>
         <Button
           type="submit"
-          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
+          sx={{ mt: 3, ml: 9, borderRadius: 3, width: '200px' }}
           variant="contained"
           color="primary"
           disabled={isSubmiting}
