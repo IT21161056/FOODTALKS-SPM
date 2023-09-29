@@ -118,7 +118,7 @@ const UpdateCard = () => {
     } else {
 
       sendRequest()
-      .then(() => navigate("/menu")).then(toast.success("successfully updated the product"))
+      .then(() => navigate("/dashboard/manageMenu")).then(toast.success("successfully updated the product"))
     }
     return true
 

@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import axios from "axios";
 
@@ -35,6 +35,7 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const navigate = useNavigate();
   const pageName = useLocation();
   const [newCommand, setCommand] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
@@ -79,11 +80,30 @@ export default function Login() {
           pass: "",
         });
         handleClick();
+        navigate("/menu");
       })
       .catch((err) => {
         alert(err);
       });
   }
+
+  const handleSubmit = () => {
+    axios
+      .post("http://localhost:8072/users/login", loginCredentials)
+      .then((res) => {
+        console.log(res.data.userID);
+        sessionStorage.setItem("userID", JSON.stringify(res.data.userID));
+        setLoginCredentials({
+          email: "",
+          pass: "",
+        });
+        handleClick();
+        setTimeout(() => navigate("/menu"), 2000);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   useEffect(() => {
     try {
@@ -104,10 +124,6 @@ export default function Login() {
       setCommand("");
     }
   }, [newCommand]);
-
-  const handleSubmit = () => {
-    console.log(loginCredentials);
-  };
 
   return (
     <ThemeProvider theme={defaultTheme}>

@@ -78,7 +78,7 @@
     flex-direction:row;
     flex-wrap: wrap;
     justify-content: center;
- 
+    margin-top: -50px;
 }
 
 .bh{
@@ -131,7 +131,6 @@
     position: relative;
     left: 17rem;
     margin: 12px;
-
 }
 
 .bx{

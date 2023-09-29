@@ -1,6 +1,7 @@
 import React from "react";
 import "../pages/deliveryManagement.css";
 import { MdClose } from "react-icons/md";
+import styled from 'styled-components'
 
 const handleInputValidation = (e, fieldName) => {
   const input = e.target;
@@ -13,29 +14,39 @@ const handleInputValidation = (e, fieldName) => {
   }
 };
 
-const formDelivery = ({ handleSubmit, handleOnChange, handleclose, rest }) => {
+const formDelivery = ({
+  handleSubmit,
+  handleOnChange,
+  handleclose,
+  rest,
+  isSubmitting,
+}) => {
   return (
-    <div className="addContainer">
-      <form onSubmit={handleSubmit}>
-        <div className="close-btn" onClick={handleclose}>
+    <AddContainer>
+      <FormContainer onSubmit={handleSubmit}>
+        <CloseButton onClick={handleclose}>
           <MdClose />
-        </div>
-        <label htmlFor="name">Name : </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          onChange={handleOnChange}
-          value={rest.name}
-          required
-          pattern="[A-Za-z\s]+"
-          title="Please enter a valid name"
-          onInput={(e) => handleInputValidation(e, "name")}
-        />
-        <span id="name-error">Please enter a valid name</span>
+        </CloseButton>
 
-        <label htmlFor="email">Email : </label>
-        <input
+        <FormInputContainer>
+          <FormLabels htmlFor="name">Name : </FormLabels><br></br>
+          <FormInputs
+            type="text"
+            id="name"
+            name="name"
+            onChange={handleOnChange}
+            value={rest.name}
+            required
+            pattern="[A-Za-z\s]+"
+            title="Please enter a valid name"
+            onInput={(e) => handleInputValidation(e, "name")}
+          /><br></br>
+          <span id="name-error">Please enter a valid name</span>
+        </FormInputContainer>
+
+        <FormInputContainer>
+        <FormLabels htmlFor="email">Email : </FormLabels><br></br>
+        <FormInputs
           type="email"
           id="email"
           name="email"
@@ -45,11 +56,13 @@ const formDelivery = ({ handleSubmit, handleOnChange, handleclose, rest }) => {
           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
           title="Please enter a valid email address"
           onInput={(e) => handleInputValidation(e, "email")}
-        />
+        /><br></br>
         <span id="email-error">Please enter a valid email</span>
-
-        <label htmlFor="area">Covering Area : </label>
-        <input
+        </FormInputContainer>
+        
+        <FormInputContainer>
+        <FormLabels htmlFor="area">Covering Area : </FormLabels><br></br>
+        <FormInputs
           type="text"
           id="area"
           name="area"
@@ -59,27 +72,31 @@ const formDelivery = ({ handleSubmit, handleOnChange, handleclose, rest }) => {
           pattern="[A-Za-z\s]+"
           title="Please enter a valid area"
           onInput={(e) => handleInputValidation(e, "area")}
-        />
+        /><br></br>
         <span id="area-error">Please enter a valid area</span>
+        </FormInputContainer>
 
-        <label htmlFor="mobile">Mobile No : </label>
-        <input
+        <FormInputContainer>
+        <FormLabels htmlFor="mobile">Mobile No : </FormLabels><br></br>
+        <FormInputs
           type="number"
           id="mobile"
           name="mobile"
           onChange={handleOnChange}
           value={rest.mobile}
           required
-          pattern="[0-9]{10}"
+          pattern="^07[0-9]{8}$"
           title="Please enter a valid 10-digit mobile number"
           onInput={(e) => handleInputValidation(e, "mobile")}
-        />
+        /><br></br>
         <span id="mobile-error">
           Please enter a valid 10-digit mobile number
         </span>
+        </FormInputContainer>
 
-        <label htmlFor="status">Is present today?(Yes/No) </label>
-        <input
+        <FormInputContainer>
+        <FormLabels htmlFor="status">Is present today?(Yes/No) </FormLabels><br></br>
+        <FormInputs
           type="text"
           id="status"
           name="status"
@@ -89,13 +106,105 @@ const formDelivery = ({ handleSubmit, handleOnChange, handleclose, rest }) => {
           pattern="Yes|No"
           title='Please enter either "Yes" or "No"'
           onInput={(e) => handleInputValidation(e, "status")}
-        />
+        /><br></br>
         <span id="status-error">Please enter either "Yes" or "No"</span>
+        </FormInputContainer>
 
-        <button className="btn">Submit</button>
-      </form>
-    </div>
+        {/* Repeat the same structure for other input fields */}
+
+        <FormButton disabled={isSubmitting}>
+          Submit
+        </FormButton>
+      </FormContainer>
+    </AddContainer>
   );
 };
 
+const AddContainer = styled('div')`
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const FormContainer = styled('form')`
+  width: 400px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 40px;
+  padding-top: auto;
+  padding-bottom: 10px;
+  padding-right: 5px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+`;
+
+const FormLabels = styled('label')`
+  font-size: 1rem;
+`;
+
+const FormInputs = styled('input')`
+  font-size: 1rem;
+  padding: 5px 15px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+`;
+
+const FormInputContainer = styled.div`
+  position: relative;
+
+  /* Default border color for invalid input */
+  border-color: red;
+
+  /* Change border color to green when input is valid */
+  input:valid + & {
+    border-color: green;
+  }
+
+  /* Hide the error message when the input is valid */
+  input:valid + span {
+    display: none;
+  }
+
+  input:invalid + span::after {
+    content: attr(title); /* Display the custom error message */
+    color: red;
+    display: block;
+    font-size: 12px; /* Adjust font size as needed */
+    margin-top: 4px;
+  }
+`;
+
+const FormButton = styled('button')`
+  border: none;
+  padding: 7px 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: royalblue;
+  color: white;
+  font-weight: 500;
+  margin-top: 20px;
+`;
+
+const CloseButton = styled('div')`
+  margin-left: auto;
+  font-size: 1.2rem;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  border-radius: 20px;
+  border: 1px solid #000;
+  cursor: pointer;
+`;
+
 export default formDelivery;
+
