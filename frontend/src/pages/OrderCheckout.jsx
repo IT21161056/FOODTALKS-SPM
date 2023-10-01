@@ -6,6 +6,7 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import Container from "@mui/material/Container";
 import CircularProgress from "@mui/material/CircularProgress";
+import f3 from '../asset/f3.png'
 
 export default function OrderCheckout() {
 
@@ -131,183 +132,180 @@ export default function OrderCheckout() {
   }, [newCommand]);
 
   return (
-  <Container
-    maxWidth="md"
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      height: "90vh",
-    }}
-  >
-  {newAlanAtom == null ? (
-    <CircularProgress />
-  ) : (
-    <Box
+
+<Box
       sx={{
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        border: 1,
-        boxShadow: 8,
-        borderRadius: 4,
-        borderColor: "#1976d2",
-        pt: 8, pl: 8, pr: 8, pb: 10
+        minHeight: "90vh",
+        backgroundColor: 'whitesmoke',
+        alignItems: "center", // Center the content vertically
       }}
     >
-      <Typography component="h1" variant="h4" sx={{ mb: 2}}>
-        Personal Information
-      </Typography>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+      <Container maxWidth="100%">
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              name="customerName"
-              required
-              fullWidth
-              size="small"
-              id="customerName"
-              label="Customer Name"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    customerName: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.customerName}
+          <Grid item xs={12} md={5}>
+            <img
+              src={f3}
+              alt="image"
+              style={{
+                maxWidth: '90%', // Make the image responsive
+                height: 'auto', // Maintain aspect ratio
+              }}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                backgroundColor: "white",
+                boxShadow: "8px 8px 8px rgba(0, 0, 0, 0.1)",
+                borderRadius: "4px",
+                padding: "30px",
+                marginTop: "2rem",
+              }}
+            >
+              <Typography component="h1" variant="h4" sx={{ mb: 4 }}>
+                Personal Information
+              </Typography>
 
-          <Grid item xs={12}>
-            <TextField
-              name="mobileNumber"
-              required
-              fullWidth
-              size="small"
-              id="mobileNumber"
-              label="Mobile Number"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    mobileNumber: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.mobileNumber}
-            />
-          </Grid>
+              <form onSubmit={handleSubmit}>
 
-          <Grid item xs={12}>
-            <TextField
-              name="city"
-              required
-              fullWidth
-              size="small"
-              id="city"
-              label="City"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    city: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.city}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              name="deliverLocation"
-              required
-              fullWidth
-              size="small"
-              id="deliverLocation"
-              label="Deliver Location"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    deliverLocation: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.deliverLocation}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              type="date"
-              min={ getCurrentDate() } 
-              name="deliverDate"
-              required
-              fullWidth
-              size="small"
-              id="deliverDate"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    deliverDate: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.deliverDate}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              type="Number"
-              name="totalAmount"
-              required
-              fullWidth
-              size="small"
-              id="totalAmount"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    totalAmount: e.target.value,
-                  };
-                })
-              }
-              value={totalAmount}
-            />
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="customerName"
+                      required
+                      fullWidth
+                      size="small"
+                      id="customerName"
+                      label="Customer Name"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          customerName: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.customerName}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="mobileNumber"
+                      required
+                      fullWidth
+                      size="small"
+                      id="mobileNumber"
+                      label="Mobile Number"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          mobileNumber: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.mobileNumber}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="city"
+                      required
+                      fullWidth
+                      size="small"
+                      id="city"
+                      label="City"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          city: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.city}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="deliverLocation"
+                      required
+                      fullWidth
+                      size="small"
+                      id="deliverLocation"
+                      label="Deliver Location"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          deliverLocation: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.deliverLocation}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      type="date"
+                      min={getCurrentDate()}
+                      name="deliverDate"
+                      required
+                      fullWidth
+                      size="small"
+                      id="deliverDate"
+                      label="Deliver Date"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          deliverDate: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.deliverDate}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      type="number"
+                      name="totalAmount"
+                      required
+                      fullWidth
+                      size="small"
+                      id="totalAmount"
+                      label="Total Amount"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          totalAmount: e.target.value,
+                        }))
+                      }
+                      value={totalAmount}
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="warning"
+                  onClick={() => navigate("/cartItem")}
+                  sx={{ mt: 3, width: '100%' }}
+                >
+                  Cancel Order
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="warning"
+                  disabled={isSubmiting}
+                  sx={{ mt: 3, width: '100%' }}
+                >
+                  Submit Order
+                </Button>
+                
+              </form>
+            </Box>
           </Grid>
         </Grid>
-        <Button
-          type="button"
-          sx={{ mt: 3, ml: 9, mr: 14, borderRadius: 3, width: '200px' }}
-          variant="contained"
-          color="primary"
-          onClick={() => navigate('/cartItem')}
-        >
-          Cancel Order
-        </Button>
-        <Button
-          type="submit"
-          sx={{ mt: 3, ml: 9, borderRadius: 3, width: '200px' }}
-          variant="contained"
-          color="primary"
-          disabled={isSubmiting}
-        >
-          Submit Order
-        </Button>
-      </Box>
+      </Container>
     </Box>
-  )}
-  </Container>
-);
-
+  );
 }

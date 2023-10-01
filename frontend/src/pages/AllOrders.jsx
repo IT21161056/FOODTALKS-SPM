@@ -155,7 +155,7 @@ export default function AllOrders () {
         </Typography>
         <Button
           variant="contained"
-          color="primary"
+          color="warning"
           sx={{ marginTop: '10px', marginLeft: 'auto', mr: 2.5 }}
           onClick={() => {
             generateReport(filteredOrders); // Call the generateReport function with filteredOrders

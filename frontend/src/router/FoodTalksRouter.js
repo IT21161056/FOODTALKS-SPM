@@ -18,6 +18,7 @@ import ManageMenu from "../pages/ManageMenu";
 import OrderCheckout from "../pages/OrderCheckout";
 import AllOrders from "../pages/AllOrders";
 import UpdateOrder from "../pages/UpdateOrder";
+import Main from '../pages/Main';
 
 import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
@@ -44,6 +45,7 @@ export default function FoodTalksRouter() {
 
         {/* pasindu routes */}
         <Route path="/order" exact element={<OrderCheckout />} />
+        <Route path="/main" exact element={<Main />} />
       </Route>
 
       <Route path="/dashboard" element={<Dashboard />}>
@@ -54,6 +56,7 @@ export default function FoodTalksRouter() {
         <Route path="/dashboard/addnew" element={<AddProduct />}></Route>
 
         <Route path="/dashboard/manageMenu" element={<ManageMenu />}></Route>
+
         {/* Pasindu dashboard rotes */}
         <Route path="/dashboard/allOrders" element={<AllOrders />} />
         <Route path="/dashboard/updateOrder/:id" element={<UpdateOrder />} />
