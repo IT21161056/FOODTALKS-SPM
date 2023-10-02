@@ -25,17 +25,17 @@ export const mainListItems = (
       </ListItemButton>
     </Link>
 
-    <ListItemButton>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <Link
-        to="/dashboard/allOrders"
-        style={{ color: "ButtonText", textDecoration: "none" }}
-      >
-        Orders
-      </Link>
-    </ListItemButton>
+    <Link
+      to="/dashboard/allOrders"
+      style={{ color: "ButtonText", textDecoration: "none" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <ShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary="Orders" />
+      </ListItemButton>
+    </Link>
 
     <Link
       to="/dashboard/users"

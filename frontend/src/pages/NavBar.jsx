@@ -23,6 +23,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
 import { user } from "../atom/alanAtom";
 import { useAtom } from "jotai";
+import FoodTalk from "../../src/images/fdd.png";
 
 const pages = [
   { pageName: "Products", route: "/#" },
@@ -72,10 +73,14 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="sticky" sx={{ top: 0 }}>
+    <AppBar position="sticky" sx={{ top: 0, backgroundColor: "#FFA500" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+          <img
+            src={FoodTalk}
+            alt="image"
+            style={{ width: "85px", height: "82px" }}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -91,7 +96,7 @@ export default function NavBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            FoodTalks
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

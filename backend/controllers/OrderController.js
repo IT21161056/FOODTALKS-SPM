@@ -19,7 +19,8 @@ const getAllOrders = async (request, response) => {
 
 //get single order
 const getSingleOrder = async (req, res) => {
-  const { id } = req.params.id;
+  const id = req.params.id;
+  console.log('in controller >>',id)
   let singleOrder;
 
   try {
