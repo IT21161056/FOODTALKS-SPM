@@ -9,7 +9,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { alanAtom, command, data } from "../atom/alanAtom";
+import { alanAtom, command, data, user } from "../atom/alanAtom";
 import axios from "axios";
 
 function Copyright(props) {
@@ -39,15 +39,13 @@ export default function Login() {
   const pageName = useLocation();
   const [newCommand, setCommand] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
+  const [userData, setUserData] = useAtom(user);
   const [newData, setData] = useAtom(data);
 
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     pass: "",
   });
-
-  console.log(loginCredentials);
-  console.log(newCommand);
 
   const [state, setState] = React.useState({
     open: false,
@@ -73,17 +71,20 @@ export default function Login() {
     axios
       .post("http://localhost:8072/users/login", loginCredentials)
       .then((res) => {
-        console.log(res.data.userID);
-        sessionStorage.setItem("userID", JSON.stringify(res.data.userID));
         setLoginCredentials({
           email: "",
           pass: "",
         });
-        handleClick();
+
+        setUserData(res.data.user);
+        sessionStorage.setItem("userID", JSON.stringify(res.data.user._id));
         navigate("/menu");
+
+        // handleClick();
+        //
       })
       .catch((err) => {
-        alert(err);
+        alert(err.response.data.message);
       });
   }
 

@@ -1,75 +1,72 @@
-import React, { useEffect, useState } from 'react'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Badge, IconButton } from '@mui/material';
-import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch, useSelector } from 'react-redux';
-import { Table } from 'react-bootstrap';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Badge } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import { Link, useNavigate } from "react-router-dom";
+
 // import { DLT } from '../redux/actions/action';
 
 const Header = () => {
+  // const getdata = useSelector((state) => state.cartreducer.carts)
+  // console.log(getdata.length)
 
-    // const getdata = useSelector((state) => state.cartreducer.carts)
-    // console.log(getdata.length)
+  // const [price, setPrice] = useState(0);
+  // console.log(price);
 
-    // const [price, setPrice] = useState(0);
-    // console.log(price);
+  const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
-    const navigate = useNavigate()
-    // const dispatch = useDispatch();
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  // const open = Boolean(anchorEl);
 
-    // const [anchorEl, setAnchorEl] = React.useState(null);
-    // const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    navigate("/addnew");
+  };
 
-    const handleClick = (event) => {
-        navigate("/addnew")
-    };
+  // const handleClose = () => {
+  //     setAnchorEl(null);
+  // };
 
-    // const handleClose = () => {
-    //     setAnchorEl(null);
-    // };
+  // // const dlt = (id) => {
+  //     dispatch(DLT(id))
+  // }
 
-    // // const dlt = (id) => {
-    //     dispatch(DLT(id))
-    // }
+  // const total = () => {
+  //     let price = 0;
+  //     getdata.map((ele, k) => {
+  //         price = ele.price * ele.qnty + price;
+  //     })
+  //     setPrice(price);
+  // }
 
-    // const total = () => {
-    //     let price = 0;
-    //     getdata.map((ele, k) => {
-    //         price = ele.price * ele.qnty + price;
-    //     })
-    //     setPrice(price);
-    // }
+  // useEffect(() => {
+  //     total()
+  // }, [total])
 
-    // useEffect(() => {
-    //     total()
-    // }, [total])
+  return (
+    <>
+      <Navbar bg="dark" data-bs-theme="dark">
+        <Container style={{ color: "white", paddingTop: 10, marginBottom: 5 }}>
+          <Link style={{ textDecoration: "none" }} to="/menu">
+            Menu
+          </Link>
+          <Link to="/cartitem">
+            <Badge
+              badgeContent={1}
+              color="primary"
+              id="demo-positioned-button"
+              // aria-controls={open ? 'demo-positioned-menu' : undefined}
+              // aria-haspopup="true"
+              // aria-expanded={open ? 'true' : undefined}
+              // onClick={handleClick}
+            >
+              <ShoppingCartIcon />
+            </Badge>
+          </Link>
+        </Container>
 
-    return (
-        <>
-            <Navbar bg="dark" data-bs-theme="dark">
-                <Container style={{ color: 'white',paddingTop:10,marginBottom:5}} >
-                    <Link style={{textDecoration:'none'}} to='/menu'>Menu</Link>
-                    <Link to="/cartitem">
-                        <Badge badgeContent={1} color="primary"
-                            id="demo-positioned-button"
-                            // aria-controls={open ? 'demo-positioned-menu' : undefined}
-                            // aria-haspopup="true"
-                            // aria-expanded={open ? 'true' : undefined}
-                            // onClick={handleClick}
-                        >
-                            <ShoppingCartIcon />
-                        </Badge>
-                    </Link>
-                </Container>
-
-                {/* <Menu
+        {/* <Menu
                     id="demo-positioned-menu"
                     aria-labelledby="demo-positioned-button"
                     anchorEl={anchorEl}
@@ -138,10 +135,9 @@ const Header = () => {
 
                     }
                 </Menu> */}
+      </Navbar>
+    </>
+  );
+};
 
-            </Navbar>
-        </>
-    )
-}
-
-export default Header
+export default Header;

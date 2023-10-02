@@ -11,11 +11,18 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  Link,
+  useLocation,
+  useNavigate,
+  useNavigation,
+} from "react-router-dom";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
+import { user } from "../atom/alanAtom";
+import { useAtom } from "jotai";
 
 const pages = [
   { pageName: "Products", route: "/#" },
@@ -26,8 +33,19 @@ const pages = [
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function NavBar() {
+  const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [userData, setUserData] = useAtom(user);
+  const [logged, setLogged] = useState(false);
+
+  useEffect(() => {
+    if (userData != null) {
+      setLogged(true);
+    } else {
+      setLogged(false);
+    }
+  }, [userData]);
 
   const location = useLocation();
 
@@ -44,6 +62,13 @@ export default function NavBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const logout = () => {
+    sessionStorage.removeItem("userID");
+    setLogged(false);
+    setUserData(null);
+    navigate("/login");
   };
 
   return (
@@ -154,16 +179,18 @@ export default function NavBar() {
           {/*viraj*/}
           <Box sx={{ marginRight: 5 }}>
             <Link to="/cartitem">
-              {location.pathname === '/menu' ?
-              <Badge
-                badgeContent={1}
-                color="secondary"
-                sx={{ color: "white" }}
-                id="demo-positioned-button"
-              >
-                <ShoppingCartIcon />
-              </Badge>
-               :"" }
+              {location.pathname === "/menu" ? (
+                <Badge
+                  badgeContent={1}
+                  color="secondary"
+                  sx={{ color: "white" }}
+                  id="demo-positioned-button"
+                >
+                  <ShoppingCartIcon />
+                </Badge>
+              ) : (
+                ""
+              )}
             </Link>
           </Box>
           {/*viraj*/}
@@ -192,9 +219,22 @@ export default function NavBar() {
             >
               {/* {settings.map((setting) => ( */}
               <MenuItem onClick={handleCloseUserMenu}>
-                <Link to="/profile">
-                  <Typography textAlign="center">Profile</Typography>
-                </Link>
+                {logged ? (
+                  <Link to="/profile">
+                    <Typography textAlign="center">Profile</Typography>
+                  </Link>
+                ) : (
+                  <Link to="/login">
+                    <Typography textAlign="center">Login</Typography>
+                  </Link>
+                )}
+              </MenuItem>
+              <MenuItem onClick={handleCloseUserMenu}>
+                {logged && (
+                  <Link onClick={logout} to="/login">
+                    <Typography textAlign="center">Logout</Typography>
+                  </Link>
+                )}
               </MenuItem>
               {/* ))} */}
             </Menu>
