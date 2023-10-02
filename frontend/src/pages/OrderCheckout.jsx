@@ -5,6 +5,8 @@ import { useAtom } from "jotai";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import Container from "@mui/material/Container";
+import CircularProgress from "@mui/material/CircularProgress";
+import f3 from '../asset/f3.png'
 
 export default function OrderCheckout() {
 
@@ -19,12 +21,13 @@ export default function OrderCheckout() {
 
   const navigate = useNavigate();
   const pageName = useLocation();
-
-  const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newCommand, setCommand] = useAtom(command);
+  const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [newData, setData] = useAtom(data);
+  const [isSubmiting, setIsSubmiting] = useState(false);
 
-  //console.log(newAlanAtom);
+  console.log(newData);
+  console.log(newAlanAtom);
 
   const [orderDetails, setOrderDetails] = useState({
     customerName: "",
@@ -32,7 +35,7 @@ export default function OrderCheckout() {
     city: "",
     deliverLocation: "",
     deliverDate: getCurrentDate(),
-    totalAmount: 500
+    totalAmount: ""
   });
 
   console.log(orderDetails);
@@ -46,9 +49,52 @@ export default function OrderCheckout() {
     return `${year}-${month}-${day}`;
   }
 
+    const handleSubmit = async (event) => {
+    event?.preventDefault();
+    setIsSubmiting(true);
+    axios
+      .post("http://localhost:8072/order/add", orderDetails)
+      .then((res) => {
+        alert(res.data.message);
+        setIsSubmiting(false);
+        setOrderDetails({
+          customerName: "",
+          mobileNumber: "",
+          city: "",
+          deliverLocation: "",
+          deliverDate: "",
+          totalAmount: ""
+        });
+      })
+      .catch((error) => {
+      if (error.response ) {
+      // The server responded with an error status code (e.g., 400)
+
+        console.log("Server responded with status code: " + error.response.status);
+        console.log("Response data:", error.response.data);
+
+      } else if (error.request) {
+      // The request was made but no response was received
+      
+       console.log("No response received. The request was made.");
+
+      } else {
+      // An error occurred during the request setup
+
+       console.log("Error setting up the request:", error.message);
+    }
+    })
+  };
+
+  console.log(orderDetails.customerName);
+  // console.log(orderDetails.mobileNumber);
+  // console.log(orderDetails.city);
+  // console.log(orderDetails.deliverLocation);
+
   useEffect(() => {
     try{
       if (newCommand === "setCustomerName") {
+        console.log("hello");
         setOrderDetails((prv) => {
           return {
             ...prv,
@@ -80,209 +126,186 @@ export default function OrderCheckout() {
           };
         });
       }
-      if (newCommand === "setDeliverDate") {
-        setOrderDetails((prv) => {
-          return {
-            ...prv,
-            deliverDate: newData,
-          };
-        });
-      }
     } finally {
       setCommand("");
     }
   }, [newCommand]);
 
-  function submitData(event) {
-    event.preventDefault();
-    axios
-    .post("http://localhost:8072/order/add", orderDetails)
-    .then((response) => {
-      
-      alert("order added successfully!");
-      console.log(response.data.orderId);
-      setOrderDetails({
-        customerName: "",
-        mobileNumber: "",
-        city: "",
-        deliverLocation: "",
-        deliverDate: "",
-        totalAmount: ""
-      });
-    })
-    .catch((error) => {
-    if (error.response ) {
-      // The server responded with an error status code (e.g., 400)
-
-      console.log("Server responded with status code: " + error.response.status);
-      console.log("Response data:", error.response.data);
-
-    } else if (error.request) {
-      // The request was made but no response was received
-      
-      console.log("No response received. The request was made.");
-
-    } else {
-      // An error occurred during the request setup
-
-      console.log("Error setting up the request:", error.message);
-    }
-    })
-  }
-
   return (
-  <Container
-    maxWidth="md"
-    sx={{
-      display: "flex",
-      alignItems: "center",
-      height: "90vh",
-    }}
-  >
-    <Box
+
+<Box
       sx={{
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        border: 1,
-        borderRadius: 10,
-        borderColor: "#1976d2",
-        pt: 10, pl: 10, pr: 10, pb: 10
+        minHeight: "90vh",
+        backgroundColor: 'whitesmoke',
+        alignItems: "center", // Center the content vertically
       }}
     >
-      <Typography component="h1" variant="h4" sx={{ mb: 2}}>
-        Personal Information
-      </Typography>
-      <Box component="form" onSubmit={submitData} sx={{ mt: 3 }}>
+      <Container maxWidth="100%">
         <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              name="customerName"
-              required
-              fullWidth
-              size="small"
-              id="customerName"
-              label="Customer Name"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    customerName: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.customerName}
+          <Grid item xs={12} md={5}>
+            <img
+              src={f3}
+              alt="image"
+              style={{
+                maxWidth: '90%', // Make the image responsive
+                height: 'auto', // Maintain aspect ratio
+              }}
             />
           </Grid>
+          <Grid item xs={12} md={6}>
+            <Box
+              sx={{
+                backgroundColor: "white",
+                boxShadow: "8px 8px 8px rgba(0, 0, 0, 0.1)",
+                borderRadius: "4px",
+                padding: "30px",
+                marginTop: "2rem",
+              }}
+            >
+              <Typography component="h1" variant="h4" sx={{ mb: 4 }}>
+                Personal Information
+              </Typography>
 
-          <Grid item xs={12}>
-            <TextField
-              type={"tel"}
-              pattern="[0-9]{10}"
-              name="mobileNumber"
-              required
-              fullWidth
-              size="small"
-              id="mobileNumber"
-              label="Mobile Number"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    mobileNumber: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.mobileNumber}
-            />
-          </Grid>
+              <form onSubmit={handleSubmit}>
 
-          <Grid item xs={12}>
-            <TextField
-              name="city"
-              required
-              fullWidth
-              size="small"
-              id="city"
-              label="City"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    city: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.city}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              name="deliverLocation"
-              required
-              fullWidth
-              size="small"
-              id="deliverLocation"
-              label="Deliver Location"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    deliverLocation: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.deliverLocation}
-            />
-          </Grid>
-
-          <Grid item xs={12}>
-            <TextField
-              type="date"
-              min={ getCurrentDate() } 
-              name="deliverDate"
-              required
-              fullWidth
-              size="small"
-              id="deliverDate"
-              autoFocus
-              onChange={(e) =>
-                setOrderDetails((p) => {
-                  return {
-                    ...p,
-                    deliverDate: e.target.value,
-                  };
-                })
-              }
-              value={orderDetails.deliverDate}
-            />
+                <Grid container spacing={2}>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="customerName"
+                      required
+                      fullWidth
+                      size="small"
+                      id="customerName"
+                      label="Customer Name"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          customerName: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.customerName}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="mobileNumber"
+                      required
+                      fullWidth
+                      size="small"
+                      id="mobileNumber"
+                      label="Mobile Number"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          mobileNumber: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.mobileNumber}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="city"
+                      required
+                      fullWidth
+                      size="small"
+                      id="city"
+                      label="City"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          city: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.city}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      name="deliverLocation"
+                      required
+                      fullWidth
+                      size="small"
+                      id="deliverLocation"
+                      label="Deliver Location"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          deliverLocation: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.deliverLocation}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      type="date"
+                      min={getCurrentDate()}
+                      name="deliverDate"
+                      required
+                      fullWidth
+                      size="small"
+                      id="deliverDate"
+                      label="Deliver Date"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          deliverDate: e.target.value,
+                        }))
+                      }
+                      value={orderDetails.deliverDate}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={12}>
+                    <TextField
+                      type="number"
+                      name="totalAmount"
+                      required
+                      fullWidth
+                      size="small"
+                      id="totalAmount"
+                      label="Total Amount"
+                      autoFocus
+                      onChange={(e) =>
+                        setOrderDetails((prev) => ({
+                          ...prev,
+                          totalAmount: e.target.value,
+                        }))
+                      }
+                      value={totalAmount}
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="button"
+                  variant="contained"
+                  color="warning"
+                  onClick={() => navigate("/cartItem")}
+                  sx={{ mt: 3, width: '100%' }}
+                >
+                  Cancel Order
+                </Button>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="warning"
+                  disabled={isSubmiting}
+                  sx={{ mt: 3, width: '100%' }}
+                >
+                  Submit Order
+                </Button>
+                
+              </form>
+            </Box>
           </Grid>
         </Grid>
-        <Button
-          type="button"
-          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
-          variant="contained"
-          color="primary"
-          onClick={() => navigate('/cartItem')}
-        >
-          Cancel Order
-        </Button>
-        <Button
-          type="submit"
-          sx={{ mt: 3, ml: 12, borderRadius: 3, width: '200px' }}
-          variant="contained"
-          color="primary"
-        >
-          Submit Order
-        </Button>
-      </Box>
+      </Container>
     </Box>
-  </Container>
-);
-
+  );
 }

@@ -48,7 +48,7 @@ export default function NavBar() {
   };
 
   return (
-    <AppBar position="sticky" sx={{ top: 0 }}>
+    <AppBar position="sticky" sx={{ top: 0, backgroundColor: "#FFA500" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
         <img src ={FoodTalk} alt='image'  style={{width:'85px',height:'82px'}}/>
@@ -67,7 +67,7 @@ export default function NavBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            FoodTalks
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>

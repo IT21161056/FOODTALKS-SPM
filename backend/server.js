@@ -15,7 +15,7 @@ const OrderRoute = require("./routes/OrderRoute"); //pasindu
 
 const PORT = process.env.PORT || 8072;
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 connectDB();
 
