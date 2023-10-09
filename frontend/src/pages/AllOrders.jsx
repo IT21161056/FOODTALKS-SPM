@@ -179,12 +179,12 @@ export default function AllOrders () {
         }}
         sx={{
           backgroundColor: 'white', 
-          width: "97.5%",
+          width: "100%",
           margin: 'auto',
           marginLeft: "10px" 
         }}
       />
-      <TableContainer  sx={{ maxHeight: "70vh", padding: 1 }}>
+      <TableContainer  sx={{ maxHeight: "70vh", padding: 1}}>
         <Paper sx={{width: "100%"}}>
           <Table stickyHeader aria-label="sticky table">
 

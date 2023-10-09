@@ -262,7 +262,7 @@ export default function OrderCheckout() {
                       value={orderDetails.deliverDate}
                     />
                   </Grid>
-                  <Grid item xs={12} md={12}>
+                  <Grid item xs={12}>
                     <TextField
                       type="number"
                       name="totalAmount"

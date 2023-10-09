@@ -33,6 +33,7 @@ function App() {
     fontSize: '18px',
     borderRadius: '30px',
     marginTop: '2rem', // Adjust the margin to add space
+    transition: 'background-color 0.3s',
   };
 
   const imageContainerStyle = {
@@ -44,8 +45,8 @@ function App() {
 
   const imageCardStyle = {
     maxWidth: '100%',
-    borderRadius: '18px',
-    marginBottom: '2rem', // Adjust the margin to add space
+    borderRadius: '36px',
+    // marginBottom: '2rem', // Adjust the margin to add space
   };
 
   const navigate = useNavigate();
@@ -75,6 +76,13 @@ function App() {
               </Typography>
               <Button 
                 variant="contained" style={orderButtonStyle}
+                sx={{
+                  ...orderButtonStyle,
+                  '&:hover': {
+                    backgroundColor: 'red', // Change the background color on hover
+                    color: 'white', // Change the text color on hover
+                  },
+                }}
                 onClick={() => navigate('/login')}
               >
                 Order Now
