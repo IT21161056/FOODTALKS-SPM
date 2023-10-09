@@ -16,6 +16,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
+import FoodTalk from "../../src/images/fdd.png"
 
 const pages = [
   { pageName: "Products", route: "/#" },
@@ -50,7 +51,7 @@ export default function NavBar() {
     <AppBar position="sticky" sx={{ top: 0, backgroundColor: "#FFA500" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+        <img src ={FoodTalk} alt='image'  style={{width:'85px',height:'82px'}}/>
           <Typography
             variant="h6"
             noWrap
