@@ -11,7 +11,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
@@ -47,11 +47,25 @@ export default function NavBar() {
     setAnchorElUser(null);
   };
 
+
+  const [cart, setCart] = useState([])
+
+  const getTotal = () => {
+    if (sessionStorage.getItem("cartItems")) {
+      setCart(JSON.parse(sessionStorage.getItem("cartItems")));
+    }
+  }
+
+  console.log(cart.length)
+  useEffect(() => {
+    getTotal()
+  }, [])
+
   return (
     <AppBar position="sticky" sx={{ top: 0, backgroundColor: "#FFA500" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-        <img src ={FoodTalk} alt='image'  style={{width:'85px',height:'82px'}}/>
+          <img src={FoodTalk} alt='image' style={{ width: '85px', height: '82px' }} />
           <Typography
             variant="h6"
             noWrap
@@ -156,15 +170,15 @@ export default function NavBar() {
           <Box sx={{ marginRight: 5 }}>
             <Link to="/cartitem">
               {location.pathname === '/menu' ?
-              <Badge
-                badgeContent={1}
-                color="secondary"
-                sx={{ color: "white" }}
-                id="demo-positioned-button"
-              >
-                <ShoppingCartIcon />
-              </Badge>
-               :"" }
+                <Badge
+                  badgeContent={cart.length}
+                  color="secondary"
+                  sx={{ color: "white" }}
+                  id="demo-positioned-button"
+                >
+                  <ShoppingCartIcon />
+                </Badge>
+                : ""}
             </Link>
           </Box>
           {/*viraj*/}
