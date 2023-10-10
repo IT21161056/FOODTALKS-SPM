@@ -164,7 +164,7 @@ const Cards = () => {
       <Grid >
         <Box sx={{ width: 700,display:'flex',marginLeft:'150px' }} item xs={12} sm={6}>
           <TextField  onChange={(e)=>setSearch(e.target.value)} inputProps={{style: {height: "16px",width:500}}} placeholder='Search foods' />
-          <Button style={{backgroundColor:'#3399ff',marginBottom:1,
+          <Button style={{backgroundColor:'#ff9933',marginBottom:1,
           marginLeft:18,paddingRight:20,paddingLeft:20,color:'white'}} variant='contained'>Search</Button>
         </Box>
       </Grid>
@@ -217,9 +217,9 @@ const Cards = () => {
                     <Card.Text style={{ fontSize: '17px', fontWeight: '2rem' }}>
                       Price : Rs.{element.price}
                     </Card.Text>
-                    <Button variant="primary" style={{ backgroundColor: '#1a75ff' }} onClick={() => addToCart(element)} >
+                    <Button variant="primary" style={{ backgroundColor: '#ff8c1a',border: 'none' }} onClick={() => addToCart(element)} >
                       Add to Cart</Button>
-                    <Button variant="primary" style={{ marginLeft: '55px', backgroundColor: '#1a1aff', border: 'none' }} href={`order/${element._id}`} >
+                    <Button variant="primary" style={{ marginLeft: '55px', backgroundColor: '#ff9933', border: 'none' }} href={`order/${element._id}`} >
                       Buy Now</Button>
                     <ToastContainer position="bottom-center" autoClose={400} />
                   </Card.Body>

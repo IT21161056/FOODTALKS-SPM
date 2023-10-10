@@ -155,7 +155,7 @@ const AddProduct = () => {
     </div>
 
     <div className='row' style={{width:'640px',display:'flex',marginTop:'30px'}}>
-    <Button  onClick={SubmitProductData} className='btb' style={{backgroundColor:'blue',color:'white',
+    <Button  onClick={SubmitProductData} className='btb' style={{backgroundColor:'#ff9933',color:'white',
     marginLeft:'12px',display:'flex',justifyContent:'center',marginTop:'5px'}} 
      variant="contained" >Add</Button>
     </div>

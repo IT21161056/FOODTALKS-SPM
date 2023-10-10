@@ -93,14 +93,14 @@ const ManageMenu = () => {
     style={{ backgroundColor: 'green',color:'white', margin: '20px' }}>Generate report</Button>
 
      <Link to="/addnew">
-          <Button variant='outlined' name='Add product' style={{marginLeft:'600px'}}
+          <Button variant='outlined' name='Add product' style={{marginLeft:'600px',color:'black',borderBlockColor:'#ffbf80'}}
           item xs={8} sm={6} className='addbtn'>+ Add Product</Button>
     </Link>
   
      <TableContainer component={Paper} sx={{maxWidth:'90%',marginLeft:'40px'}}>
         <Table sx={{ minWidth: 200}} aria-label="caption table">
           <TableHead>
-            <TableRow sx={{backgroundColor:'#b3ecff'}}>
+            <TableRow sx={{backgroundColor:'#ffc266'}}>
               <TableCell sx={{ fontWeight: 'bold' }}>Resturant</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Product Name</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Price</TableCell>
