@@ -127,7 +127,7 @@ const Cards = () => {
                       Price : Rs.{element.price}
                     </Card.Text>
                     <div style={{display:'flex',flexDirection:'row',gap:32}}>
-                    <Button variant="outlined" style={{ outlineColor: '#ff9933',color:'#b36b00',borderColor: '#ffcc80' }}  onClick={() => addToCart(element)} >
+                    <Button variant="outlined" style={{ outlineColor: '#ff9933',color:'#b36b00',borderColor: '#b36b00' }}  onClick={() => addToCart(element)} >
                       Add to Cart</Button>
                     <Button variant="outlined" style={{ outlineColor: 'green',color:'#ff9900', borderColor: '#ff9933' }}  href={`order/${element._id}`} >
                       Buy Now</Button>
