@@ -3,13 +3,11 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import './style.css'
 import Dropdown from 'react-bootstrap/Dropdown';
-// import { useDispatch } from 'react-redux';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-// import { ADD } from '../redux/actions/action'
 import { alanAtom, command, data } from "../atom/alanAtom"
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
@@ -68,42 +66,6 @@ const Cards = () => {
 
   }, [message])
 
-  // const generatePDF = () => {
-  //   const doc = new jsPDF();
-
-  //   const text = "Today Menu";
-  //   const textWidth = doc.getTextWidth(text);
-  //   const x = (doc.internal.pageSize.width - textWidth) / 2;
-  //   doc.text(text, x, 10);
-
-  //   // Define styles for the table.
-  //   const styles = {
-  //     font: 'helvetica',
-  //     fontSize: 12,
-  //     textColor: [0, 0, 0],
-  //     cellPadding: 5,
-  //     rowHeight: 20,
-
-  //     tableWidth: 'auto',
-  //     // 'auto' will automatically adjust the table width based on content.
-  //   };
-
-  //   doc.autoTable({
-  //     head: [['Resturant', 'Price', 'Dish', 'Rating', 'Quantity', 'Review']],
-  //     body: cardData.map((dcardData) => [
-  //       dcardData.resturant,
-  //       dcardData.price,
-  //       dcardData.dish,
-  //       dcardData.rating,
-  //       dcardData.qnty,
-  //       dcardData.review,
-  //     ]),
-  //     startY: 50,
-  //     styles: styles,
-  //   });
-
-  //   doc.save('file_report.pdf');
-  // };
 
   const sendRequest = async (search) => {
 
@@ -117,17 +79,6 @@ const Cards = () => {
 
   }, [search])
 
-  //delete logic implemented
-  // const deletequotation = async (id) => {
-  //   try {
-  //     await axios.delete(`http://localhost:8072/cart/delete/${id}`);
-  //     const newdata = cardData.filter((el) => el._id !== id);
-  //     setCardData(newdata);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-
-  // }
 
 
   const addToCart = (element) => {
@@ -170,16 +121,6 @@ const Cards = () => {
       </Grid>
        
       </div>
-      {/* <Grid style={{position:'relative',bottom:'120px',left:'900px'}}>
-      <Link to="/addnew">
-          <Button name='Add product' style={{padding:'8px',paddingBottom:'8px',paddingTop:'8px'}} item xs={8} sm={6} className='addbtn'>+ Add Product</Button>
-        </Link>
-      </Grid> */}
-      {/* <div style={{ position: 'absolute', top: '108px', display: 'flex', marginLeft: '-80px',padding:'5px'}}>
-        <Button variant='success' onClick={generatePDF} style={{ backgroundColor: 'green', margin: '20px' }}>Generate report</Button>
-      </div> */}
-
-
       <div className='ct'>
         {
           cardData.map((element, id) => {
@@ -187,31 +128,6 @@ const Cards = () => {
               <>
                 <Card key={id} className='bh' style={{ width: '18rem', mt: '10px', border: 'none' }}  >
                   <Card.Img variant="top" src={element.image} style={{ height: "15rem" }} />
-                  {/* <div style={{ marginLeft: '20px', position: 'absolute', top: '10px', marginLeft: '245px', backgroundColor: 'none' }}>
-                    <Dropdown >
-                      <Dropdown.Toggle variant='light' className='action' id="dropdown-basic">
-                      </Dropdown.Toggle>
-                      <Dropdown.Menu>
-
-                        <Dropdown.Item>
-                          <NavLink to={`/view/${element._id}`} className="text-decoration-none">
-                            <RemoveRedEyeIcon style={{ color: "green " }}></RemoveRedEyeIcon><span>View</span>
-                          </NavLink>
-                        </Dropdown.Item>
-
-                        <Dropdown.Item >
-                          <NavLink to={`/update/${element._id}`} className="text-decoration-none">
-                            <ModeEditIcon style={{ color: "#9900cc" }}></ModeEditIcon><span>Update</span>
-                          </NavLink>
-                        </Dropdown.Item>
-                        <Dropdown.Item >
-                          <div onClick={() => { deletequotation(element._id); toast.error("successfully deleted the product") }} >
-                            <DeleteIcon style={{ color: "red" }}></DeleteIcon><span>Delete</span>
-                          </div>
-                        </Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div> */}
                   <Card.Body>
                     <Card.Title>{element.dish}</Card.Title>
                     <Card.Text style={{ fontSize: '17px', fontWeight: '2rem' }}>
