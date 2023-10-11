@@ -25,6 +25,9 @@ import Dashboard from "../pages/Dashboard";
 import Profile from "../pages/Profile";
 
 import DeliveryManagement from "../pages/DeliveryManagement";
+import DeliveryStatus from "../pages/DeliveryStatus";
+import DeliveryStatusManagement from "../pages/DeliveryStatusManagement";
+
 export default function FoodTalksRouter() {
   return (
     <Routes>
@@ -48,6 +51,9 @@ export default function FoodTalksRouter() {
         <Route path="/main" exact element={<Main />} />
       </Route>
 
+      {/* Harini routes */}
+      <Route path="/manageDeliveryStatus" exact element={<DeliveryStatus />} />
+
       <Route path="/dashboard" element={<Dashboard />}>
         {/* Anoj dashboard routes */}
         <Route path="/dashboard/users" element={<Customers />} />
@@ -65,6 +71,10 @@ export default function FoodTalksRouter() {
         <Route
           path="/dashboard/manageDelivery"
           element={<DeliveryManagement />}
+        ></Route>
+        <Route
+          path="/dashboard/deliveryStatus"
+          element={<DeliveryStatusManagement />}
         ></Route>
       </Route>
     </Routes>

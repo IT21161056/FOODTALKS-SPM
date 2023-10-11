@@ -114,13 +114,13 @@ const CartItem = () => {
 
   return (
     <div>
-      <Link to='/menu'><Button variant='outlined' style={{position:'relative',top:50,marginLeft:30}}>Go to menu</Button></Link>
+      <Link to='/menu'><Button variant='outlined' style={{position:'relative',color:'black',borderBlockColor:'#ffbf80',top:50,marginLeft:30}}>Go to menu</Button></Link>
       <Typography sx={{display:'flex',justifyContent:'center',fontSize:30}}>Your Cart</Typography>
       <TableContainer component={Paper} sx={{ width: 1050, display: 'flex', marginLeft: 30}}>
         <Table sx={{ minWidth: 100, gap: '2rem' }} aria-label="caption table">
 
           <TableHead>
-            <TableRow sx={{backgroundColor:'#b3ecff'}}>
+            <TableRow sx={{backgroundColor:'#ffc266'}}>
               <TableCell sx={{ fontWeight: 'bold' }}>Resturant</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Product Name</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Price</TableCell>
@@ -154,7 +154,7 @@ const CartItem = () => {
       <Typography sx={{fontSize:22,marginTop:5,marginLeft:130}}><b>Total price</b> :&nbsp;<b>{totalAmount}</b></Typography>
      
       <Button  onClick={() => goToOrder(totalAmount)}  sx={{display:'flex',marginLeft:135,marginTop:2,
-      backgroundColor:'#b3ecff',color:'black'}}>Procced to pay</Button>
+      backgroundColor:'#ffd9b3',color:'black'}}>Procced to pay</Button>
     </div>
   )
 }
