@@ -68,30 +68,21 @@ const updateOrder = async (request, response) => {
     deliverLocation,
     deliverDate,
     totalAmount,
-    deliveryPerson
+    deliveryPerson, 
+    _id
   } = request.body;
 
+  console.log(request.body);
   //Confirm data
-  if (customerName, mobileNumber, city, deliverLocation, deliverDate, totalAmount, deliveryPerson ) {
+  if (!customerName || !mobileNumber || !city || !deliverLocation || !deliverDate || !totalAmount || !deliveryPerson ) {
     return response.status(400).json({ message: "All fields are required" });
   }
 
   //Confirm order exist to update
-  const order = await Order.findById(id).exec();
+  const order = await Order.findById(_id).exec();
 
   if (!order) {
     return response.status(400).json({ message: "Order not found" });
-  }
-
-  //Cehck for duplicate order
-  const duplicate = await Order.findOne({})
-    .collation({ locale: "en", strength: 2 })
-    .lean()
-    .exec(); //need to fill
-
-  //Allow renmaing of the original order
-  if (duplicate && duplicate?._id.toString() !== id) {
-    return response.status(409).json({ message: "Duplicate Order" });
   }
 
   order.customerName = customerName;

@@ -10,14 +10,12 @@ import f3 from '../asset/f3.png'
 
 export default function OrderCheckout() {
 
-  const [totalAmount, setTotalAmount] = useState(null);
+  let total = window.location.search;
+  const urlParams = new URLSearchParams(total);
+  const totalAmount = urlParams.get("total");
+  console.log(totalAmount);
 
-  useEffect(() => {
-    let total = window.location.search;
-    const urlParams = new URLSearchParams(total);
-    const totalAmount = urlParams.get("total");
-    setTotalAmount(totalAmount); // Set the total amount in the state
-  }, []);
+  console.log(totalAmount);
 
   const navigate = useNavigate();
   const pageName = useLocation();
@@ -35,10 +33,11 @@ export default function OrderCheckout() {
     city: "",
     deliverLocation: "",
     deliverDate: getCurrentDate(),
-    totalAmount: ""
+    totalAmount: totalAmount
   });
 
   console.log(orderDetails);
+  console.log(totalAmount);
 
   function getCurrentDate() {
     const today = new Date();
@@ -86,10 +85,9 @@ export default function OrderCheckout() {
     })
   };
 
-  console.log(orderDetails.customerName);
-  // console.log(orderDetails.mobileNumber);
-  // console.log(orderDetails.city);
-  // console.log(orderDetails.deliverLocation);
+  console.log('check before command >>> ' + orderDetails.customerName);
+  console.log('check before command >>> ' + orderDetails.totalAmount);
+  console.log('check before command >>> ' + orderDetails.city);
 
   useEffect(() => {
     try{
@@ -136,7 +134,7 @@ export default function OrderCheckout() {
 <Box
       sx={{
         display: "flex",
-        minHeight: "90vh",
+        minHeight: "80vh",
         backgroundColor: 'whitesmoke',
         alignItems: "center", // Center the content vertically
       }}
@@ -175,6 +173,7 @@ export default function OrderCheckout() {
                       name="customerName"
                       required
                       fullWidth
+                      color="warning"
                       size="small"
                       id="customerName"
                       label="Customer Name"
@@ -264,7 +263,6 @@ export default function OrderCheckout() {
                   </Grid>
                   <Grid item xs={12}>
                     <TextField
-                      type="number"
                       name="totalAmount"
                       required
                       fullWidth
