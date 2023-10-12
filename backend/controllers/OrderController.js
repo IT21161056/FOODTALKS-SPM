@@ -102,7 +102,7 @@ const updateOrder = async (request, response) => {
 
 const deleteOrder = async ( request, response ) => {
   try{
-    const id = request.params.id;
+    const {id} = request.params.id;
 
     //console.log(request.params.id)
     
