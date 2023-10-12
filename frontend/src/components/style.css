@@ -91,3 +91,68 @@
 .bh:hover{
     box-shadow: 0 4px 6px 0 rgba(34, 106, 221, 0.2), 0 6px 8px 0 rgba(57, 176, 223, 0.19);
 }
+
+.home{
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+
+    .overlay{
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        
+        z-index: 1;
+        mix-blend-mode: hard-light ;
+    }
+
+    .bimg{
+        position: absolute;
+        height: 90%;
+        width: 110%;
+        top: 0;
+        bottom: 0;
+        object-fit: cover;
+        opacity: 0.8;
+    }
+
+    .homeContent_container{
+        width: 100%;
+        height: max-content;
+        padding: 15rem 1.5rem 3rem;
+        display: flex;
+        row-gap: 3rem;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        margin: auto;
+        color: #ffffff;
+        z-index: 100;
+        
+        .voice{
+            font-weight: 300;
+            position: absolute;
+            top: 80;
+            font-size: 29px;
+        }
+        .textDiv{
+            padding: 2rem ;
+
+            .smallText{
+                font-size: 25px;
+                text-transform: uppercase;
+                color: #ffffff;
+                font-weight: 300;
+                position: relative;
+            }
+
+            .homeTitle{
+                position: relative;
+                font-size: 2.8rem;
+            }
+        }
+    }
+}

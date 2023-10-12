@@ -8,8 +8,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAtom } from 'jotai';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Box, Button, Grid, TextField} from '@mui/material';
-
+import { Box, Button, Grid, TextField } from '@mui/material';
+import bgImage from "../../src/images/bgImage.jpg"
 const Cards = () => {
 
 
@@ -100,37 +100,58 @@ const Cards = () => {
 
   return (
     <div className='container mt-3'>
-      <h2 className='text-center'>Today Menu</h2>
-      <div className='searchcomponent'>
 
-        <Grid >
-          <Box sx={{ width: 700, display: 'flex', marginLeft: '150px' }} item xs={12} sm={6}>
-            <TextField onChange={(e) => setSearch(e.target.value)} inputProps={{ style: { height: "16px", width: 500 } }} placeholder='Search foods' />
-            <Button style={{
-              backgroundColor: '#ff9933', marginBottom: 1,
-              marginLeft: 18, paddingRight: 20, paddingLeft: 20, color: 'white'
-            }} variant='contained'>Search</Button>
-          </Box>
-        </Grid>
+      <section className='home'>
+        <div className='overlay'></div>
+        <img src={bgImage} style={{borderRadius:8}} alt='image' className='bimg' />
+        <div className='homeContent_container'>
+          <div className='textDiv'>
+            <div className='searchcomponent'>
+              <Grid sx={{position:'absolute',top:140}} >
+                <Box sx={{ width: 700, display: 'flex', marginLeft: '150px' }} item xs={12} sm={6}>
+                  <TextField sx={{backgroundColor:'white',borderRadius:2}} onChange={(e) => setSearch(e.target.value)} inputProps={{ style: { height: "16px", width: 500 } }} placeholder='Search foods' />
+                  <Button style={{
+                    backgroundColor: '#ff9933', marginBottom: 1,
+                    marginLeft: 18, paddingRight: 20, paddingLeft: 20, color: 'white'
+                  }} variant='contained'>Search</Button>
+                </Box>
+              </Grid>
+            </div>
+            <span className='smallText'>
+             Voice to plate
+            </span>
+            <span className='menu' style={{top:40,position:'absolute',left:540,fontSize:'2rem'}}>
+              Today menu
+            </span>
 
-      </div>
+            <h1 className='homeTitle'>
+              Search your food
+            </h1>
+
+          </div>
+        </div>
+
+      </section>
+
+
+
       <div className='ct'>
         {
           cardData.map((element, id) => {
             return (
               <>
-                <Card key={id} className='bh' style={{ width: '18rem', mt: '10px', border: 'none' }}  >
-                  <Card.Img variant="top" src={element.image} style={{ height: "15rem" }} />
+                <Card key={id} className='bh' style={{ width: '17rem', height: '21rem', mt: '10px', border: 'none' }}  >
+                  <Card.Img variant="top" src={element.image} style={{ height: "12rem" }} />
                   <Card.Body>
                     <Card.Title>{element.dish}</Card.Title>
                     <Card.Text style={{ fontSize: '17px', fontWeight: '2rem' }}>
                       Price : Rs.{element.price}
                     </Card.Text>
-                    <div style={{display:'flex',flexDirection:'row',gap:32}}>
-                    <Button variant="outlined" style={{ outlineColor: '#ff9933',color:'#b36b00',borderColor: '#b36b00' }}  onClick={() => addToCart(element)} >
-                      Add to Cart</Button>
-                    <Button variant="outlined" style={{ outlineColor: 'green',color:'#ff9900', borderColor: '#ff9933' }}  href={`order/${element._id}`} >
-                      Buy Now</Button>
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
+                      <Button variant="outlined" style={{ outlineColor: '#ff9933', color: '#b36b00', borderColor: '#b36b00' }} onClick={() => addToCart(element)} >
+                        Add to Cart</Button>
+                      <Button variant="outlined" style={{ outlineColor: 'green', color: '#ff9900', borderColor: '#ff9933' }} href={`view/${element._id}`} >
+                        Buy Now</Button>
                     </div>
                     <ToastContainer position="bottom-center" autoClose={400} />
                   </Card.Body>
