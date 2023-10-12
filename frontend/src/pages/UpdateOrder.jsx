@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import Container from "@mui/material/Container";
@@ -12,7 +12,6 @@ const UpdateOrder = () => {
   const navigate = useNavigate();
 
   const [employee, setEmployee] = useState([]); 
-  const [deliverGuy, setdeliverGuy] = useState("");
 
   const [orderDetails, setOrderDetails] = useState({
     customerName: "",
@@ -27,7 +26,7 @@ const UpdateOrder = () => {
   console.log(orderDetails);
 
   const employeeId = useParams();
-  const employeeName = employeeId.name;
+  const employeeName = employee.name;
   console.log(employee);
 
   const orderName = orderDetails.customerName;
@@ -65,6 +64,7 @@ const UpdateOrder = () => {
     fetchEmployeeData();
   }, [])
 
+  console.log(orderDetails);
   function updateOrderData( event ){
     event.preventDefault();
     axios
@@ -78,14 +78,14 @@ const UpdateOrder = () => {
       })
   }
 
-   function onChange(e){
+  //name - name attributr / value - current value of the input
+  function onChange(e){
      const {name, value} = e.target;
     setOrderDetails((prevData) => ({
         ...prevData,
-        [name] : value
-        
+        [name] : value  
       }));
-    }
+  }
 
 
   return (
@@ -200,14 +200,24 @@ const UpdateOrder = () => {
                 size="small"
                 id="deliveryPerson"
                 autoFocus
-                onChange={onChange} value={employeeName || ''} 
+                onChange={onChange} value={orderDetails.deliveryPerson || ''} 
               >
-                <MenuItem value="">Select delivery person</MenuItem>
+                {/* <option>Select delivery person</option>
+                  {
+                    employee.map(( deliverPerson ) => {
+                    return <option key={ deliverPerson._id } value={ deliverPerson.name }>{ deliverPerson.name }</option>
+                  })
+                 } */}
+
+                 <MenuItem value="">Select delivery person</MenuItem>
                   {employee.map((deliverPerson) => (
-                    <MenuItem key={deliverPerson._id} value={deliverPerson.name}>
+                    <MenuItem
+                      key={deliverPerson._id}
+                      value={deliverPerson.name}
+                    >
                       {deliverPerson.name}
                     </MenuItem>
-                 ))}
+                  ))}
               </Select>
             </Grid>
 
