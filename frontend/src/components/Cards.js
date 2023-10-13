@@ -54,6 +54,9 @@ const Cards = () => {
     if (message == 'egg_rotti') {
       addToCart(cardData[1])
     }
+    if (message == 'cnoodles') {
+      addToCart(cardData[2])
+    }
 
 
   }, [message])
@@ -79,6 +82,7 @@ const Cards = () => {
       cartItems = JSON.parse(sessionStorage.getItem("cartItems"));
 
       const alreadyAdded = cartItems.some(item => item._id === element._id);
+      console.log(alreadyAdded)
 
       if (alreadyAdded) {
         toast.error('Item already Added!', {
@@ -103,13 +107,13 @@ const Cards = () => {
 
       <section className='home'>
         <div className='overlay'></div>
-        <img src={bgImage} style={{borderRadius:8}} alt='image' className='bimg' />
+        <img src={bgImage} style={{ borderRadius: 4 }} alt='image' className='bimg' />
         <div className='homeContent_container'>
           <div className='textDiv'>
             <div className='searchcomponent'>
-              <Grid sx={{position:'absolute',top:140}} >
-                <Box sx={{ width: 700, display: 'flex', marginLeft: '150px' }} item xs={12} sm={6}>
-                  <TextField sx={{backgroundColor:'white',borderRadius:2}} onChange={(e) => setSearch(e.target.value)} inputProps={{ style: { height: "16px", width: 500 } }} placeholder='Search foods' />
+              <Grid sx={{ position: 'absolute', top: 140 }} >
+                <Box sx={{ width: 700, display: 'flex', marginLeft: '125px' }} item xs={12} sm={6}>
+                  <TextField sx={{ backgroundColor: 'white', borderRadius: 2 }} onChange={(e) => setSearch(e.target.value)} inputProps={{ style: { height: "16px", width: 500 } }} placeholder='Search foods' />
                   <Button style={{
                     backgroundColor: '#ff9933', marginBottom: 1,
                     marginLeft: 18, paddingRight: 20, paddingLeft: 20, color: 'white'
@@ -118,9 +122,9 @@ const Cards = () => {
               </Grid>
             </div>
             <span className='smallText'>
-             Voice to plate
+              Voice to plate
             </span>
-            <span className='menu' style={{top:40,position:'absolute',left:540,fontSize:'2rem'}}>
+            <span className='menu' style={{ top: 25, position: 'absolute', left: 490, fontSize: '4rem'}}>
               Today menu
             </span>
 
