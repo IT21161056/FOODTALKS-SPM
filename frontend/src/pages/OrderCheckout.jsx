@@ -143,7 +143,7 @@ export default function OrderCheckout() {
 <Box
       sx={{
         display: "flex",
-        minHeight: "80vh",
+        minHeight: "100vh",
         backgroundColor: 'whitesmoke',
         alignItems: "center", // Center the content vertically
       }}
@@ -166,8 +166,9 @@ export default function OrderCheckout() {
                 backgroundColor: "white",
                 boxShadow: "8px 8px 8px rgba(0, 0, 0, 0.1)",
                 borderRadius: "4px",
-                padding: "30px",
-                marginTop: "2rem",
+                padding: "2rem",
+                minHeight: '70vh',
+                mt: -5
               }}
             >
               <Typography component="h1" variant="h4" sx={{ mb: 4 }}>
