@@ -12,7 +12,7 @@ module.exports = (orders) => {
         <head>
     
         <meta charset="utf-8">
-        <titel></titel>
+        <titel><h3>Food Talks</h3></titel>
         <style>
         
         .clearfix:after {
@@ -173,7 +173,7 @@ module.exports = (orders) => {
           <div><a href="#">pasindu.@gmail.com</a></div>
         </div>
         <div id="project">
-          <div><span>Position</span>Delivery Manager</div>
+          <div><span>Position</span>Order Manager</div>
           <div><span>Name</span>Pasindu Perakum</div>
          
           <div><span>EMAIL</span> <a href="#">pasindu.marketing@gmail.com</a></div>
