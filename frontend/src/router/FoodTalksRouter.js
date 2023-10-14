@@ -18,7 +18,7 @@ import ManageMenu from "../pages/ManageMenu";
 import OrderCheckout from "../pages/OrderCheckout";
 import AllOrders from "../pages/AllOrders";
 import UpdateOrder from "../pages/UpdateOrder";
-import Main from '../pages/Main';
+import Main from "../pages/Main";
 
 import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
@@ -34,7 +34,8 @@ export default function FoodTalksRouter() {
       <Route path="/" element={<Home />}>
         {/* Anoj home routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Registraion />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/register" element={<Registraion />} />
         <Route path="/profile" element={<Profile />} />
 
         {/* viraj routes */}

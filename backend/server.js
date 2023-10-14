@@ -11,7 +11,6 @@ const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 
 const CardRoutes = require("./routes/CardRoutes"); //viraj
-const OrderRoute = require("./routes/OrderRoute"); //pasindu
 
 const PORT = process.env.PORT || 8072;
 
@@ -30,24 +29,26 @@ app.use(
     cookie: { maxAge: 60 * 60 * 24 * 2 },
     rolling: true,
   })
-);
-app.use(cors());
-
-app.use(express.json()); //this is a buit in middleware
-app.use("/cart", CardRoutes); //viraj route
-app.use("/order", OrderRoute); //pasindu route
-
-// anoj routes
-const userRoute = require("./routes/user.route.js");
-app.use("/users", userRoute);
-
-// harini routes
-const deliveryRoute = require("./routes/delivery.route.js");
-app.use("/delivery", deliveryRoute);
-
-const deliveryStatusRoute = require("./routes/deliveryStatus.route.js");
-app.use("/deliveryStatus", deliveryStatusRoute);
-
+  );
+  app.use(cors());
+  
+  app.use(express.json()); //this is a buit in middleware
+  app.use("/cart", CardRoutes); //viraj route
+  
+  // anoj routes
+  const userRoute = require("./routes/user.route.js");
+  app.use("/users", userRoute);
+  
+  // harini routes
+  const deliveryRoute = require("./routes/delivery.route.js");
+  app.use("/delivery", deliveryRoute);
+  
+  const deliveryStatusRoute = require("./routes/deliveryStatus.route.js");
+  app.use("/deliveryStatus", deliveryStatusRoute);
+  
+  //pasindu route
+const OrderRoute = require("./routes/OrderRoute");
+app.use("/order", OrderRoute);
 const orderReportRoute = require("./routes/OrderReport.route.js");
 app.use("/orders_pdf", orderReportRoute);
 
