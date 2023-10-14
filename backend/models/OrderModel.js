@@ -22,21 +22,21 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        
+
         deliverDate: {
             type: String,
             required: true
         },
-
+        
+        deliveryPerson: {
+            type: String
+        },
+        
         totalAmount: {
             type: Number,
             required: true
         },
 
-        deliveryPerson: {
-            type: String
-        },
-        
 
     }
 )

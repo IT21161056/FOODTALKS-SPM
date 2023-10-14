@@ -90,7 +90,7 @@ const ManageMenu = () => {
     <>
 
     <Button variant='success' onClick={generatePDF} 
-    style={{ backgroundColor: 'green',color:'white', margin: '20px' }}>Generate report</Button>
+    style={{ backgroundColor: '#b36b00',color:'white', margin: '20px' }}>Generate report</Button>
 
      <Link to="/addnew">
           <Button variant='outlined' name='Add product' style={{marginLeft:'600px',color:'black',borderBlockColor:'#ffbf80'}}

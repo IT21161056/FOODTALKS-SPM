@@ -1,22 +1,21 @@
+import EditIcon from "@mui/icons-material/Edit";
 import {
   Alert,
   Box,
-  Container,
-  Grid,
-  Paper,
-  TextField,
-  Divider,
-  IconButton,
   Button,
+  Container,
+  Divider,
+  Grid,
+  IconButton,
+  TextField,
 } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
 import CircularProgress from "@mui/material/CircularProgress";
-import EditIcon from "@mui/icons-material/Edit";
+import Snackbar from "@mui/material/Snackbar";
+import axios from "axios";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
-import { resolvePath, useLocation, Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
-import axios from "axios";
 
 export default function Profile() {
   const pageName = useLocation();

@@ -95,7 +95,7 @@ const OrderItem = () => {
                 </div>
                 <div className='row' style={{ width: '640px', display: 'flex', marginTop: '30px' }}>
 
-                    <Button onClick ={sendRequest} className='btb' style={{backgroundColor: '#ff3333', color: 'white', marginLeft: '12px', display: 'flex', justifyContent: 'center', marginTop: '5px'}}
+                    <Button onClick ={sendRequest} className='btb' style={{backgroundColor: '#b36b00', color: 'white', marginLeft: '12px', display: 'flex', justifyContent: 'center', marginTop: '5px'}}
                     variant="contained" >Order</Button>
                 </div>
 

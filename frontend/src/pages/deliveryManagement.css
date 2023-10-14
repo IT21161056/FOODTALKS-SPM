@@ -3,7 +3,6 @@
 }
 
 body {
-  background-color: #f5f6ff;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
@@ -14,10 +13,10 @@ body {
 
 /* .container {
   padding: 10px; */
-  /* background-color: red; */
-  /* max-width: 1200px; */
-  /* margin: 50px auto; */
-  /* margin: 25px auto;
+/* background-color: red; */
+/* max-width: 1200px; */
+/* margin: 50px auto; */
+/* margin: 25px auto;
 } */
 
 /* .btn {
@@ -92,11 +91,11 @@ body {
 /* Error message style */
 /* input:invalid + span::after {
   content: attr(title); /* Display the custom error message */
-  /* color: red;
+/* color: red;
   display: block;
   font-size: 12px;
   margin-top: 4px;
-} */ 
+} */
 
 /* span {
   display: none;
@@ -167,7 +166,7 @@ body {
 /* Navbar styles */
 /* .navbar {
   background-color: royalblue; /* Dark background color */
-  /* color: white;
+/* color: white;
   padding: 4px 0;
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
 /* }
@@ -180,8 +179,8 @@ body {
   list-style: none;
   margin: 0;
   padding: 0; */
-  /* display: flex;  */
-  /* justify-content: center; Center-align the list items horizontally */
+/* display: flex;  */
+/* justify-content: center; Center-align the list items horizontally */
 /* }
 
 .navbar li {
@@ -193,12 +192,12 @@ body {
   text-decoration: none;
   font-size: 18px;
   font-weight: bold; */
-  /* transition: color 0.3s; Smooth color transition on hover
+/* transition: color 0.3s; Smooth color transition on hover
 }
 
 .navbar a:hover {
   color: gray; /* Change color on hover */
-/* } */ 
+/* } */
 
 /* Style the search input */
 /* CSS for the search bar */
@@ -208,11 +207,9 @@ body {
   border-radius: 4px;
   font-size: 16px;
   transition: width 0.3s ease-in-out; /* Add smooth transition for width changes */
-  /* margin-top: 20px;
+/* margin-top: 20px;
   width: 200px;
-} */ 
-
-
+} */
 
 /* select {
   padding: 8px;
@@ -224,8 +221,6 @@ body {
   margin-left: 50px;
   width: 200px;
 } */
-
-
 
 /* .cards {
   display: flex;

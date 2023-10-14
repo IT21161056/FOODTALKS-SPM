@@ -61,7 +61,7 @@ const addNewOrder = async (request, response) => {
 
 //Update order
 
-const updateOrder = async (request, response) => {
+const updateOrder = async ( request, response ) => {
   const {
     customerName,
     mobileNumber,
@@ -105,18 +105,18 @@ const updateOrder = async (request, response) => {
 
 const deleteOrder = async ( request, response ) => {
   try{
-    const {id} = request.params.id;
+    const orderId = request.params.id;
 
     //console.log(request.params.id)
     
-    await Order.findByIdAndDelete(id)
+    await Order.findByIdAndDelete(orderId)
     .then(() => {
       response.status(200).json({ message: "Order deleted" });
     })
     .catch((error) => {
 
       //Confirm data
-      if (!id) {
+      if (!orderId) {
         return response.status(400).json({ message: "Order ID required" });
       }
 

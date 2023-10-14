@@ -9,8 +9,15 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { useAtom } from "jotai";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { alanAtom, command, data } from "../atom/alanAtom";
+import { alanAtom, command, data, user } from "../atom/alanAtom";
 import axios from "axios";
+
+const theme = createTheme({
+  palette: {
+    primary: { main: "#FFA500" },
+    secondary: { main: "#FFA500" },
+  },
+});
 
 function Copyright(props) {
   return (
@@ -23,31 +30,30 @@ function Copyright(props) {
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{" "}
+      </Link>
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
   const pageName = useLocation();
   const [newCommand, setCommand] = useAtom(command);
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
+  const [userData, setUserData] = useAtom(user);
   const [newData, setData] = useAtom(data);
+
+  console.log(pageName.pathname);
 
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
     pass: "",
   });
-
-  console.log(loginCredentials);
-  console.log(newCommand);
 
   const [state, setState] = React.useState({
     open: false,
@@ -73,17 +79,20 @@ export default function Login() {
     axios
       .post("http://localhost:8072/users/login", loginCredentials)
       .then((res) => {
-        console.log(res.data.userID);
-        sessionStorage.setItem("userID", JSON.stringify(res.data.userID));
         setLoginCredentials({
           email: "",
           pass: "",
         });
-        handleClick();
+
+        setUserData(res.data.user);
+        sessionStorage.setItem("userID", JSON.stringify(res.data.user._id));
         navigate("/menu");
+
+        // handleClick();
+        //
       })
       .catch((err) => {
-        alert(err);
+        alert(err.response.data.message);
       });
   }
 
@@ -126,7 +135,7 @@ export default function Login() {
   }, [newCommand]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
@@ -134,7 +143,7 @@ export default function Login() {
             severity="success"
             sx={{ width: "100%" }}
           >
-            Loggin Successfully!
+            Login Successfully!
           </Alert>
         </Snackbar>
         <CssBaseline />
@@ -198,8 +207,9 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, color: "white" }}
               onClick={login}
+              color="secondary"
             >
               Sign In
             </Button>
