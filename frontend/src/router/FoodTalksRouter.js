@@ -18,7 +18,7 @@ import ManageMenu from "../pages/ManageMenu";
 import OrderCheckout from "../pages/OrderCheckout";
 import AllOrders from "../pages/AllOrders";
 import UpdateOrder from "../pages/UpdateOrder";
-import Main from '../pages/Main';
+import Main from "../pages/Main";
 
 import Customers from "../pages/Customers";
 import Dashboard from "../pages/Dashboard";
@@ -27,6 +27,9 @@ import Profile from "../pages/Profile";
 import DeliveryManagement from "../pages/DeliveryManagement";
 import DeliveryStatus from "../pages/DeliveryStatus";
 import DeliveryStatusManagement from "../pages/DeliveryStatusManagement";
+import AddDeliveryStatusManagement from "../pages/AddDeliveryState";
+
+import Deliveries from "../pages/Deliveries";
 
 export default function FoodTalksRouter() {
   return (
@@ -34,7 +37,8 @@ export default function FoodTalksRouter() {
       <Route path="/" element={<Home />}>
         {/* Anoj home routes */}
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<Registraion />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/register" element={<Registraion />} />
         <Route path="/profile" element={<Profile />} />
 
         {/* viraj routes */}
@@ -66,6 +70,7 @@ export default function FoodTalksRouter() {
         {/* Pasindu dashboard rotes */}
         <Route path="/dashboard/allOrders" element={<AllOrders />} />
         <Route path="/dashboard/updateOrder/:id" element={<UpdateOrder />} />
+        <Route path="/dashboard/deliveries" element={<Deliveries />} />
 
         {/* harini routes */}
         <Route
@@ -75,6 +80,10 @@ export default function FoodTalksRouter() {
         <Route
           path="/dashboard/deliveryStatus"
           element={<DeliveryStatusManagement />}
+        ></Route>
+        <Route
+          path="/dashboard/adddeliveryStatus"
+          element={<AddDeliveryStatusManagement />}
         ></Route>
       </Route>
     </Routes>

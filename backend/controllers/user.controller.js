@@ -75,32 +75,18 @@ const createNewUser = async (req, res) => {
 //@access Private
 const loginUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
-
-    console.log(email, password);
+    const { email, pass } = req.body;
     const user = await User.findOne({ email: email });
+
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.send("User not found");
     }
-    if (req.session.authenticated) {
-      // return res.json({ message: "Already logged in!", session: session });
-      req.session.destroy();
-    }
-    // const isMatch = await bcrypt.compare(password, user.password);
 
-    // if (!isMatch) {
-    //   return res.status(404).send("wrong password");
-    // }
-    console.log(req.sessionID);
-    req.session.authenticated = true;
-    if (user.isAdmin) {
-      req.session.isAdmin = true;
+    if (user.password === pass) {
+      return res.status(200).json({ user });
+    } else if (user.password != pass) {
+      return res.status(401).json({ message: "Invalid credentials" });
     }
-    req.session.userID = user._id;
-    req.session.username = user.username;
-    req.session.email = user.email;
-
-    res.json(req.session);
   } catch (error) {
     res.json({ message: error.message });
   }

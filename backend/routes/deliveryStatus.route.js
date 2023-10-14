@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const deliveryStatusController = require("../controllers/deliveryStatus.controller");
+const deliverystateController = require('../controllers/deliveryStatus.controller');
 
-router.route("/create").post(deliveryStatusController.createNewDelveryStatus);
-router.route("/:id").get(deliveryStatusController.getSingleDeliveryStatus);
-router.route("/").get(deliveryStatusController.getAllDeliveriesStatus);
-router.route("/update").put(deliveryStatusController.updateDeliveryStatus);
-router.route("/delete/:id").delete(deliveryStatusController.deleteDeliveryStatus);
+router.get("/", deliverystateController.getAllDeliveryStates);
+router.get("/singleDeliveryState/:id", deliverystateController.getSingleDeliveryState);
+router.post("/add", deliverystateController.addNewDeliveryState);
+router.put("/update/:id", deliverystateController.updateDeliveryState);
+router.delete("/delete/:id", deliverystateController.deleteDeliveryState);
 
 module.exports = router;

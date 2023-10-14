@@ -72,6 +72,18 @@ export const mainListItems = (
         <ListItemText primary="Integrations" />
       </ListItemButton>
     </Link>
+
+    <Link
+      to="/dashboard/deliveries"
+      style={{ color: "ButtonText", textDecoration: "none" }}
+    >
+      <ListItemButton>
+        <ListItemIcon>
+          <LayersIcon />
+        </ListItemIcon>
+        <ListItemText primary="Deliveries" />
+      </ListItemButton>
+    </Link>
   </React.Fragment>
 );
 
