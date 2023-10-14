@@ -159,7 +159,7 @@ export default function NavBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <Link
-              to="/"
+              to="/register"
               style={{ color: "ButtonText", textDecoration: "none" }}
             >
               <Button
