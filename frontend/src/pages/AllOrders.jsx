@@ -16,7 +16,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
+import {saveAs} from 'file-saver';
 
   function preventDefault(event) {
     event.preventDefault();
@@ -78,6 +79,7 @@ export default function AllOrders () {
         setIsLoading(false);
         const newOrder = orders.filter((item) => item._id != orderId);
         setOrders(newOrder);
+        alert('Order deleted succefully!!');
       })
       .catch((err) => {
         console.log("deletion order id " +orderId);
@@ -102,47 +104,59 @@ export default function AllOrders () {
       );
     });
 
-    // Function to generate the PDF report
-    const generateReport = (orders) => {
-    // Create a new PDF document
-    const doc = new jsPDF();
+      function createAndDownLoadPdf(){
+        axios.post('http://localhost:8072/orders_pdf/create-pdf',ordersArray)
+        .then(() => axios.get('http://localhost:8072/orders_pdf/fetch-pdf', {responseType:'blob'}))
+        .then((res)=>{
+
+            console.log(res.data)
+            const pdfBlob = new Blob([res.data], {type:'application/pdf'})
+
+            saveAs(pdfBlob, 'newPdf.pdf')
+        })
+    }
+
+    // // Function to generate the PDF report
+    // const generateReport = (orders) => {
+    // // Create a new PDF document
+    // const doc = new jsPDF();
   
-    // Define the columns for the table
-    const columns = [
-      { title: 'Customer Name', dataKey: 'customerName' },
-      { title: 'Mobile Number', dataKey: 'mobileNumber' },
-      { title: 'City', dataKey: 'city' },
-      { title: 'Delivery Location', dataKey: 'deliverLocation' },
-      { title: 'Delivery Date', dataKey: 'deliverDate' },
-      { title: 'Delivery Person', dataKey: 'deliveryPerson' },
-      { title: 'Total Amount', dataKey: 'totalAmount' },
-    ];
+    // // Define the columns for the table
+    // const columns = [
+    //   { title: 'Customer Name', dataKey: 'customerName' },
+    //   { title: 'Mobile Number', dataKey: 'mobileNumber' },
+    //   { title: 'City', dataKey: 'city' },
+    //   { title: 'Delivery Location', dataKey: 'deliverLocation' },
+    //   { title: 'Delivery Date', dataKey: 'deliverDate' },
+    //   { title: 'Delivery Person', dataKey: 'deliveryPerson' },
+    //   { title: 'Total Amount', dataKey: 'totalAmount' },
+    // ];
   
-    // Create an array of data for the table
-    const data = orders.map((order) => ({
-      customerName: order.customerName,
-      mobileNumber: order.mobileNumber,
-      city: order.city,
-      deliverLocation: order.deliverLocation,
-      deliverDate: order.deliverDate,
-      deliveryPerson: order.deliveryPerson,
-      totalAmount: order.totalAmount,
-    }));
+    // // Create an array of data for the table
+    // const data = orders.map((order) => ({
+    //   customerName: order.customerName,
+    //   mobileNumber: order.mobileNumber,
+    //   city: order.city,
+    //   deliverLocation: order.deliverLocation,
+    //   deliverDate: order.deliverDate,
+    //   deliveryPerson: order.deliveryPerson,
+    //   totalAmount: order.totalAmount,
+    // }));
   
-    // Set the table width and position
-    doc.autoTableSetDefaults({
-      startY: 20,
-      margin: { top: 20},
-      headStyles: { fillColor: [41, 128, 185], textColor: 255 },
-      bodyStyles: { textColor: 0 },
-    });
+    // // Set the table width and position
+    // doc.autoTableSetDefaults({
+    //   startY: 20,
+    //   margin: { top: 20},
+    //   headStyles: { fillColor: [41, 128, 185], textColor: 255 },
+    //   bodyStyles: { textColor: 0 },
+    // });
   
-    // Add the table to the PDF document
-    doc.autoTable(columns, data);
+    // // Add the table to the PDF document
+    // doc.autoTable(columns, data);
   
-    // Save the PDF
-    doc.save('order_report.pdf');
-    };
+    // // Save the PDF
+    // doc.save('order_report.pdf');
+    // };
 
   return (
     <>
@@ -157,9 +171,7 @@ export default function AllOrders () {
           variant="contained"
           color="warning"
           sx={{ marginTop: '10px', marginLeft: 'auto', mr: 2.5 }}
-          onClick={() => {
-            generateReport(filteredOrders); // Call the generateReport function with filteredOrders
-          }}
+          onClick={createAndDownLoadPdf}
         >
           Generate Report
         </Button>
@@ -179,13 +191,13 @@ export default function AllOrders () {
         }}
         sx={{
           backgroundColor: 'white', 
-          width: "97.5%",
+          width: "100%",
           margin: 'auto',
           marginLeft: "10px" 
         }}
       />
-      <TableContainer  sx={{ maxHeight: "70vh", padding: 1 }}>
-        <Paper sx={{width: "100%"}}>
+      <TableContainer  sx={{ maxHeight: "70vh", padding: 1}}>
+        <Paper sx={{width: "100%"}} >
           <Table stickyHeader aria-label="sticky table">
 
             <TableHead>
