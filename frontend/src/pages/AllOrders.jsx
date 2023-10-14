@@ -17,6 +17,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 // import jsPDF from 'jspdf';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
 import {saveAs} from 'file-saver';
 
   function preventDefault(event) {
@@ -37,6 +39,14 @@ export default function AllOrders () {
 
     const ordersArray = orders;
     console.log(ordersArray);
+
+    const theme = createTheme({
+      palette: {
+        primary: {
+          main: '#FFA500', // Your primary color here
+        },
+      },
+    });
 
     {/* Fetch all the orders using useEffect*/}
 
@@ -118,6 +128,7 @@ export default function AllOrders () {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
     <div style={{ display: 'flex', alignItems: 'center' }}>
         <Typography
           mb={2}
@@ -137,6 +148,7 @@ export default function AllOrders () {
     <TextField
         label="Search"
         variant="outlined"
+        theme={theme.palette.primary.main}
         fullWidth
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
@@ -148,19 +160,19 @@ export default function AllOrders () {
           ),
         }}
         sx={{
-          backgroundColor: 'white', 
-          width: "100%",
-          margin: 'auto',
-          marginLeft: "10px" 
+          backgroundColor: 'white',
+          marginTop: '0.5rem',
+          marginBottom: '1rem',
+          width: '100%',
         }}
       />
-      <TableContainer  sx={{ maxHeight: "70vh", padding: 1}}>
+      <TableContainer  sx={{ maxHeight: "70vh"}}>
         <Paper sx={{width: "100%"}} >
-          <Table stickyHeader aria-label="sticky table">
+          <Table>
 
-            <TableHead>
+            <TableHead sx={{ position: 'sticky', top: 0, zIndex: 1, backgroundColor: '#FFA500' }}>
 
-              <TableRow >
+              <TableRow>
                 <TableCell sx={{minWidth: 150}}>Customer Name</TableCell>
                 <TableCell sx={{minWidth: 80}} >Mobile Number</TableCell>
                 <TableCell sx={{minWidth: 80}} >City</TableCell>
@@ -209,6 +221,7 @@ export default function AllOrders () {
           </Table>
         </Paper>
       </TableContainer>
+      </ThemeProvider>
       </>
   )
 }

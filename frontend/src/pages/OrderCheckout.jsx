@@ -7,6 +7,7 @@ import axios from "axios";
 import Container from "@mui/material/Container";
 import CircularProgress from "@mui/material/CircularProgress";
 import f3 from '../asset/f3.png'
+import { createTheme } from '@mui/material/styles';
 
 export default function OrderCheckout() {
 
@@ -38,6 +39,14 @@ export default function OrderCheckout() {
 
   console.log(orderDetails);
   console.log(totalAmount);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFA500', // Your primary color here
+      },
+    },
+  });
 
   function getCurrentDate() {
     const today = new Date();

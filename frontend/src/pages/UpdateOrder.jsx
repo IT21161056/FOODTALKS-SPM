@@ -3,7 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import Container from "@mui/material/Container";
-
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material';
 
 const UpdateOrder = () => {
 
@@ -31,6 +32,17 @@ const UpdateOrder = () => {
 
   const orderName = orderDetails.customerName;
   console.log("customer name >>> "+orderName);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFA500', // Your primary color here
+      },
+      secondary: {
+        main: '#fff'
+      }
+    },
+  });
 
   useEffect(() => {
     function fetchAllData(){
@@ -89,6 +101,7 @@ const UpdateOrder = () => {
 
 
   return (
+    <ThemeProvider theme={theme}>
       <Container
       maxWidth="md"
       sx={{
@@ -233,6 +246,7 @@ const UpdateOrder = () => {
         </form>
       </Box>
     </Container>
+    </ThemeProvider>
     );
   }
 

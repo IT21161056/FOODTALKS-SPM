@@ -47,10 +47,10 @@ app.use(
   app.use("/deliveryStatus", deliveryStatusRoute);
   
   //pasindu route
-const OrderRoute = require("./routes/OrderRoute");
-app.use("/order", OrderRoute);
-const orderReportRoute = require("./routes/OrderReport.route.js");
-app.use("/orders_pdf", orderReportRoute);
+  const OrderRoute = require("./routes/OrderRoute");
+  app.use("/order", OrderRoute);
+  const orderReportRoute = require("./routes/OrderReport.route.js");
+  app.use("/orders_pdf", orderReportRoute);
 
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
