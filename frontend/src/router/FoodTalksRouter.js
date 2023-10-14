@@ -26,8 +26,7 @@ import Profile from "../pages/Profile";
 
 import DeliveryManagement from "../pages/DeliveryManagement";
 import DeliveryStatus from "../pages/DeliveryStatus";
-import DeliveryStatusManagement from "../pages/DeliveryStatusManagement";
-import AddDeliveryStatusManagement from "../pages/AddDeliveryState";
+
 
 export default function FoodTalksRouter() {
   return (
@@ -74,14 +73,7 @@ export default function FoodTalksRouter() {
           path="/dashboard/manageDelivery"
           element={<DeliveryManagement />}
         ></Route>
-        <Route
-          path="/dashboard/deliveryStatus"
-          element={<DeliveryStatusManagement />}
-        ></Route>
-        <Route
-          path="/dashboard/adddeliveryStatus"
-          element={<AddDeliveryStatusManagement />}
-        ></Route>
+
       </Route>
     </Routes>
   );

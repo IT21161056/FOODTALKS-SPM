@@ -41,7 +41,6 @@ const formDelivery = ({
             title="Please enter a valid name"
             onInput={(e) => handleInputValidation(e, "name")}
           /><br></br>
-          <span id="name-error">Please enter a valid name</span>
         </FormInputContainer>
 
         <FormInputContainer>
@@ -57,7 +56,6 @@ const formDelivery = ({
           title="Please enter a valid email address"
           onInput={(e) => handleInputValidation(e, "email")}
         /><br></br>
-        <span id="email-error">Please enter a valid email</span>
         </FormInputContainer>
         
         <FormInputContainer>
@@ -73,7 +71,6 @@ const formDelivery = ({
           title="Please enter a valid area"
           onInput={(e) => handleInputValidation(e, "area")}
         /><br></br>
-        <span id="area-error">Please enter a valid area</span>
         </FormInputContainer>
 
         <FormInputContainer>
@@ -89,9 +86,6 @@ const formDelivery = ({
           title="Please enter a valid 10-digit mobile number"
           onInput={(e) => handleInputValidation(e, "mobile")}
         /><br></br>
-        <span id="mobile-error">
-          Please enter a valid 10-digit mobile number
-        </span>
         </FormInputContainer>
 
         <FormInputContainer>
@@ -107,7 +101,6 @@ const formDelivery = ({
           title='Please enter either "Yes" or "No"'
           onInput={(e) => handleInputValidation(e, "status")}
         /><br></br>
-        <span id="status-error">Please enter either "Yes" or "No"</span>
         </FormInputContainer>
 
         {/* Repeat the same structure for other input fields */}
@@ -130,6 +123,8 @@ const AddContainer = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 600px;
+  margin-top: 20px;
 `;
 
 const FormContainer = styled('form')`
@@ -137,9 +132,9 @@ const FormContainer = styled('form')`
   background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 50px 40px;
+  padding: 10px 40px;
   padding-top: auto;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
   padding-right: 5px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -155,31 +150,12 @@ const FormInputs = styled('input')`
   margin-right: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
+  width: 325px;
+  border: 0.2px solid;
 `;
 
 const FormInputContainer = styled.div`
   position: relative;
-
-  /* Default border color for invalid input */
-  border-color: red;
-
-  /* Change border color to green when input is valid */
-  input:valid + & {
-    border-color: green;
-  }
-
-  /* Hide the error message when the input is valid */
-  input:valid + span {
-    display: none;
-  }
-
-  input:invalid + span::after {
-    content: attr(title); /* Display the custom error message */
-    color: red;
-    display: block;
-    font-size: 12px; /* Adjust font size as needed */
-    margin-top: 4px;
-  }
 `;
 
 const FormButton = styled('button')`
@@ -188,10 +164,11 @@ const FormButton = styled('button')`
   font-size: 18px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: royalblue;
+  background-color: rgb(238, 126, 56);
   color: white;
   font-weight: 500;
   margin-top: 20px;
+  width: 325px;
 `;
 
 const CloseButton = styled('div')`

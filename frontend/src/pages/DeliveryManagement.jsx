@@ -47,15 +47,15 @@ const DeliveryManagement = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleOnChange = (e) => {
-    const { value, name } = e.target;
-    setFormData((preve) => {
-      return {
-        ...preve,
-        [name]: value,
-      };
-    });
-  };
+  const handleOnChange = (e)=>{
+    const {value,name} = e.target
+    setFormData((preve)=>{
+        return{
+          ...preve,
+          [name] : value
+        }
+    })
+  }
 
   const showSuccessMessage = (message) => {
     toast.success(
@@ -102,17 +102,12 @@ const DeliveryManagement = () => {
         status: "",
       });
       showSuccessMessage("Record saved successfully!");
-      // toast.success("Record saved successfully!", { autoClose: 2000 });
       setIsSubmitting(false);
-      //setAddSection(false);
     }
     const form = e.target;
 
     if (form.checkValidity()) {
-      // Form is valid, proceed with submission
-      // You can submit the form data or perform other actions here
     } else {
-      // Form has validation errors, display error messages
       const invalidInputs = form.querySelectorAll(":invalid");
       invalidInputs.forEach((input) => {
         const errorSpan = input.nextElementSibling;
@@ -131,8 +126,6 @@ const DeliveryManagement = () => {
     );
     if (data.data.success) {
       getFetchData();
-      //alert(data.data.message);
-      //toast.success("Record deleted successfully!", { autoClose: 2000 });
       showSuccessMessage("Record deleted successfully!");
     }
   };
@@ -145,10 +138,8 @@ const DeliveryManagement = () => {
     );
     if (data.data.success) {
       getFetchData();
-      //alert(data.data.message)
       setEditSection(false);
       showSuccessMessage("Record updated successfully!");
-      //toast.success("Record updated successfully!", { autoClose: 2000 });
     }
   };
 
@@ -163,7 +154,7 @@ const DeliveryManagement = () => {
   };
 
   const handleEdit = (e1) => {
-    setFormDataEdit(e1);
+    setFormDataEdit({ ...e1 });
     setEditSection(true);
   };
 
@@ -201,7 +192,7 @@ const DeliveryManagement = () => {
 
     // Create an array for the table data
     const tableData = [];
-    //tableData.push(["Name", "Email", "Covering Area", "Mobile", "Is present today"]);
+    tableData.push(["Name", "Email", "Covering Area", "Mobile", "Is present today"]);
 
     filteredData
       .filter((item) => {
