@@ -47,14 +47,6 @@ app.use("/users", userRoute);
 const deliveryRoute = require("./routes/delivery.route.js");
 app.use("/delivery", deliveryRoute);
 
-
-
-
-  
- 
-  
-
-  
   const deliveryStatusRoute = require("./routes/deliveryStatus.route.js");
   app.use("/deliveryStatus", deliveryStatusRoute);
   
