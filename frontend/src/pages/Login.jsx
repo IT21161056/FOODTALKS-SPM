@@ -12,6 +12,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { alanAtom, command, data, user } from "../atom/alanAtom";
 import axios from "axios";
 
+const theme = createTheme({
+  palette: {
+    primary: { main: "#FFA500" },
+    secondary: { main: "#b36b00" },
+  },
+});
+
 function Copyright(props) {
   return (
     <Typography
@@ -32,7 +39,7 @@ function Copyright(props) {
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
-const defaultTheme = createTheme();
+// const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
@@ -127,7 +134,7 @@ export default function Login() {
   }, [newCommand]);
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
           <Alert
@@ -199,8 +206,9 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, color: "white" }}
               onClick={login}
+              color="secondary"
             >
               Sign In
             </Button>
