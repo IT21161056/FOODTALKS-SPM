@@ -35,7 +35,8 @@ const orderSchema = new mongoose.Schema(
 
         deliveryPerson: {
             type: String
-        }
+        },
+        
 
     }
 )

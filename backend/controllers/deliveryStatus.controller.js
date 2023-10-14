@@ -1,129 +1,128 @@
-const Delivery = require("../models/deliveryStatus.model");
+const DeliveryState = require("../models/deliveryStatus.model");
 
-//@desc Get all deliveries
-//@route GET /deliveryStatus
-//@access Private
-const getAllDeliveriesStatus = async (req, res) => {
-    try {
-      const deliveryStatus = await DeliveryStatus.find();
-      console.log(deliveryStatus);
-      if (!deliveryStatus) {
-        return res.status(400).json({ message: "No delivery status found" });
-      }
-  
-      res.json(deliveryStatus);
-    } catch (error) {
-      res.json({ message: error.message });
+const getAllDeliveryStates = async (request, response) => {
+  //get all deliverystates from MongoDB
+
+  try{
+    const deliverystates = await DeliveryState.find().lean();
+
+    //If no deliverystates
+    if (!deliverystates) {
+      return response.status(400).json({ message: "No deliverystates found" });
     }
-  };
 
-//@desc Create new delivery
-//@route POST /deliveryStatus
-//@access Private
-const createNewDelveryStatus = async (req, res) => {
-    try {
-      const { userId, orderId, cusname, state } = req.body;
-  
-      console.log("data >>>", userId, orderId, cusname, state);
-      // await new Promise((resolve) => setTimeout(resolve, 3000));
-  
-      //confirm data
-      if (!userId || !orderId || !cusname || !state) {
-        return res.status(400).json({ message: "All fields are required" });
-      }
-  
-      //Hash password
-      // const hashedPwd = await bcrypt.hash(password, 10); //salt rounds
-  
-      const deliveryStatusObject = {
-        userId,
-        orderId,
-        cusname,
-        state,
-      };
-      console.log("in side delivery status controller >>", deliveryStatusObject);
-  
-      //create and store new user
-  
-      const deliveryStatus = await DeliveryStatus.create(deliveryStatusObject);
-  
-      if (deliveryStatus) {
-        //created
-        res.status(201).json({ message: `New deliveryStatus created` });
-      } else {
-        res.status(400).json({ message: "Invalid deliveryStatus data received" });
-      }
-    } catch (error) {
-      res.json({ message: error.message });
-    }
-  };
+    response.json(deliverystates);
+  } catch (error){
+    response.json({message: error.message});
+  }
+};
 
-  const getSingleDeliveryStatus = async (req, res) => {
-    let deliveryStatusID = req.params.id;
-    try {
-      // const userID = req.session.userID;
-      if (!deliveryStatusID) {
-        return res.json({ message: "UserID undefined" });
-      }
-  
-      const deliveryStatus = await Delivery.findById(userID);
-  
-      if (!deliveryStatus) {
-        return res.json({ message: "User not found" });
-      }
-  
-      res.status(200).json({ deliveryStatus: deliveryStatus });
-    } catch (error) {
-      res.json({ message: error.message });
-    }
-  };
+//get single deliverystate
+const getSingleDeliveryState = async (req, res) => {
+  const id = req.params.id;
+  console.log('in controller >>',id)
+  let singleDeliveryState;
 
-  //l
-//@desc Update a user
-//@route PATCH /users
-//@access Private
-const updateDeliveryStatus = async (req, res) => {
-    try {
-      const { _id, ...rest } = req.body;
-  
-      const updatedDeliveryStatus = await deliveryStatusModel.updateOne({ _id: _id }, rest);
-  
-      //confirm data
-      if (!_id) {
-        return res.status(400).json({ message: "No delivery status id" });
+  try {
+    singleDeliveryState = await DeliveryState.findOne({ _id: id });
+    res.status(200).json(singleDeliveryState);
+
+  } catch (error) {
+    res.status(401).json(error);
+  }
+};
+
+//Add new deliverystate
+
+const addNewDeliveryState = async (request, response) => {
+  const { cusname, status } = request.body;
+
+  //Confirm data
+  if (!cusname || !state ) {
+    return response.status(400).json({ message: "All fields are required" });
+  }
+
+  const deliverystate = await DeliveryState.create({
+    cusname,
+    status,
+  });
+
+  if (deliverystate) {
+    return response.status(201).json({ message: "New Delivery State created" });
+  } else {
+    return request.status(400).json({ message: "Invalid delivery state data recived" });
+  }
+};
+
+//Update delivery state
+
+const updateDeliveryState = async (request, response) => {
+  const {
+    cusname,
+    state, 
+    _id
+  } = request.body;
+
+  console.log(request.body);
+  //Confirm data
+  if (!cusname || !state ) {
+    return response.status(400).json({ message: "All fields are required" });
+  }
+
+  //Confirm delivery state exist to update
+  const deliverystate = await DeliveryState.findById(_id).exec();
+
+  if (!deliverystate) {
+    return response.status(400).json({ message: "Delivery State not found" });
+  }
+
+  deliverystate.cusname = cusname;
+  deliverystate.state = state;
+
+  const updateDeliveryState = await deliverystate.save();
+
+  response.json(`'${updateDeliveryState.deliverystate}' updated`);
+};
+
+//Delete delivery state
+
+const deleteDeliveryState = async ( request, response ) => {
+  try{
+    const {id} = request.params.id;
+
+    //console.log(request.params.id)
+    
+    await DeliveryState.findByIdAndDelete(id)
+    .then(() => {
+      response.status(200).json({ message: "Delivery State deleted" });
+    })
+    .catch((error) => {
+
+      //Confirm data
+      if (!id) {
+        return response.status(400).json({ message: "Delivery State ID required" });
       }
-  
-      res.json({ message: "Delivery Status details updated.", delivery: updatedDeliveryStatus });
-    } catch (error) {
-      res.json({ message: error.message });
-    }
-  };
 
-  //@desc Delete a user
-//@route DELETE /users
-//@access Private
-const deleteDeliveryStatus = async (req, res) => {
-    try {
-      let deliveryStatusID = req.params.id;
-      await DeliveryStatus.findByIdAndDelete(deliveryStatusID)
-        .then(() => {
-          res.status(200).json({ message: "Delivery status deleted" });
-        })
-        .catch((error) => {
-          res.json({
-            message: "Error with delete delivery",
-            error: error.message,
-          });
-        });
-    } catch (error) {
-      res.json({ message: error.message });
-    }
-  };
+      //Confirm delivery state exists to delete
 
-  module.exports = {
-    getAllDeliveriesStatus,
-    createNewDelveryStatus,
-    updateDeliveryStatus,
-    deleteDeliveryStatus,
-    getSingleDeliveryStatus,
-  };
+      if (!DeliveryState) {
+        return response.status(400).json({ message: "Delivery State not found" });
+      }
+
+      else{
+        response.json({ message: "Error with delete item ", error: error.message});
+      }
+    });
+  } catch (error) {
+    response.json({message: error.message});
+  }
+
+};
+
+module.exports = {
+  getAllDeliveryStates,
+  getSingleDeliveryState,
+  addNewDeliveryState,
+  updateDeliveryState,
+  deleteDeliveryState,
+};
