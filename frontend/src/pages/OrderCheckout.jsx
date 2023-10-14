@@ -70,7 +70,7 @@ export default function OrderCheckout() {
           mobileNumber: "",
           city: "",
           deliverLocation: "",
-          deliverDate: "",
+          deliverDate: getCurrentDate(),
           totalAmount: ""
         });
       })
@@ -202,6 +202,7 @@ export default function OrderCheckout() {
                       name="mobileNumber"
                       required
                       fullWidth
+                      color="warning"
                       size="small"
                       id="mobileNumber"
                       label="Mobile Number"
@@ -219,6 +220,7 @@ export default function OrderCheckout() {
                     <TextField
                       name="city"
                       required
+                      color="warning"
                       fullWidth
                       size="small"
                       id="city"
@@ -237,6 +239,7 @@ export default function OrderCheckout() {
                     <TextField
                       name="deliverLocation"
                       required
+                      color="warning"
                       fullWidth
                       size="small"
                       id="deliverLocation"
@@ -257,6 +260,7 @@ export default function OrderCheckout() {
                       min={getCurrentDate()}
                       name="deliverDate"
                       required
+                      color="warning"
                       fullWidth
                       size="small"
                       id="deliverDate"
@@ -277,6 +281,7 @@ export default function OrderCheckout() {
                       required
                       fullWidth
                       size="small"
+                      color="warning"
                       id="totalAmount"
                       label="Total Amount"
                       autoFocus
@@ -295,7 +300,7 @@ export default function OrderCheckout() {
                   variant="contained"
                   color="warning"
                   onClick={() => navigate("/cartItem")}
-                  sx={{ mt: 3, width: '100%' }}
+                  sx={{ mt: 2, width: '100%' }}
                 >
                   Cancel Order
                 </Button>
@@ -304,7 +309,7 @@ export default function OrderCheckout() {
                   variant="contained"
                   color="warning"
                   disabled={isSubmiting}
-                  sx={{ mt: 3, width: '100%' }}
+                  sx={{ mt: 2, width: '100%' }}
                 >
                   Submit Order
                 </Button>
