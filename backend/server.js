@@ -51,6 +51,9 @@ app.use("/deliveryStatus", deliveryStatusRoute);
 const orderReportRoute = require("./routes/OrderReport.route.js");
 app.use("/orders_pdf", orderReportRoute);
 
+const menuReportRoute = require("./routes/MenuReport.route.js");
+app.use("/menu_pdf",menuReportRoute);
+
 mongoose.connection.once("open", () => {
   console.log("Connected to MongoDB");
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

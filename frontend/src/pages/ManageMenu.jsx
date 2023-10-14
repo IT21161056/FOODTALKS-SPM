@@ -14,6 +14,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { ToastContainer, toast } from 'react-toastify';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { saveAs } from 'file-saver';
 
 import axios from 'axios';
 
@@ -23,9 +24,19 @@ const ManageMenu = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const [cardData, setCardData] = React.useState([]);
-  const [search,setSearch] = useState("");
-  
-  
+  const [search, setSearch] = useState("");
+
+  // function createAndDownLoadPdf() {
+  //   axios.post('http://localhost:8072/menu_pdf/create-pdf', cardData)
+  //     .then(() => axios.get('http://localhost:8072/menu_pdf/fetch-pdf', { responseType: 'blob' }))
+  //     .then((res) => {
+
+  //       console.log(res.data)
+  //       const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
+
+  //       saveAs(pdfBlob, 'newPdf.pdf')
+  //     })
+  // }
   const generatePDF = () => {
     const doc = new jsPDF();
 
@@ -89,18 +100,18 @@ const ManageMenu = () => {
   return (
     <>
 
-    <Button variant='success' onClick={generatePDF} 
-    style={{ backgroundColor: '#b36b00',color:'white', margin: '20px' }}>Generate report</Button>
+      <Button variant='success' onClick={generatePDF}
+        style={{ backgroundColor: '#b36b00', color: 'white', margin: '20px' }}>Generate report</Button>
 
-     <Link to="/addnew">
-          <Button variant='outlined' name='Add product' style={{marginLeft:'600px',color:'black',borderBlockColor:'#ffbf80'}}
+      <Link to="/addnew">
+        <Button variant='outlined' name='Add product' style={{ marginLeft: '600px', color: 'black', borderBlockColor: '#ffbf80' }}
           item xs={8} sm={6} className='addbtn'>+ Add Product</Button>
-    </Link>
-  
-     <TableContainer component={Paper} sx={{maxWidth:'90%',marginLeft:'40px'}}>
-        <Table sx={{ minWidth: 200}} aria-label="caption table">
+      </Link>
+
+      <TableContainer component={Paper} sx={{ maxWidth: '90%', marginLeft: '40px' }}>
+        <Table sx={{ minWidth: 200 }} aria-label="caption table">
           <TableHead>
-            <TableRow sx={{backgroundColor:'#ffc266'}}>
+            <TableRow sx={{ backgroundColor: '#ffc266' }}>
               <TableCell sx={{ fontWeight: 'bold' }}>Resturant</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Product Name</TableCell>
               <TableCell sx={{ fontWeight: 'bold' }}>Price</TableCell>
@@ -113,7 +124,7 @@ const ManageMenu = () => {
           </TableHead>
 
           <TableBody>
-          {cardData.map((item, index) => (
+            {cardData.map((item, index) => (
               <TableRow key={index}>
                 <TableCell >{item.resturant}</TableCell>
                 <TableCell >{item.dish}</TableCell>
@@ -122,24 +133,24 @@ const ManageMenu = () => {
                 <TableCell >{item.review}</TableCell>
                 <TableCell >{item.rating}</TableCell>
                 <TableCell >
-                <img style={{ borderRadius: '20px', width: '80px', height: '80px' }} src={item.image} alt='food' />
+                  <img style={{ borderRadius: '20px', width: '80px', height: '80px' }} src={item.image} alt='food' />
                 </TableCell>
                 <TableCell>
                   <div onClick={() => { deletequotation(item._id); toast.error("successfully deleted the product") }} >
-                  <IconButton  sx={{color:'red'}}><DeleteIcon/></IconButton>
+                    <IconButton sx={{ color: 'red' }}><DeleteIcon /></IconButton>
                   </div>
                   <NavLink to={`/update/${item._id}`} className="text-decoration-none">
-                  <IconButton sx={{color:'blue'}}><ModeEditIcon/></IconButton>
+                    <IconButton sx={{ color: 'blue' }}><ModeEditIcon /></IconButton>
                   </NavLink>
                 </TableCell>
               </TableRow>
-          ))}
+            ))}
           </TableBody>
 
         </Table>
       </TableContainer>
       <ToastContainer position="bottom-center" autoClose={400} />
-      </>
+    </>
 
   )
 };
