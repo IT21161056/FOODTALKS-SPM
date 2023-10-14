@@ -19,6 +19,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: { main: "#FFA500" },
+    secondary: { main: "#FFA500" },
+  },
+});
 
 const Registraion = () => {
   const pageName = useLocation();
@@ -29,20 +37,20 @@ const Registraion = () => {
 
   const [isSubmiting, setIsSubmiting] = useState(false);
 
-  // const inputString = "Hello   Wo  rld"; // Example string with multiple spaces
-
-  // Use the replace() method with a regular expression to remove spaces between characters
-  // const stringWithoutSpaces = inputString.replace(/\s+/g, "");
-  // console.log(stringWithoutSpaces);
-
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log(pageName.pathname);
 
   function speak() {
-    newAlanAtom.activate();
-    newAlanAtom.playText(
-      "Here..your can register in our system by answering questions, do you want to register?"
-    );
+    if (newAlanAtom) {
+      newAlanAtom.activate();
+      newAlanAtom.playText(
+        "Here..your can register in our system by answering questions, do you want to register?"
+      );
+    }
   }
+
+  useEffect(() => {
+    setTimeout(speak(), 2000);
+  }, []);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -170,7 +178,7 @@ const Registraion = () => {
           };
         });
       }
-      if (newCommand === "register") {
+      if (newCommand === "registerMe") {
         register();
       }
     } finally {
@@ -178,186 +186,189 @@ const Registraion = () => {
     }
   }, [newCommand]);
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Loggin Successfully!
-        </Alert>
-      </Snackbar>
-
-      <Box
+    <ThemeProvider theme={theme}>
+      <Container
+        maxWidth="md"
         sx={{
-          //   marginTop: 8,
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
-          //   background: "lightBlue",
+          height: "100vh",
         }}
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign up
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                size="small"
-                id="firstName"
-                label="First Name"
-                autoFocus
-                onChange={(e) =>
-                  setUser((p) => {
-                    return {
-                      ...p,
-                      firstName: e.target.value,
-                    };
-                  })
-                }
-                value={user.firstName}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                size="small"
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-                onChange={(e) =>
-                  setUser((p) => {
-                    return {
-                      ...p,
-                      lastName: e.target.value,
-                    };
-                  })
-                }
-                value={user.lastName}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                size="small"
-                id="address"
-                label="Address"
-                name="address"
-                autoComplete="family-name"
-                onChange={(e) =>
-                  setUser((p) => {
-                    return {
-                      ...p,
-                      address: e.target.value,
-                    };
-                  })
-                }
-                value={user.address}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                size="small"
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                onChange={(e) =>
-                  setUser((p) => {
-                    return {
-                      ...p,
-                      email: e.target.value,
-                    };
-                  })
-                }
-                value={user.email}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                type="number"
-                required
-                fullWidth
-                size="small"
-                id="phone"
-                label="Phone"
-                name="phone"
-                autoComplete="phone"
-                onChange={(e) =>
-                  setUser((p) => {
-                    return {
-                      ...p,
-                      phone: e.target.value,
-                    };
-                  })
-                }
-                value={user.phone}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                size="small"
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                onChange={(e) =>
-                  setUser((p) => {
-                    return {
-                      ...p,
-                      password: e.target.value,
-                    };
-                  })
-                }
-                value={user.password}
-              />
-            </Grid>
-          </Grid>
-          {/* <Grid container justifyContent="center">
-              <Grid item> */}
-          <Button
-            fullWidth
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }} //margin top(mt) margin bottom (mb)
-            disabled={isSubmiting}
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
           >
-            {isSubmiting ? <CircularProgress size={30} /> : "Sign Up"}
-          </Button>
-          <Button onClick={speak}>Speak</Button>
-          {/* </Grid>
-            </Grid> */}
+            Loggin Successfully!
+          </Alert>
+        </Snackbar>
 
-          <Grid container justifyContent="flex-end">
-            <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
-              </Link>
+        <Box
+          sx={{
+            //   marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            //   background: "lightBlue",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign up
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  size="small"
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        firstName: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.firstName}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        lastName: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.lastName}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
+                  id="address"
+                  label="Address"
+                  name="address"
+                  autoComplete="family-name"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        address: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.address}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        email: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.email}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  type="number"
+                  required
+                  fullWidth
+                  size="small"
+                  id="phone"
+                  label="Phone"
+                  name="phone"
+                  autoComplete="phone"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        phone: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.phone}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  size="small"
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                  onChange={(e) =>
+                    setUser((p) => {
+                      return {
+                        ...p,
+                        password: e.target.value,
+                      };
+                    })
+                  }
+                  value={user.password}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+            {/* <Grid container justifyContent="center">
+              <Grid item> */}
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }} //margin top(mt) margin bottom (mb)
+              disabled={isSubmiting}
+            >
+              {isSubmiting ? <CircularProgress size={30} /> : "Sign Up"}
+            </Button>
+
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="#" variant="body2">
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </ThemeProvider>
   );
 };
 

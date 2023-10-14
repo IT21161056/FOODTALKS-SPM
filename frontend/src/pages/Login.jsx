@@ -15,7 +15,7 @@ import axios from "axios";
 const theme = createTheme({
   palette: {
     primary: { main: "#FFA500" },
-    secondary: { main: "#b36b00" },
+    secondary: { main: "#FFA500" },
   },
 });
 
@@ -30,9 +30,8 @@ function Copyright(props) {
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
         Your Website
-      </Link>{" "}
+      </Link>
       {new Date().getFullYear()}
-      {"."}
     </Typography>
   );
 }
@@ -48,6 +47,8 @@ export default function Login() {
   const [newAlanAtom, setAlanAtom] = useAtom(alanAtom);
   const [userData, setUserData] = useAtom(user);
   const [newData, setData] = useAtom(data);
+
+  console.log(pageName.pathname);
 
   const [loginCredentials, setLoginCredentials] = useState({
     email: "",
@@ -142,7 +143,7 @@ export default function Login() {
             severity="success"
             sx={{ width: "100%" }}
           >
-            Loggin Successfully!
+            Login Successfully!
           </Alert>
         </Snackbar>
         <CssBaseline />
