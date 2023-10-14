@@ -12,18 +12,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import React, { useEffect, useState } from "react";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useNavigation,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { Badge } from "@mui/material";
-import { user } from "../atom/alanAtom";
 import { useAtom } from "jotai";
 import FoodTalk from "../../src/images/fdd.png";
+import { user } from "../atom/alanAtom";
 
 const pages = [
   { pageName: "Products", route: "/#" },
@@ -65,12 +60,18 @@ export default function NavBar() {
     setAnchorElUser(null);
   };
 
-  const logout = () => {
-    sessionStorage.removeItem("userID");
-    setLogged(false);
-    setUserData(null);
-    navigate("/login");
+  const [cart, setCart] = useState([]);
+
+  const getTotal = () => {
+    if (sessionStorage.getItem("cartItems")) {
+      setCart(JSON.parse(sessionStorage.getItem("cartItems")));
+    }
   };
+
+  console.log(cart.length);
+  useEffect(() => {
+    getTotal();
+  }, [cart]);
 
   return (
     <AppBar position="sticky" sx={{ top: 0, backgroundColor: "#FFA500" }}>
@@ -186,7 +187,7 @@ export default function NavBar() {
             <Link to="/cartitem">
               {location.pathname === "/menu" ? (
                 <Badge
-                  badgeContent={1}
+                  badgeContent={cart.length}
                   color="secondary"
                   sx={{ color: "white" }}
                   id="demo-positioned-button"
@@ -236,7 +237,7 @@ export default function NavBar() {
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
                 {logged && (
-                  <Link onClick={logout} to="/login">
+                  <Link to="/login">
                     <Typography textAlign="center">Logout</Typography>
                   </Link>
                 )}
