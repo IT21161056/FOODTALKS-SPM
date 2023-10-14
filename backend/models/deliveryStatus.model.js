@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 
 const deliveryStatusSchema = new mongoose.Schema(
   {
-    userId: {
-      type: String,
-      required: true,
-    },
     orderId: {
       type: String,
       required: true,
@@ -21,7 +17,11 @@ const deliveryStatusSchema = new mongoose.Schema(
     date: {
       type: String,
       required: true,
-    }
+    },
+    deliverPerson: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

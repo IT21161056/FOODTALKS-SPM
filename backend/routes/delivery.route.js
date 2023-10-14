@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const deliveryController = require("../controllers/delivery.controller");
 
-router.route("/create").post(deliveryController.createNewDelvery);
+router.route("/create").post(deliveryController.createNewDelivery);
 router.route("/:id").get(deliveryController.getSingleDelivery);
 router.route("/").get(deliveryController.getAllDeliveries);
 router.route("/update").put(deliveryController.updateDelivery);

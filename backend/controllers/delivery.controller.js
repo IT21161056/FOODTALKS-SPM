@@ -22,7 +22,7 @@ const getAllDeliveries = async (req, res) => {
 //@desc Create new delivery
 //@route POST /delivery
 //@access Private
-const createNewDelvery = async (req, res) => {
+const createNewDelivery = async (req, res) => {
   try {
     const { name, email, area, mobile, status } = req.body;
 
@@ -125,7 +125,7 @@ const deleteDelivery = async (req, res) => {
 
 module.exports = {
   getAllDeliveries,
-  createNewDelvery,
+  createNewDelivery,
   updateDelivery,
   deleteDelivery,
   getSingleDelivery,
