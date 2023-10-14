@@ -1,11 +1,11 @@
-const Delivery = require("../models/deliveryStatus.model");
+const DeliveryStates = require("../models/deliveryStatus.model");
 
 //@desc Get all deliveries
 //@route GET /deliveryStatus
 //@access Private
 const getAllDeliveriesStatus = async (req, res) => {
   try {
-    const deliveryStatus = await DeliveryStatus.find();
+    const deliveryStatus = await DeliveryStates.find();
     console.log(deliveryStatus);
     if (!deliveryStatus) {
       return res.status(400).json({ message: "No delivery status found" });

@@ -74,7 +74,7 @@ export default function AllOrders () {
 
     const deleteOrder = async (orderId) => {
       axios
-      .delete("http://localhost:8072/order/delete/${orderId}")
+      .delete(`http://localhost:8072/order/delete/${orderId}`)
       .then(() => {
         setIsLoading(false);
         const newOrder = orders.filter((item) => item._id != orderId);
@@ -112,51 +112,9 @@ export default function AllOrders () {
             console.log(res.data)
             const pdfBlob = new Blob([res.data], {type:'application/pdf'})
 
-            saveAs(pdfBlob, 'newPdf.pdf')
+            saveAs(pdfBlob, 'Order Report.pdf')
         })
     }
-
-    // // Function to generate the PDF report
-    // const generateReport = (orders) => {
-    // // Create a new PDF document
-    // const doc = new jsPDF();
-  
-    // // Define the columns for the table
-    // const columns = [
-    //   { title: 'Customer Name', dataKey: 'customerName' },
-    //   { title: 'Mobile Number', dataKey: 'mobileNumber' },
-    //   { title: 'City', dataKey: 'city' },
-    //   { title: 'Delivery Location', dataKey: 'deliverLocation' },
-    //   { title: 'Delivery Date', dataKey: 'deliverDate' },
-    //   { title: 'Delivery Person', dataKey: 'deliveryPerson' },
-    //   { title: 'Total Amount', dataKey: 'totalAmount' },
-    // ];
-  
-    // // Create an array of data for the table
-    // const data = orders.map((order) => ({
-    //   customerName: order.customerName,
-    //   mobileNumber: order.mobileNumber,
-    //   city: order.city,
-    //   deliverLocation: order.deliverLocation,
-    //   deliverDate: order.deliverDate,
-    //   deliveryPerson: order.deliveryPerson,
-    //   totalAmount: order.totalAmount,
-    // }));
-  
-    // // Set the table width and position
-    // doc.autoTableSetDefaults({
-    //   startY: 20,
-    //   margin: { top: 20},
-    //   headStyles: { fillColor: [41, 128, 185], textColor: 255 },
-    //   bodyStyles: { textColor: 0 },
-    // });
-  
-    // // Add the table to the PDF document
-    // doc.autoTable(columns, data);
-  
-    // // Save the PDF
-    // doc.save('order_report.pdf');
-    // };
 
   return (
     <>

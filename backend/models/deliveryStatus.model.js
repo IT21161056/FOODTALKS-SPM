@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const deliveryStatusSchema = new mongoose.Schema(
+const deliverystateSchema = new mongoose.Schema(
   {
     orderId: {
       type: String,
@@ -8,7 +8,9 @@ const deliveryStatusSchema = new mongoose.Schema(
     },
     cusname: {
       type: String,
-      required: true,
+    },
+    date: {
+      type: String,
     },
     state: {
       type: String,
@@ -28,4 +30,4 @@ const deliveryStatusSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("deliveryStatus", deliveryStatusSchema);
+module.exports = mongoose.model("DeliveryStateModel", deliverystateSchema);

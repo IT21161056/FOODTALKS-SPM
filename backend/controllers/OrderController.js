@@ -41,6 +41,7 @@ const addNewOrder = async (request, response) => {
     deliverLocation,
     deliverDate,
     totalAmount,
+    status,
   } = request.body;
 
   //Confirm data
@@ -50,7 +51,8 @@ const addNewOrder = async (request, response) => {
     !city ||
     !deliverLocation ||
     !deliverDate ||
-    !totalAmount
+    !totalAmount ||
+    !status
   ) {
     return response.status(400).json({ message: "All fields are required" });
   }
@@ -62,6 +64,7 @@ const addNewOrder = async (request, response) => {
     deliverLocation,
     deliverDate,
     totalAmount,
+    status,
   });
 
   if (order) {
@@ -82,6 +85,7 @@ const updateOrder = async (request, response) => {
     deliverDate,
     totalAmount,
     deliveryPerson,
+    status,
     _id,
   } = request.body;
 
@@ -94,7 +98,8 @@ const updateOrder = async (request, response) => {
     !deliverLocation ||
     !deliverDate ||
     !totalAmount ||
-    !deliveryPerson
+    !deliveryPerson ||
+    !status
   ) {
     return response.status(400).json({ message: "All fields are required" });
   }
@@ -113,6 +118,7 @@ const updateOrder = async (request, response) => {
   order.deliverDate = deliverDate;
   order.totalAmount = totalAmount;
   order.deliveryPerson = deliveryPerson;
+  order.status = status;
 
   const updateOrder = await order.save();
 
@@ -123,21 +129,19 @@ const updateOrder = async (request, response) => {
 
 const deleteOrder = async (request, response) => {
   try {
-    const { id } = request.params.id;
+    const orderId = request.params.id;
 
     //console.log(request.params.id)
 
-    await Order.findByIdAndDelete(id)
+    await Order.findByIdAndDelete(orderId)
       .then(() => {
         response.status(200).json({ message: "Order deleted" });
       })
       .catch((error) => {
         //Confirm data
-        if (!id) {
+        if (!orderId) {
           return response.status(400).json({ message: "Order ID required" });
         }
-
-        //Confirm order exists to delete
 
         if (!Order) {
           return response.status(400).json({ message: "Order not found" });

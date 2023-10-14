@@ -37,6 +37,7 @@ app.use("/cart", CardRoutes); //viraj route
 
 const OrderRoute = require("./routes/OrderRoute.js");
 app.use("/order", OrderRoute); //pasindu route
+app.use("/deliverystate", DeliveryStateRoute); //harini route
 
 // anoj routes
 const userRoute = require("./routes/user.route.js");
@@ -49,6 +50,9 @@ app.use("/delivery", deliveryRoute);
 const deliveryStatusRoute = require("./routes/deliveryStatus.route.js");
 app.use("/deliveryStatus", deliveryStatusRoute);
 
+//pasindu route
+const OrderRoute = require("./routes/OrderRoute");
+app.use("/order", OrderRoute);
 const orderReportRoute = require("./routes/OrderReport.route.js");
 app.use("/orders_pdf", orderReportRoute);
 

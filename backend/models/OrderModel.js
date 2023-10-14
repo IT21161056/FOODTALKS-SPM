@@ -11,6 +11,11 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 
+  mobileNumber: {
+    type: String,
+    required: true,
+  },
+
   city: {
     type: String,
     required: true,
@@ -23,6 +28,15 @@ const orderSchema = new mongoose.Schema({
 
   deliverDate: {
     type: String,
+    required: true,
+  },
+
+  deliveryPerson: {
+    type: String,
+  },
+
+  totalAmount: {
+    type: Number,
     required: true,
   },
 
