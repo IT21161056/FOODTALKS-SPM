@@ -19,6 +19,14 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { alanAtom, command, data } from "../atom/alanAtom";
 import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: { main: "#FFA500" },
+    secondary: { main: "#FFA500" },
+  },
+});
 
 const Registraion = () => {
   const pageName = useLocation();
@@ -29,21 +37,20 @@ const Registraion = () => {
 
   const [isSubmiting, setIsSubmiting] = useState(false);
 
-  console.log(newAlanAtom);
-  // const inputString = "Hello   Wo  rld"; // Example string with multiple spaces
-
-  // Use the replace() method with a regular expression to remove spaces between characters
-  // const stringWithoutSpaces = inputString.replace(/\s+/g, "");
-  // console.log(stringWithoutSpaces);
-
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log(pageName.pathname);
 
   function speak() {
-    newAlanAtom.activate();
-    newAlanAtom.playText(
-      "Here..your can register in our system by answering questions, do you want to register?"
-    );
+    if (newAlanAtom) {
+      newAlanAtom.activate();
+      newAlanAtom.playText(
+        "Here..your can register in our system by answering questions, do you want to register?"
+      );
+    }
   }
+
+  useEffect(() => {
+    setTimeout(speak(), 2000);
+  }, []);
 
   const [user, setUser] = useState({
     firstName: "",
@@ -171,7 +178,7 @@ const Registraion = () => {
           };
         });
       }
-      if (newCommand === "register") {
+      if (newCommand === "registerMe") {
         register();
       }
     } finally {
@@ -179,22 +186,25 @@ const Registraion = () => {
     }
   }, [newCommand]);
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Loggin Successfully!
-        </Alert>
-      </Snackbar>
-      {newAlanAtom == null ? (
-        <CircularProgress />
-      ) : (
+    <ThemeProvider theme={theme}>
+      <Container
+        maxWidth="md"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+          <Alert
+            onClose={handleClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Loggin Successfully!
+          </Alert>
+        </Snackbar>
+
         <Box
           sx={{
             //   marginTop: 8,
@@ -347,9 +357,6 @@ const Registraion = () => {
             >
               {isSubmiting ? <CircularProgress size={30} /> : "Sign Up"}
             </Button>
-            <Button onClick={speak}>Speak</Button>
-            {/* </Grid>
-            </Grid> */}
 
             <Grid container justifyContent="flex-end">
               <Grid item>
@@ -360,8 +367,8 @@ const Registraion = () => {
             </Grid>
           </Box>
         </Box>
-      )}
-    </Container>
+      </Container>
+    </ThemeProvider>
   );
 };
 
