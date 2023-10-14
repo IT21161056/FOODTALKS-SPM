@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const deliverystateSchema = new mongoose.Schema(
   {
+    orderId: {
+      type: String,
+      required: true,
+    },
     cusname: {
       type: String,
     },
@@ -9,6 +13,14 @@ const deliverystateSchema = new mongoose.Schema(
       type: String,
     },
     state: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: String,
+      required: true,
+    },
+    deliverPerson: {
       type: String,
       required: true,
     },

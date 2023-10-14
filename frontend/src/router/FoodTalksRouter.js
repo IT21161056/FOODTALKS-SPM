@@ -29,6 +29,8 @@ import DeliveryStatus from "../pages/DeliveryStatus";
 import DeliveryStatusManagement from "../pages/DeliveryStatusManagement";
 import AddDeliveryStatusManagement from "../pages/AddDeliveryState";
 
+import Deliveries from "../pages/Deliveries";
+
 export default function FoodTalksRouter() {
   return (
     <Routes>
@@ -68,6 +70,7 @@ export default function FoodTalksRouter() {
         {/* Pasindu dashboard rotes */}
         <Route path="/dashboard/allOrders" element={<AllOrders />} />
         <Route path="/dashboard/updateOrder/:id" element={<UpdateOrder />} />
+        <Route path="/dashboard/deliveries" element={<Deliveries />} />
 
         {/* harini routes */}
         <Route
