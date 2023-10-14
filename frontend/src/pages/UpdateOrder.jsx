@@ -12,7 +12,7 @@ const UpdateOrder = () => {
   console.log('in update order >>>',id)
   const navigate = useNavigate();
 
-  const [employee, setEmployee] = useState([]); 
+  // const [employee, setEmployee] = useState([]); 
 
   const [orderDetails, setOrderDetails] = useState({
     customerName: "",
@@ -21,14 +21,14 @@ const UpdateOrder = () => {
     deliverLocation: "",
     deliverDate: "",
     totalAmount: "",
-    deliveryPerson: ""
+    // deliveryPerson: ""
   });
   
   console.log(orderDetails);
 
-  const employeeId = useParams();
-  const employeeName = employee.name;
-  console.log(employee);
+  // const employeeId = useParams();
+  // const employeeName = employee.name;
+  // console.log(employee);
 
   const orderName = orderDetails.customerName;
   console.log("customer name >>> "+orderName);
@@ -61,20 +61,20 @@ const UpdateOrder = () => {
   
   console.log("order id >>> "+id);
 
-  useEffect(() => {
-    function fetchEmployeeData() {
-      axios
-        .get('http://localhost:8072/delivery')
-        .then(( response ) => {
-          console.log(response.data)
-          setEmployee(response.data);
-        }).catch(( error ) => {
-          alert("An error occures when fecthing employee data!!");
-          console.log(error);
-        });
-    }
-    fetchEmployeeData();
-  }, [])
+  // useEffect(() => {
+  //   function fetchEmployeeData() {
+  //     axios
+  //       .get('http://localhost:8072/delivery')
+  //       .then(( response ) => {
+  //         console.log(response.data)
+  //         setEmployee(response.data);
+  //       }).catch(( error ) => {
+  //         alert("An error occures when fecthing employee data!!");
+  //         console.log(error);
+  //       });
+  //   }
+  //   fetchEmployeeData();
+  // }, [])
 
   console.log(orderDetails);
   function updateOrderData( event ){
@@ -205,7 +205,7 @@ const UpdateOrder = () => {
               />
             </Grid>
 
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Select
                 name="deliveryPerson"
                 required
@@ -215,13 +215,6 @@ const UpdateOrder = () => {
                 autoFocus
                 onChange={onChange} value={orderDetails.deliveryPerson || ''} 
               >
-                {/* <option>Select delivery person</option>
-                  {
-                    employee.map(( deliverPerson ) => {
-                    return <option key={ deliverPerson._id } value={ deliverPerson.name }>{ deliverPerson.name }</option>
-                  })
-                 } */}
-
                  <MenuItem value="">Select delivery person</MenuItem>
                   {employee.map((deliverPerson) => (
                     <MenuItem
@@ -232,7 +225,7 @@ const UpdateOrder = () => {
                     </MenuItem>
                   ))}
               </Select>
-            </Grid>
+            </Grid> */}
 
           </Grid>
           <Button

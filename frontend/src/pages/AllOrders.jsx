@@ -29,13 +29,13 @@ export default function AllOrders () {
     const {id} = useParams();
 
     const [orders, setOrders] = React.useState([]);
-    const [deliveryPerson, setDeliveryPerson] = React.useState([]);
+    // const [deliveryPerson, setDeliveryPerson] = React.useState([]);
     const [isLoading, setIsLoading] = React.useState(false);
-    const [employee, setEmployee] = useState([]); 
+    // const [employee, setEmployee] = useState([]); 
     const [searchQuery, setSearchQuery] = useState('');
 
-    const employeeId = useParams();
-    const employeeName = employee.name;
+    // const employeeId = useParams();
+    // const employeeName = employee.name;
 
     const ordersArray = orders;
     console.log(ordersArray);
@@ -68,18 +68,18 @@ export default function AllOrders () {
       };
       fetchOrders();
 
-    function fetchEmployeeData() {
-      axios
-        .get('http://localhost:8072/delivery')
-        .then(( response ) => {
-          console.log(response.data)
-          setEmployee(response.data);
-        }).catch(( error ) => {
-          alert("An error occures when fecthing employee data!!");
-          console.log(error);
-        });
-    }
-    fetchEmployeeData();
+    // function fetchEmployeeData() {
+    //   axios
+    //     .get('http://localhost:8072/delivery')
+    //     .then(( response ) => {
+    //       console.log(response.data)
+    //       setEmployee(response.data);
+    //     }).catch(( error ) => {
+    //       alert("An error occures when fecthing employee data!!");
+    //       console.log(error);
+    //     });
+    // }
+    // fetchEmployeeData();
     }, [])
 
     const deleteOrder = async (orderId) => {
@@ -178,7 +178,7 @@ export default function AllOrders () {
                 <TableCell sx={{minWidth: 80}} >City</TableCell>
                 <TableCell sx={{minWidth: 150}}>Deliver Location</TableCell>
                 <TableCell sx={{minWidth: 70}} >Deliver Date</TableCell>
-                <TableCell sx={{minWidth: 90}} >Deliver Person</TableCell>
+                {/* <TableCell sx={{minWidth: 90}} >Deliver Person</TableCell> */}
                 <TableCell sx={{minWidth: 80}} >Total Amount</TableCell>
                 <TableCell sx={{minWidth: 60}} >Action</TableCell>
               </TableRow>
@@ -195,7 +195,7 @@ export default function AllOrders () {
                     <TableCell >{item.city}</TableCell>
                     <TableCell >{item.deliverLocation}</TableCell>
                     <TableCell >{item.deliverDate}</TableCell>
-                    <TableCell >{item.deliveryPerson}</TableCell>
+                    {/* <TableCell >{item.deliveryPerson}</TableCell> */}
                     <TableCell >{item.totalAmount}</TableCell>
                     <TableCell >
                       <IconButton sx={{ backgroundColor: "primary" }}>
