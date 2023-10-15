@@ -28,6 +28,7 @@ const ViewCart = () => {
 
   return (
     <>
+    <div style={{minHeight:'100vh'}}>
       <Link to="/menu">
         <Button variant='outlined' name='Add product' style={{ marginLeft: '-190px',marginTop:'20px', color: 'black', borderBlockColor: '#ffbf80' }}
           item xs={8} sm={6} className='addbtn'>Go to menu</Button>
@@ -45,6 +46,7 @@ const ViewCart = () => {
           <Typography sx={{ marginTop: 3,fontSize: 25 }}>Reveiw &nbsp;&nbsp;&nbsp;</Typography>
           <Typography sx={{ fontWeight: 400, fontSize: 25, marginTop: 2 }}>{inputdata.review}</Typography>
         </div>
+      </div>
       </div>
       </div>
     </>
