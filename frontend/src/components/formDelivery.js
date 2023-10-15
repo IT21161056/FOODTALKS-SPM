@@ -20,7 +20,8 @@ const formDelivery = ({
         </CloseButton>
 
         <FormInputContainer>
-          <FormLabels htmlFor="name">Name : </FormLabels><br></br>
+          <FormLabels htmlFor="name">Name : </FormLabels>
+          <br></br>
           <FormInputs
             type="text"
             id="name"
@@ -31,72 +32,80 @@ const formDelivery = ({
             // pattern="[A-Za-z\s]+"
             title="Please enter a valid name"
             // onInput={(e) => handleInputValidation(e, "name")}
-          /><br></br>
+          />
+          <br></br>
         </FormInputContainer>
 
         <FormInputContainer>
-        <FormLabels htmlFor="email">Email : </FormLabels><br></br>
-        <FormInputs
-          type="email"
-          id="email"
-          name="email"
-          onChange={handleOnChange}
-          value={rest.email}
-          required
-          // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
-          title="Please enter a valid email address"
-          // onInput={(e) => handleInputValidation(e, "email")}
-        /><br></br>
-        </FormInputContainer>
-        
-        <FormInputContainer>
-        <FormLabels htmlFor="area">Covering Area : </FormLabels><br></br>
-        <FormInputs
-          type="text"
-          id="area"
-          name="area"
-          onChange={handleOnChange}
-          value={rest.area}
-          required
-          // pattern="[A-Za-z\s]+"
-          title="Please enter a valid area"
-          // onInput={(e) => handleInputValidation(e, "area")}
-        /><br></br>
+          <FormLabels htmlFor="email">Email : </FormLabels>
+          <br></br>
+          <FormInputs
+            type="email"
+            id="email"
+            name="email"
+            onChange={handleOnChange}
+            value={rest.email}
+            required
+            // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
+            title="Please enter a valid email address"
+            // onInput={(e) => handleInputValidation(e, "email")}
+          />
+          <br></br>
         </FormInputContainer>
 
         <FormInputContainer>
-        <FormLabels htmlFor="mobile">Mobile No : </FormLabels><br></br>
-        <FormInputs
-          type="number"
-          id="mobile"
-          name="mobile"
-          onChange={handleOnChange}
-          value={rest.mobile}
-          required
-          // pattern="^07[0-9]{8}$"
-          title="Please enter a valid 10-digit mobile number"
-          // onInput={(e) => handleInputValidation(e, "mobile")}
-        /><br></br>
+          <FormLabels htmlFor="area">Covering Area : </FormLabels>
+          <br></br>
+          <FormInputs
+            type="text"
+            id="area"
+            name="area"
+            onChange={handleOnChange}
+            value={rest.area}
+            required
+            // pattern="[A-Za-z\s]+"
+            title="Please enter a valid area"
+            // onInput={(e) => handleInputValidation(e, "area")}
+          />
+          <br></br>
         </FormInputContainer>
 
         <FormInputContainer>
-        <FormLabels htmlFor="status">Is present today?(Yes/No) </FormLabels><br></br>
-        <select id="status"
-          name="status"
-          onChange={handleOnChange}
-          value={rest.status}
-          required >
-          <option>Yes</option>
-          <option>No</option>
-        </select>
-       
+          <FormLabels htmlFor="mobile">Mobile No : </FormLabels>
+          <br></br>
+          <FormInputs
+            type="number"
+            id="mobile"
+            name="mobile"
+            onChange={handleOnChange}
+            value={rest.mobile}
+            required
+            // pattern="^07[0-9]{8}$"
+            title="Please enter a valid 10-digit mobile number"
+            // onInput={(e) => handleInputValidation(e, "mobile")}
+          />
+          <br></br>
+        </FormInputContainer>
+
+        <FormInputContainer>
+          <FormLabels htmlFor="status">Is present today?(Yes/No) </FormLabels>
+          <br></br>
+          <FormSelect
+            id="status"
+            name="status"
+            onChange={handleOnChange}
+            value={rest.status}
+            required
+          >
+            <option>Select Status</option>
+            <option>Yes</option>
+            <option>No</option>
+          </FormSelect>
         </FormInputContainer>
 
         {/* Repeat the same structure for other input fields */}
 
-        <FormButton >
-          Submit
-        </FormButton>
+        <FormButton>Submit</FormButton>
       </FormContainer>
     </AddContainer>
   );
@@ -134,6 +143,16 @@ const FormLabels = styled('label')`
 `;
 
 const FormInputs = styled('input')`
+  font-size: 1rem;
+  padding: 5px 15px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 325px;
+  border: 0.2px solid;
+`;
+
+const FormSelect = styled("select")`
   font-size: 1rem;
   padding: 5px 15px;
   margin-right: 5px;

@@ -60,7 +60,7 @@ const DeliveryManagement = () => {
   const showSuccessMessage = (message) => {
     toast.success(
       <SuccessMessage>
-        <SuccessIcon className="material-icons">check_circle</SuccessIcon>
+        <SuccessIcon className="material-icons"></SuccessIcon>
         {message}
       </SuccessMessage>,
       { autoClose: 2000 }
@@ -100,6 +100,7 @@ const DeliveryManagement = () => {
         mobile: "",
         status: "",
       })
+      showSuccessMessage("Record saved successfully!");
       getFetchData()
     });
 
