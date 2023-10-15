@@ -49,7 +49,8 @@ module.exports = (orders) => {
           }
           
           #logo img {
-            width: 400px;
+            width: 200px;
+            height: 200px;
             object-fit: cover;
           }
           
@@ -161,7 +162,7 @@ module.exports = (orders) => {
     
         <header class="clearfix">
             <div id="logo">
-                <img src="http://localhost:3001/fdd.png" height="100px">
+                <img src="http://localhost:3000/fdd.png" height="100px">
             </div>
         <!-- <h1><b>Food Talks</b></h1> -->
         <h1>Orders Details</h1>
@@ -190,7 +191,6 @@ module.exports = (orders) => {
               <th>City</th>
               <th>Deliver Location</th>
               <th>Deliver Date</th>
-              <th>Delivery Person</th>
               <th>Total Amount</th>
               
             </tr>
@@ -205,7 +205,6 @@ module.exports = (orders) => {
                 <td class="desc">${ord.city}</td>
                 <td class="desc">${ord.deliverLocation}</td>
                 <td class="unit">${ord.deliverDate}</td>
-                <td class="desc">${ord.deliveryPerson}</td>
                 <td class="unit">${ord.totalAmount}</td>
                 
                  

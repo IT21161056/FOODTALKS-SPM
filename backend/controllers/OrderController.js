@@ -35,6 +35,8 @@ const getSingleOrder = async (req, res) => {
 //Add new order
 
 const addNewOrder = async (request, response) => {
+
+console.log("user sent >", request.body)
   const {
     customerName,
     mobileNumber,
@@ -42,7 +44,6 @@ const addNewOrder = async (request, response) => {
     deliverLocation,
     deliverDate,
     totalAmount,
-    status,
   } = request.body;
 
   //Confirm data
@@ -52,23 +53,22 @@ const addNewOrder = async (request, response) => {
     !city ||
     !deliverLocation ||
     !deliverDate ||
-    !totalAmount ||
-    !status
+    !totalAmount
   ) {
     return response.status(400).json({ message: "All fields are required" });
   }
 
-  const order = await Order.create({
+  const newOrder = await Order.create({
     customerName,
     mobileNumber,
     city,
     deliverLocation,
     deliverDate,
     totalAmount,
-    status,
   });
 
-  if (order) {
+  console.log("new order >",newOrder)
+  if (newOrder) {
     return response.status(201).json({ message: "New Order created" });
   } else {
     return request.status(400).json({ message: "Invalid order data recived" });
@@ -85,8 +85,7 @@ const updateOrder = async (request, response) => {
     deliverLocation,
     deliverDate,
     totalAmount,
-    deliveryPerson,
-    status,
+   
     _id,
   } = request.body;
 
@@ -98,30 +97,29 @@ const updateOrder = async (request, response) => {
     !city ||
     !deliverLocation ||
     !deliverDate ||
-    !totalAmount ||
-    !deliveryPerson ||
-    !status
+    !totalAmount
+  
   ) {
     return response.status(400).json({ message: "All fields are required" });
   }
 
   //Confirm order exist to update
-  const order = await Order.findById(_id).exec();
+  const oldOrder = await Order.findById({_id:_id});
 
-  if (!order) {
+  
+
+  if (!oldOrder) {
     return response.status(400).json({ message: "Order not found" });
   }
 
-  order.customerName = customerName;
-  order.mobileNumber = mobileNumber;
-  order.city = city;
-  order.deliverLocation = deliverLocation;
-  order.deliverDate = deliverDate;
-  order.totalAmount = totalAmount;
-  order.deliveryPerson = deliveryPerson;
-  order.status = status;
+  oldOrder.customerName = customerName;
+  oldOrder.mobileNumber = mobileNumber;
+  oldOrder.city = city;
+  oldOrder.deliverLocation = deliverLocation;
+  oldOrder.deliverDate = deliverDate;
+  oldOrder.totalAmount = totalAmount;
 
-  const updateOrder = await order.save();
+  const updateOrder = await oldOrder.save();
 
   response.json(`'${updateOrder.order}' updated`);
 };

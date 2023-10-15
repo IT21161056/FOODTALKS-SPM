@@ -414,6 +414,6 @@ export default function AllOrders() {
       ) : (
         "No orders"
       )}
-    </>
-  );
+</>
+);
 }
