@@ -112,9 +112,9 @@ const AddProduct = () => {
   return (
 
     <>
-    <div className='bx'>
+    <div className='bx' style={{minHeight:'100vh'}}>
  
-   <div className='sh'>
+   <div className='sh' style={{marginTop:'-100px'}}>
    <Typography sx={{display:'flex',justifyContent:'center',fontSize:'1.8rem',marginBottom:'20px'}}>Add a New Product</Typography>
   <div className='row'>
     <div className='f1'>
