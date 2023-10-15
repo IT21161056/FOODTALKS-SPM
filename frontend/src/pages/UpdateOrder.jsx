@@ -230,7 +230,7 @@ const UpdateOrder = () => {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Select
                   name="deliveryPerson"
                   required
@@ -241,12 +241,12 @@ const UpdateOrder = () => {
                   onChange={onChange}
                   value={orderDetails.deliveryPerson || ""}
                 >
-                  {/* <option>Select delivery person</option>
+                  <option>Select delivery person</option>
                   {
                     employee.map(( deliverPerson ) => {
                     return <option key={ deliverPerson._id } value={ deliverPerson.name }>{ deliverPerson.name }</option>
                   })
-                 } */}
+                 }
 
                   <MenuItem value="">Select delivery person</MenuItem>
                   {employee.map((deliverPerson) => (
@@ -258,7 +258,7 @@ const UpdateOrder = () => {
                     </MenuItem>
                   ))}
                 </Select>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
