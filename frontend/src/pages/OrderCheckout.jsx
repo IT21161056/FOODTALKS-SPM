@@ -11,6 +11,7 @@ import { createTheme } from '@mui/material/styles';
 
 export default function OrderCheckout() {
 
+  //get the total amount using params
   let total = window.location.search;
   const urlParams = new URLSearchParams(total);
   const totalAmount = urlParams.get("total");
@@ -43,7 +44,7 @@ export default function OrderCheckout() {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#FFA500', // Your primary color here
+        main: '#FFA500', //primary color here
       },
     },
   });

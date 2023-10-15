@@ -134,7 +134,7 @@ export default function AllOrders () {
           mb={2}
           sx={{ fontWeight: 600, fontSize: 20, color: "primary", mt: 2 , ml: 2}}
         >
-          Order List
+          Pending Orders
         </Typography>
         <Button
           variant="contained"
