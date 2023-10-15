@@ -10,6 +10,7 @@ import { useAtom } from 'jotai';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import bgImage from "../../src/images/bgImage.jpg"
+
 const Cards = () => {
 
 
@@ -30,7 +31,7 @@ const Cards = () => {
         }
 
       }
-
+        
     }
 
     if (message == 'noodles') {
@@ -56,6 +57,15 @@ const Cards = () => {
     }
     if (message == 'cnoodles') {
       addToCart(cardData[2])
+    }
+    if (message == 'pork') {
+      addToCart(cardData[3])
+    }
+    if (message == 'nasiguran') {
+      addToCart(cardData[4])
+    }
+    if(message == 'crice'){
+      addToCart(cardData[5])
     }
 
 
@@ -104,7 +114,6 @@ const Cards = () => {
 
   return (
     <div className='container mt-3'>
-
       <section className='home'>
         <div className='overlay'></div>
         <img src={bgImage} style={{ borderRadius: 4 }} alt='image' className='bimg' />
@@ -113,7 +122,7 @@ const Cards = () => {
             <div className='searchcomponent'>
               <Grid sx={{ position: 'absolute', top: 140 }} >
                 <Box sx={{ width: 700, display: 'flex', marginLeft: '125px' }} item xs={12} sm={6}>
-                  <TextField sx={{ backgroundColor: 'white', borderRadius: 2 }} onChange={(e) => setSearch(e.target.value)} inputProps={{ style: { height: "16px", width: 500 } }} placeholder='Search foods' />
+                  <TextField sx={{ backgroundColor: 'white', borderColor: 'none', borderRadius: 2, border: 'none', boxShadow: 3 }} onChange={(e) => setSearch(e.target.value)} inputProps={{ style: { height: "16px", width: 500 } }} placeholder='Search foods' />
                   <Button style={{
                     backgroundColor: '#ff9933', marginBottom: 1,
                     marginLeft: 18, paddingRight: 20, paddingLeft: 20, color: 'white'
@@ -124,7 +133,7 @@ const Cards = () => {
             <span className='smallText'>
               Voice to plate
             </span>
-            <span className='menu' style={{ top: 25, position: 'absolute', left: 490, fontSize: '4rem'}}>
+            <span className='menu' style={{ top: 25, position: 'absolute', left: 490, fontSize: '4rem' }}>
               Today menu
             </span>
 
@@ -151,11 +160,11 @@ const Cards = () => {
                     <Card.Text style={{ fontSize: '17px', fontWeight: '2rem' }}>
                       Price : Rs.{element.price}
                     </Card.Text>
-                    <div style={{ display: 'flex', flexDirection: 'row', gap: 16 }}>
-                      <Button variant="outlined" style={{ outlineColor: '#ff9933', color: '#b36b00', borderColor: '#b36b00' }} onClick={() => addToCart(element)} >
+                    <div style={{ display: 'flex', flexDirection: 'row', gap: 18 }}>
+                      <Button variant="outlined" style={{ outlineColor: '#ff9933', color: '#b36b00',paddingLeft:'10px',borderColor: '#b36b00' }} onClick={() => addToCart(element)} >
                         Add to Cart</Button>
                       <Button variant="outlined" style={{ outlineColor: 'green', color: '#ff9900', borderColor: '#ff9933' }} href={`view/${element._id}`} >
-                        Buy Now</Button>
+                        view now</Button>
                     </div>
                     <ToastContainer position="bottom-center" autoClose={400} />
                   </Card.Body>

@@ -113,7 +113,7 @@ const CartItem = () => {
   },[message])
 
   return (
-    <div>
+    <div style={{minHeight:'100vh'}}>
       <Link to='/menu'><Button variant='outlined' style={{position:'relative',color:'black',borderBlockColor:'#ffbf80',top:50,marginLeft:30}}>Go to menu</Button></Link>
       <Typography sx={{display:'flex',justifyContent:'center',fontSize:30}}>Your Cart</Typography>
       <TableContainer component={Paper} sx={{ width: 1050, display: 'flex', marginLeft: 30}}>
