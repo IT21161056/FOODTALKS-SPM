@@ -16,7 +16,7 @@ import {
   Button,
   TextField,
   Typography,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import axios from "axios";
@@ -25,23 +25,21 @@ import { toast } from "react-toastify";
 import DeliveryStatusTable from "./DeliveryStatusTable";
 
 const columns = [
-  { id: "customerName", label: "Customer Name" },
-  { id: "mobileNumber", label: "Contact Number" },
   {
-    id: "city",
-    label: "City",
-  },
-  {
-    id: "deliverLocation",
-    label: "Delivery Location",
+    id: "cusname",
+    label: "Order owner Name",
   },
   {
     id: "deliverDate",
-    label: "Delivery Date",
+    label: "Delivery placed Date",
   },
   {
-    id: "totalAmount",
-    label: "Amount",
+    id: "deliverPerson",
+    label: "Delivery person",
+  },
+  {
+    id: "state",
+    label: "State",
   },
   {
     id: "action",
@@ -67,6 +65,8 @@ const Deliveries = () => {
   });
   const [deliveryStatus, setDeliveryStatus] = useState("readytodeliver");
   const [deliveryStatusData, setDeliveryStatusData] = useState([]);
+
+  const [deliveries, setDeliveries] = useState([]);
   const navigate = useNavigate();
 
   const handleClose = () => {
@@ -85,57 +85,14 @@ const Deliveries = () => {
     });
   };
 
-  const submit = () => {
-    const newDelivery = {
-      ...delivery,
-      deliverPerson: assignedDvPerson,
-      state: deliveryStatus,
-    };
-    setDeliveryStatusData([...deliveryStatusData, newDelivery]);
-
-    axios
-      .post("http://localhost:8072/deliveryStatus/create", newDelivery)
-      .then((res) => {
-        setIsLoading(false);
-        setDvPerson("");
-        setOpen(false);
-        setDelivery({
-          deliverPerson: "",
-          orderId: "",
-          cusname: "",
-          state: "",
-          date: "",
-        });
-
-        // Add the new delivery data to the table
-        setDeliveryStatusData((prevData) => [...prevData, newDelivery]);
-
-        toast.success("Successfully added the data");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   useEffect(() => {
     setIsLoading(true);
 
     axios
-      .get("http://localhost:8072/order/")
+      .get("http://localhost:8072/deliveryStatus/")
       .then((res) => {
         setIsLoading(false);
-        setOrders(res.data);
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    axios
-      .get("http://localhost:8072/delivery/")
-      .then((res) => {
-        setIsLoading(false);
-        setDeliveryGuys(res.data);
+        setDeliveries(res.data);
         console.log(res.data);
       })
       .catch((err) => {
@@ -160,17 +117,15 @@ const Deliveries = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders
+            {deliveries
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => {
                 return (
                   <TableRow key={row._id}>
-                    <TableCell>{row.customerName}</TableCell>
-                    <TableCell>{row.mobileNumber}</TableCell>
-                    <TableCell>{row.city}</TableCell>
-                    <TableCell>{row.deliverLocation}</TableCell>
-                    <TableCell>{row.deliverDate}</TableCell>
-                    <TableCell>{row.totalAmount}</TableCell>
+                    <TableCell>{row.cusname}</TableCell>
+                    <TableCell>{row.date}</TableCell>
+                    <TableCell>{row.deliverPerson}</TableCell>
+                    <TableCell>{row.state}</TableCell>
                     <TableCell align="right">
                       <IconButton onClick={() => getOrderId(row)}>
                         <SettingsIcon />
@@ -182,13 +137,6 @@ const Deliveries = () => {
           </TableBody>
         </Table>
       </Paper>
-
-
-      {deliveryStatusData.length > 0 && (
-        <DeliveryStatusTable data={deliveryStatusData} />
-      )}
-
-
 
       <Modal
         open={open}
@@ -211,19 +159,9 @@ const Deliveries = () => {
         >
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">
-              Assign a Delivery person
+              Change delivery state
             </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={assignedDvPerson}
-              label="Assign a Delivery person"
-              onChange={(v) => setDvPerson(v.target.value)}
-            >
-              {deliveryGuys.map((d) => (
-                <MenuItem value={d.name}>{d.name}</MenuItem>
-              ))}
-            </Select>
+
             <br></br>
             <Select
               labelId="delivery-status-label"
@@ -248,7 +186,7 @@ const Deliveries = () => {
               value={delivery.cusname}
               disabled
             />
-            <Button onClick={submit}>Save</Button>
+            <Button onClick={""}>Save</Button>
           </FormControl>
         </Box>
       </Modal>

@@ -1,10 +1,11 @@
+const OrderModel = require("../models/OrderModel");
 const Order = require("../models/OrderModel");
 
 const getAllOrders = async (request, response) => {
   //get all orders from MongoDB
-  console.log("hhh");
+
   try {
-    const orders = await Order.find().lean();
+    const orders = await Order.find({ isComplete: false }).lean();
 
     //If no orders
     if (!orders) {
@@ -157,10 +158,24 @@ const deleteOrder = async (request, response) => {
   }
 };
 
+const updateOrderStatus = async (req, res) => {
+  console.log(req.params.id);
+
+  const order = await OrderModel.findById({ _id: req.params.id });
+
+  if (!order) return res.send("No order found!");
+
+  order.isComplete = true;
+
+  order.save();
+
+  res.send("Order status update success!");
+};
 module.exports = {
   getAllOrders,
   getSingleOrder,
   addNewOrder,
   updateOrder,
   deleteOrder,
+  updateOrderStatus,
 };

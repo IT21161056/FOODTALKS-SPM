@@ -37,7 +37,6 @@ app.use(express.json()); //this is a buit in middleware
 // const CardRoutes = require("./routes/CardRoutes.js");
 app.use("/cart", CardRoutes); //viraj route
 
-
 // anoj routes
 const userRoute = require("./routes/user.route.js");
 app.use("/users", userRoute);
@@ -45,8 +44,11 @@ app.use("/users", userRoute);
 // harini routes
 const deliveryRoute = require("./routes/delivery.route.js");
 app.use("/delivery", deliveryRoute);
-  
-  //pasindu route
+
+const deliveryStatusRoutes = require("./routes/deliveryStatus.route.js");
+app.use("/deliveryStatus", deliveryStatusRoutes);
+
+//pasindu route
 const OrderRoute = require("./routes/OrderRoute");
 app.use("/order", OrderRoute);
 const orderReportRoute = require("./routes/OrderReport.route.js");

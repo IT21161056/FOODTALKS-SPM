@@ -44,6 +44,10 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  isComplete: {
+    type: String,
+    required: false,
+  },
 });
 
 module.exports = mongoose.model("OrderModel", orderSchema);
