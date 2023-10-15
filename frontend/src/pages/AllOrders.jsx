@@ -31,10 +31,10 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-const StyledLabel = styled("label")`
-  margin-bottom: 20px;
-  margin: 10px;
-`;
+// const StyledLabel = styled("label")`
+//   margin-bottom: 20px;
+//   margin: 10px;
+// `;
 export default function AllOrders() {
   const { id } = useParams();
 
@@ -152,7 +152,7 @@ export default function AllOrders() {
       <TextField
         label="Search"
         variant="outlined"
-        theme={theme.palette.primary.main}
+        // theme={theme.palette.primary.main}
         fullWidth
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}

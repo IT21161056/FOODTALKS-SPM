@@ -47,6 +47,7 @@ const orderSchema = new mongoose.Schema({
   isComplete: {
     type: String,
     required: false,
+    default:false
   },
 });
 

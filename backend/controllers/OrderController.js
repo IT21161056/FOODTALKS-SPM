@@ -35,6 +35,8 @@ const getSingleOrder = async (req, res) => {
 //Add new order
 
 const addNewOrder = async (request, response) => {
+
+console.log("user sent >", request.body)
   const {
     customerName,
     mobileNumber,
@@ -42,7 +44,6 @@ const addNewOrder = async (request, response) => {
     deliverLocation,
     deliverDate,
     totalAmount,
-    status,
   } = request.body;
 
   //Confirm data
@@ -52,23 +53,22 @@ const addNewOrder = async (request, response) => {
     !city ||
     !deliverLocation ||
     !deliverDate ||
-    !totalAmount ||
-    !status
+    !totalAmount
   ) {
     return response.status(400).json({ message: "All fields are required" });
   }
 
-  const order = await Order.create({
+  const newOrder = await Order.create({
     customerName,
     mobileNumber,
     city,
     deliverLocation,
     deliverDate,
     totalAmount,
-    status,
   });
 
-  if (order) {
+  console.log("new order >",newOrder)
+  if (newOrder) {
     return response.status(201).json({ message: "New Order created" });
   } else {
     return request.status(400).json({ message: "Invalid order data recived" });

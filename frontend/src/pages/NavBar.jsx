@@ -68,10 +68,10 @@ export default function NavBar() {
     }
   };
 
-  console.log(cart.length);
-  useEffect(() => {
-    getTotal();
-  }, [cart]);
+  // console.log(cart.length);
+  // useEffect(() => {
+  //   getTotal();
+  // }, [cart]);
 
   return (
     <AppBar position="sticky" sx={{ top: 0, backgroundColor: "#FFA500" }}>

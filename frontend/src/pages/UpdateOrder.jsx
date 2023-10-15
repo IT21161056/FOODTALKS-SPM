@@ -15,13 +15,13 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material";
 
 const UpdateOrder = () => {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#FFA500", // Your primary color here
-      },
-    },
-  });
+  // const theme = createTheme({
+  //   palette: {
+  //     primary: {
+  //       main: "#FFA500", // Your primary color here
+  //     },
+  //   },
+  // });
 
   const { id } = useParams();
   console.log("in update order >>>", id);
