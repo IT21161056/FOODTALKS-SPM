@@ -3,16 +3,7 @@ import "../pages/deliveryManagement.css";
 import { MdClose } from "react-icons/md";
 import styled from 'styled-components'
 
-const handleInputValidation = (e, fieldName) => {
-  const input = e.target;
-  const errorSpan = document.getElementById(`${fieldName}-error`);
 
-  if (input.checkValidity()) {
-    errorSpan.style.display = "none"; // Hide the error message if input is valid
-  } else {
-    errorSpan.style.display = "block"; // Show the error message if input is invalid
-  }
-};
 
 const formDelivery = ({
   handleSubmit,
@@ -37,9 +28,9 @@ const formDelivery = ({
             onChange={handleOnChange}
             value={rest.name}
             required
-            pattern="[A-Za-z\s]+"
+            // pattern="[A-Za-z\s]+"
             title="Please enter a valid name"
-            onInput={(e) => handleInputValidation(e, "name")}
+            // onInput={(e) => handleInputValidation(e, "name")}
           /><br></br>
         </FormInputContainer>
 
@@ -52,9 +43,9 @@ const formDelivery = ({
           onChange={handleOnChange}
           value={rest.email}
           required
-          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
+          // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
           title="Please enter a valid email address"
-          onInput={(e) => handleInputValidation(e, "email")}
+          // onInput={(e) => handleInputValidation(e, "email")}
         /><br></br>
         </FormInputContainer>
         
@@ -67,9 +58,9 @@ const formDelivery = ({
           onChange={handleOnChange}
           value={rest.area}
           required
-          pattern="[A-Za-z\s]+"
+          // pattern="[A-Za-z\s]+"
           title="Please enter a valid area"
-          onInput={(e) => handleInputValidation(e, "area")}
+          // onInput={(e) => handleInputValidation(e, "area")}
         /><br></br>
         </FormInputContainer>
 
@@ -82,30 +73,28 @@ const formDelivery = ({
           onChange={handleOnChange}
           value={rest.mobile}
           required
-          pattern="^07[0-9]{8}$"
+          // pattern="^07[0-9]{8}$"
           title="Please enter a valid 10-digit mobile number"
-          onInput={(e) => handleInputValidation(e, "mobile")}
+          // onInput={(e) => handleInputValidation(e, "mobile")}
         /><br></br>
         </FormInputContainer>
 
         <FormInputContainer>
         <FormLabels htmlFor="status">Is present today?(Yes/No) </FormLabels><br></br>
-        <FormInputs
-          type="text"
-          id="status"
+        <select id="status"
           name="status"
           onChange={handleOnChange}
           value={rest.status}
-          required
-          pattern="Yes|No"
-          title='Please enter either "Yes" or "No"'
-          onInput={(e) => handleInputValidation(e, "status")}
-        /><br></br>
+          required >
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+       
         </FormInputContainer>
 
         {/* Repeat the same structure for other input fields */}
 
-        <FormButton disabled={isSubmitting}>
+        <FormButton >
           Submit
         </FormButton>
       </FormContainer>

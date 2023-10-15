@@ -47,15 +47,15 @@ const DeliveryManagement = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleOnChange = (e)=>{
-    const {value,name} = e.target
-    setFormData((preve)=>{
-        return{
-          ...preve,
-          [name] : value
-        }
-    })
-  }
+  const handleOnChange = (e) => {
+    const { value, name } = e.target;
+    setFormData((preve) => {
+      return {
+        ...preve,
+        [name]: value,
+      };
+    });
+  };
 
   const showSuccessMessage = (message) => {
     toast.success(
@@ -85,35 +85,47 @@ const DeliveryManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     setIsSubmitting(true);
     const data = await axios.post(
       "http://localhost:8072/delivery/create",
       formData
-    );
-
-    if (data.data.success) {
+    ).then((res)=>{
+      console.log(res)
       setAddSection(false);
-      getFetchData();
       setFormData({
         name: "",
         email: "",
         area: "",
         mobile: "",
         status: "",
-      });
-      showSuccessMessage("Record saved successfully!");
-      setIsSubmitting(false);
-    }
-    const form = e.target;
+      })
+      getFetchData()
+    });
 
-    if (form.checkValidity()) {
-    } else {
-      const invalidInputs = form.querySelectorAll(":invalid");
-      invalidInputs.forEach((input) => {
-        const errorSpan = input.nextElementSibling;
-        errorSpan.textContent = input.validationMessage;
-      });
-    }
+    // if (data.data.success) {
+    //   setAddSection(false);
+    //   getFetchData();
+    //   setFormData({
+    //     name: "",
+    //     email: "",
+    //     area: "",
+    //     mobile: "",
+    //     status: "",
+    //   });
+    //   showSuccessMessage("Record saved successfully!");
+    //   setIsSubmitting(false);
+    // }
+    // const form = e.target;
+
+    // if (form.checkValidity()) {
+    // } else {
+    //   const invalidInputs = form.querySelectorAll(":invalid");
+    //   invalidInputs.forEach((input) => {
+    //     const errorSpan = input.nextElementSibling;
+    //     errorSpan.textContent = input.validationMessage;
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -123,24 +135,31 @@ const DeliveryManagement = () => {
   const handleDelete = async (id) => {
     const data = await axios.delete(
       `http://localhost:8072/delivery/delete/${id}`
-    );
-    if (data.data.success) {
+    ).then((res)=>{
       getFetchData();
       showSuccessMessage("Record deleted successfully!");
-    }
+      getFetchData()
+    });
+   
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    console.log(formDataEdit)
     const data = await axios.put(
-      "http://localhost:8072/delivery/update",
+      `http://localhost:8072/delivery/update`,
       formDataEdit
-    );
-    if (data.data.success) {
+    ).then((res)=>{
       getFetchData();
+      setAddSection(false)
       setEditSection(false);
       showSuccessMessage("Record updated successfully!");
-    }
+    }).catch((error)=>{
+      alert(`Server error ${error}`)
+    });
+    // if (data.data.success) {
+      
+    // }
   };
 
   const handleEditOnChange = async (e) => {
@@ -292,6 +311,7 @@ const DeliveryManagement = () => {
             handleclose={() => setAddSection(false)}
             rest={formData}
             isSubmitting={isSubmitting}
+            
           />
         )}
 

@@ -1,24 +1,28 @@
-import SettingsIcon from "@mui/icons-material/Settings";
+import React, { useState, useEffect } from "react";
 import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
+  Modal,
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Button,
+  TextField,
   Typography,
+  IconButton
 } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import DeliveryStatusTable from "./DeliveryStatusTable";
 
 const columns = [
   { id: "customerName", label: "Customer Name" },
@@ -54,19 +58,6 @@ const Deliveries = () => {
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [assignedDvPerson, setDvPerson] = useState("");
   const [open, setOpen] = React.useState(false);
-
-  const handleClose = () => {
-    setOpen(false);
-    setDelivery({
-      deliverPerson: "",
-      orderId: "",
-      cusname: "",
-      state: "",
-      date: "",
-    });
-    setDvPerson("");
-  };
-
   const [delivery, setDelivery] = useState({
     deliverPerson: "",
     orderId: "",
@@ -74,31 +65,13 @@ const Deliveries = () => {
     state: "",
     date: "",
   });
+  const [deliveryStatus, setDeliveryStatus] = useState("readytodeliver");
+  const [deliveryStatusData, setDeliveryStatusData] = useState([]);
+  const navigate = useNavigate();
 
-  const submit = () => {
-    const newDelivery = {
-      ...delivery,
-      deliverPerson: assignedDvPerson,
-    };
-
-    console.log(newDelivery);
-    axios
-      .post("http://localhost:8072/deliveryStatus/create", newDelivery)
-      .then((res) => {
-        setIsLoading(false);
-        setDelivery({
-          deliverPerson: "",
-          orderId: "",
-          cusname: "",
-          state: "",
-          date: "",
-        });
-        setDvPerson("");
-        setOpen(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleClose = () => {
+    setOpen(false);
+    setDvPerson("");
   };
 
   const getOrderId = (order) => {
@@ -107,9 +80,41 @@ const Deliveries = () => {
       deliverPerson: "",
       orderId: order._id,
       cusname: order.customerName,
-      state: "pending",
+      state: "readytodeliver",
       date: new Date(),
     });
+  };
+
+  const submit = () => {
+    const newDelivery = {
+      ...delivery,
+      deliverPerson: assignedDvPerson,
+      state: deliveryStatus,
+    };
+    setDeliveryStatusData([...deliveryStatusData, newDelivery]);
+
+    axios
+      .post("http://localhost:8072/deliveryStatus/create", newDelivery)
+      .then((res) => {
+        setIsLoading(false);
+        setDvPerson("");
+        setOpen(false);
+        setDelivery({
+          deliverPerson: "",
+          orderId: "",
+          cusname: "",
+          state: "",
+          date: "",
+        });
+
+        // Add the new delivery data to the table
+        setDeliveryStatusData((prevData) => [...prevData, newDelivery]);
+
+        toast.success("Successfully added the data");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -137,6 +142,7 @@ const Deliveries = () => {
         console.log(err);
       });
   }, []);
+
   return (
     <TableContainer sx={{ maxHeight: "60vh", padding: 1 }}>
       <Typography mb={2} sx={{ fontWeight: 600, fontSize: 20, color: "black" }}>
@@ -176,6 +182,14 @@ const Deliveries = () => {
           </TableBody>
         </Table>
       </Paper>
+
+
+      {deliveryStatusData.length > 0 && (
+        <DeliveryStatusTable data={deliveryStatusData} />
+      )}
+
+
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -210,6 +224,30 @@ const Deliveries = () => {
                 <MenuItem value={d.name}>{d.name}</MenuItem>
               ))}
             </Select>
+            <br></br>
+            <Select
+              labelId="delivery-status-label"
+              id="delivery-status-select"
+              value={deliveryStatus}
+              label="Delivery Status"
+              onChange={(v) => setDeliveryStatus(v.target.value)}
+            >
+              <MenuItem value="readytodeliver">Ready to deliver</MenuItem>
+              <MenuItem value="pending">Deliver in Progress</MenuItem>
+              <MenuItem value="delivered">Delivered</MenuItem>
+            </Select>
+            <br></br>
+            <TextField
+              name="cusname"
+              required
+              fullWidth
+              size="small"
+              id="cusname"
+              label="Customer Name"
+              autoFocus
+              value={delivery.cusname}
+              disabled
+            />
             <Button onClick={submit}>Save</Button>
           </FormControl>
         </Box>
