@@ -1,5 +1,5 @@
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -10,6 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { saveAs } from "file-saver";
 
 const columns = [
   { id: "fname", label: "First Name", minWidth: 170 },
@@ -79,11 +80,35 @@ export default function Customers() {
       });
   };
 
+  function createAndDownLoadPdf() {
+    axios
+      .post("http://localhost:8072/orders_pdf/create-pdf", customers)
+      .then(() =>
+        axios.get("http://localhost:8072/orders_pdf/fetch-pdf", {
+          responseType: "blob",
+        })
+      )
+      .then((res) => {
+        console.log(res.data);
+        const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+
+        saveAs(pdfBlob, "Order Report.pdf");
+      });
+  }
+
   return (
     <TableContainer sx={{ maxHeight: "60vh", padding: 1 }}>
       <Typography mb={2} sx={{ fontWeight: 600, fontSize: 20, color: "black" }}>
         Customer List
       </Typography>
+      <Button
+        variant="contained"
+        color="warning"
+        sx={{ marginTop: "10px", marginLeft: "auto", mr: 2.5 }}
+        onClick={createAndDownLoadPdf}
+      >
+        Generate Report
+      </Button>
       <Paper sx={{ width: "100%" }}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
