@@ -1,11 +1,11 @@
-const DeliveryStates = require("../models/deliveryStatus.model");
+const DeliveryStatus = require("../models/deliveryStatus.model");
 
 //@desc Get all deliveries
 //@route GET /deliveryStatus
 //@access Private
 const getAllDeliveriesStatus = async (req, res) => {
   try {
-    const deliveryStatus = await DeliveryStates.find();
+    const deliveryStatus = await DeliveryStatus.find();
     console.log(deliveryStatus);
     if (!deliveryStatus) {
       return res.status(400).json({ message: "No delivery status found" });
@@ -67,7 +67,7 @@ const getSingleDeliveryStatus = async (req, res) => {
       return res.json({ message: "UserID undefined" });
     }
 
-    const deliveryStatus = await Delivery.findById(userID);
+    const deliveryStatus = await DeliveryStatus.findById(userID);
 
     if (!deliveryStatus) {
       return res.json({ message: "User not found" });
@@ -87,7 +87,7 @@ const updateDeliveryStatus = async (req, res) => {
   try {
     const { _id, ...rest } = req.body;
 
-    const updatedDeliveryStatus = await deliveryStatusModel.updateOne(
+    const updatedDeliveryStatus = await DeliveryStatus.updateOne(
       { _id: _id },
       rest
     );

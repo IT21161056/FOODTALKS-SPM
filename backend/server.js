@@ -10,6 +10,8 @@ const { logEvents } = require("./middleware/logger");
 const { logger } = require("./middleware/logger");
 const errorHandler = require("./middleware/errorHandler");
 
+const CardRoutes = require("./routes/CardRoutes"); //viraj
+
 const PORT = process.env.PORT || 8072;
 
 // console.log(process.env.NODE_ENV);
@@ -32,12 +34,8 @@ app.use(cors());
 
 app.use(express.json()); //this is a buit in middleware
 
-const CardRoutes = require("./routes/CardRoutes.js");
+// const CardRoutes = require("./routes/CardRoutes.js");
 app.use("/cart", CardRoutes); //viraj route
-
-const OrderRoute = require("./routes/OrderRoute.js");
-app.use("/order", OrderRoute); //pasindu route
-app.use("/deliverystate", DeliveryStateRoute); //harini route
 
 // anoj routes
 const userRoute = require("./routes/user.route.js");
@@ -47,8 +45,8 @@ app.use("/users", userRoute);
 const deliveryRoute = require("./routes/delivery.route.js");
 app.use("/delivery", deliveryRoute);
 
-const deliveryStatusRoute = require("./routes/deliveryStatus.route.js");
-app.use("/deliveryStatus", deliveryStatusRoute);
+const deliveryStatusRoutes = require("./routes/deliveryStatus.route.js");
+app.use("/deliveryStatus", deliveryStatusRoutes);
 
 //pasindu route
 const OrderRoute = require("./routes/OrderRoute");

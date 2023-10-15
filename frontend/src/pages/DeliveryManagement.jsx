@@ -85,40 +85,47 @@ const DeliveryManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     setIsSubmitting(true);
     const data = await axios.post(
       "http://localhost:8072/delivery/create",
       formData
-    );
-
-    if (data.data.success) {
+    ).then((res)=>{
+      console.log(res)
       setAddSection(false);
-      getFetchData();
       setFormData({
         name: "",
         email: "",
         area: "",
         mobile: "",
         status: "",
-      });
-      showSuccessMessage("Record saved successfully!");
-      // toast.success("Record saved successfully!", { autoClose: 2000 });
-      setIsSubmitting(false);
-      //setAddSection(false);
-    }
-    const form = e.target;
+      })
+      getFetchData()
+    });
 
-    if (form.checkValidity()) {
-      // Form is valid, proceed with submission
-      // You can submit the form data or perform other actions here
-    } else {
-      // Form has validation errors, display error messages
-      const invalidInputs = form.querySelectorAll(":invalid");
-      invalidInputs.forEach((input) => {
-        const errorSpan = input.nextElementSibling;
-        errorSpan.textContent = input.validationMessage;
-      });
-    }
+    // if (data.data.success) {
+    //   setAddSection(false);
+    //   getFetchData();
+    //   setFormData({
+    //     name: "",
+    //     email: "",
+    //     area: "",
+    //     mobile: "",
+    //     status: "",
+    //   });
+    //   showSuccessMessage("Record saved successfully!");
+    //   setIsSubmitting(false);
+    // }
+    // const form = e.target;
+
+    // if (form.checkValidity()) {
+    // } else {
+    //   const invalidInputs = form.querySelectorAll(":invalid");
+    //   invalidInputs.forEach((input) => {
+    //     const errorSpan = input.nextElementSibling;
+    //     errorSpan.textContent = input.validationMessage;
+    //   });
+    // }
   };
 
   useEffect(() => {
@@ -128,28 +135,31 @@ const DeliveryManagement = () => {
   const handleDelete = async (id) => {
     const data = await axios.delete(
       `http://localhost:8072/delivery/delete/${id}`
-    );
-    if (data.data.success) {
+    ).then((res)=>{
       getFetchData();
-      //alert(data.data.message);
-      //toast.success("Record deleted successfully!", { autoClose: 2000 });
       showSuccessMessage("Record deleted successfully!");
-    }
+      getFetchData()
+    });
+   
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    console.log(formDataEdit)
     const data = await axios.put(
-      "http://localhost:8072/delivery/update",
+      `http://localhost:8072/delivery/update`,
       formDataEdit
-    );
-    if (data.data.success) {
+    ).then((res)=>{
       getFetchData();
-      //alert(data.data.message)
+      setAddSection(false)
       setEditSection(false);
       showSuccessMessage("Record updated successfully!");
-      //toast.success("Record updated successfully!", { autoClose: 2000 });
-    }
+    }).catch((error)=>{
+      alert(`Server error ${error}`)
+    });
+    // if (data.data.success) {
+      
+    // }
   };
 
   const handleEditOnChange = async (e) => {
@@ -163,7 +173,7 @@ const DeliveryManagement = () => {
   };
 
   const handleEdit = (e1) => {
-    setFormDataEdit(e1);
+    setFormDataEdit({ ...e1 });
     setEditSection(true);
   };
 
@@ -201,7 +211,7 @@ const DeliveryManagement = () => {
 
     // Create an array for the table data
     const tableData = [];
-    //tableData.push(["Name", "Email", "Covering Area", "Mobile", "Is present today"]);
+    tableData.push(["Name", "Email", "Covering Area", "Mobile", "Is present today"]);
 
     filteredData
       .filter((item) => {
@@ -301,6 +311,7 @@ const DeliveryManagement = () => {
             handleclose={() => setAddSection(false)}
             rest={formData}
             isSubmitting={isSubmitting}
+            
           />
         )}
 

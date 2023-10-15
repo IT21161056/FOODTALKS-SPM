@@ -1,3 +1,4 @@
+const deliveryModel = require("../models/delivery.model");
 const Delivery = require("../models/delivery.model");
 // const bcrypt = require("bcrypt");
 const session = require("express-session");
@@ -8,7 +9,7 @@ const session = require("express-session");
 const getAllDeliveries = async (req, res) => {
   try {
     const delivery = await Delivery.find();
-    console.log(delivery);
+    // console.log(delivery);
     if (!delivery) {
       return res.status(400).json({ message: "No deliveries found" });
     }
@@ -89,7 +90,9 @@ const updateDelivery = async (req, res) => {
   try {
     const { _id, ...rest } = req.body;
 
-    const updatedDelivery = await deliveryModel.updateOne({ _id: _id }, rest);
+    console.log(rest)
+
+    const updatedDelivery = await deliveryModel.findByIdAndUpdate(_id, rest);
 
     //confirm data
     if (!_id) {
@@ -101,6 +104,29 @@ const updateDelivery = async (req, res) => {
     res.json({ message: error.message });
   }
 };
+
+
+// const updateDelivery = async (req, res) => {
+//   try {
+//     const { _id, ...rest } = req.body;
+
+//     if (!_id) {
+//       return res.status(400).json({ message: "No delivery id" });
+//     }
+
+//     const updatedDelivery = await Delivery.findByIdAndUpdate(_id, rest, {
+//       new: true,
+//     });
+
+//     if (updatedDelivery) {
+//       res.status(200).json({ message: "User details updated.", delivery: updatedDelivery });
+//     } else {
+//       res.status(404).json({ message: "Delivery not found" });
+//     }
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
 
 //@desc Delete a user
 //@route DELETE /users

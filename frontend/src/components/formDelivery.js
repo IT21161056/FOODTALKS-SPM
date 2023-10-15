@@ -3,16 +3,7 @@ import "../pages/deliveryManagement.css";
 import { MdClose } from "react-icons/md";
 import styled from 'styled-components'
 
-const handleInputValidation = (e, fieldName) => {
-  const input = e.target;
-  const errorSpan = document.getElementById(`${fieldName}-error`);
 
-  if (input.checkValidity()) {
-    errorSpan.style.display = "none"; // Hide the error message if input is valid
-  } else {
-    errorSpan.style.display = "block"; // Show the error message if input is invalid
-  }
-};
 
 const formDelivery = ({
   handleSubmit,
@@ -37,11 +28,10 @@ const formDelivery = ({
             onChange={handleOnChange}
             value={rest.name}
             required
-            pattern="[A-Za-z\s]+"
+            // pattern="[A-Za-z\s]+"
             title="Please enter a valid name"
-            onInput={(e) => handleInputValidation(e, "name")}
+            // onInput={(e) => handleInputValidation(e, "name")}
           /><br></br>
-          <span id="name-error">Please enter a valid name</span>
         </FormInputContainer>
 
         <FormInputContainer>
@@ -53,11 +43,10 @@ const formDelivery = ({
           onChange={handleOnChange}
           value={rest.email}
           required
-          pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
+          // pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z]+\.[a-zA-Z]"
           title="Please enter a valid email address"
-          onInput={(e) => handleInputValidation(e, "email")}
+          // onInput={(e) => handleInputValidation(e, "email")}
         /><br></br>
-        <span id="email-error">Please enter a valid email</span>
         </FormInputContainer>
         
         <FormInputContainer>
@@ -69,11 +58,10 @@ const formDelivery = ({
           onChange={handleOnChange}
           value={rest.area}
           required
-          pattern="[A-Za-z\s]+"
+          // pattern="[A-Za-z\s]+"
           title="Please enter a valid area"
-          onInput={(e) => handleInputValidation(e, "area")}
+          // onInput={(e) => handleInputValidation(e, "area")}
         /><br></br>
-        <span id="area-error">Please enter a valid area</span>
         </FormInputContainer>
 
         <FormInputContainer>
@@ -85,34 +73,28 @@ const formDelivery = ({
           onChange={handleOnChange}
           value={rest.mobile}
           required
-          pattern="^07[0-9]{8}$"
+          // pattern="^07[0-9]{8}$"
           title="Please enter a valid 10-digit mobile number"
-          onInput={(e) => handleInputValidation(e, "mobile")}
+          // onInput={(e) => handleInputValidation(e, "mobile")}
         /><br></br>
-        <span id="mobile-error">
-          Please enter a valid 10-digit mobile number
-        </span>
         </FormInputContainer>
 
         <FormInputContainer>
         <FormLabels htmlFor="status">Is present today?(Yes/No) </FormLabels><br></br>
-        <FormInputs
-          type="text"
-          id="status"
+        <select id="status"
           name="status"
           onChange={handleOnChange}
           value={rest.status}
-          required
-          pattern="Yes|No"
-          title='Please enter either "Yes" or "No"'
-          onInput={(e) => handleInputValidation(e, "status")}
-        /><br></br>
-        <span id="status-error">Please enter either "Yes" or "No"</span>
+          required >
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+       
         </FormInputContainer>
 
         {/* Repeat the same structure for other input fields */}
 
-        <FormButton disabled={isSubmitting}>
+        <FormButton >
           Submit
         </FormButton>
       </FormContainer>
@@ -130,6 +112,8 @@ const AddContainer = styled('div')`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 600px;
+  margin-top: 20px;
 `;
 
 const FormContainer = styled('form')`
@@ -137,9 +121,9 @@ const FormContainer = styled('form')`
   background-color: white;
   display: flex;
   flex-direction: column;
-  padding: 50px 40px;
+  padding: 10px 40px;
   padding-top: auto;
-  padding-bottom: 10px;
+  padding-bottom: 30px;
   padding-right: 5px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
@@ -155,31 +139,12 @@ const FormInputs = styled('input')`
   margin-right: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
+  width: 325px;
+  border: 0.2px solid;
 `;
 
 const FormInputContainer = styled.div`
   position: relative;
-
-  /* Default border color for invalid input */
-  border-color: red;
-
-  /* Change border color to green when input is valid */
-  input:valid + & {
-    border-color: green;
-  }
-
-  /* Hide the error message when the input is valid */
-  input:valid + span {
-    display: none;
-  }
-
-  input:invalid + span::after {
-    content: attr(title); /* Display the custom error message */
-    color: red;
-    display: block;
-    font-size: 12px; /* Adjust font size as needed */
-    margin-top: 4px;
-  }
 `;
 
 const FormButton = styled('button')`
@@ -188,10 +153,11 @@ const FormButton = styled('button')`
   font-size: 18px;
   border-radius: 5px;
   cursor: pointer;
-  background-color: royalblue;
+  background-color: rgb(238, 126, 56);
   color: white;
   font-weight: 500;
   margin-top: 20px;
+  width: 325px;
 `;
 
 const CloseButton = styled('div')`
