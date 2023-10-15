@@ -26,17 +26,17 @@ const ManageMenu = () => {
   const [cardData, setCardData] = React.useState([]);
   const [search, setSearch] = useState("");
 
-  // function createAndDownLoadPdf() {
-  //   axios.post('http://localhost:8072/menu_pdf/create-pdf', cardData)
-  //     .then(() => axios.get('http://localhost:8072/menu_pdf/fetch-pdf', { responseType: 'blob' }))
-  //     .then((res) => {
+  function createAndDownLoadPdf() {
+    axios.post('http://localhost:8072/menu_pdf/create-pdf', cardData)
+      .then(() => axios.get('http://localhost:8072/menu_pdf/fetch-pdf', { responseType: 'blob' }))
+      .then((res) => {
 
-  //       console.log(res.data)
-  //       const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
+        console.log(res.data)
+        const pdfBlob = new Blob([res.data], { type: 'application/pdf' })
 
-  //       saveAs(pdfBlob, 'newPdf.pdf')
-  //     })
-  // }
+        saveAs(pdfBlob, 'newPdf.pdf')
+      })
+  }
   const generatePDF = () => {
     const doc = new jsPDF();
 
@@ -100,7 +100,7 @@ const ManageMenu = () => {
   return (
     <>
 
-      <Button variant='success' onClick={generatePDF}
+      <Button variant='success' onClick={createAndDownLoadPdf}
         style={{ backgroundColor: '#b36b00', color: 'white', margin: '20px' }}>Generate report</Button>
 
       <Link to="/addnew">

@@ -46,6 +46,8 @@ module.exports = (cardData) => {
           #logo {
             text-align: center;
             margin-bottom: 10px;
+            width:200px,
+            height:200px
           }
           
           #logo img {
@@ -161,10 +163,10 @@ module.exports = (cardData) => {
     
         <header class="clearfix">
             <div id="logo">
-                <img src="http://localhost:3001/fdd.png" height="100px">
+                <img src="http://localhost:3000/fdd.png" >
             </div>
         <!-- <h1><b>Food Talks</b></h1> -->
-        <h1>Orders Details</h1>
+        <h1>Today Menu</h1>
     
         <div id="company" class="clearfix">
           <div>Peris Marketing Services Pvt Ltd</div>
@@ -173,8 +175,8 @@ module.exports = (cardData) => {
           <div><a href="#">pasindu.@gmail.com</a></div>
         </div>
         <div id="project">
-          <div><span>Position</span>Delivery Manager</div>
-          <div><span>Name</span>Pasindu Perakum</div>
+          <div><span>Position</span>Menu management</div>
+          <div><span>Name</span>Vikum Viraj</div>
          
           <div><span>EMAIL</span> <a href="#">pasindu.marketing@gmail.com</a></div>
           <div><span>DATE</span>${`${today}`}</div>
@@ -204,8 +206,7 @@ module.exports = (cardData) => {
                 <td class="desc">${ord.dish}</td>
                 <td class="desc">${ord.rating}</td>
                 <td class="unit">${ord.qnty}</td>
-                <td class="desc">${ord.review}</td>        
-                <td class="desc">${ord.image}</td>    
+                <td class="desc">${ord.review}</td>           
                 </tr> `
             )
          })}  
