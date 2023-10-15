@@ -7,9 +7,11 @@ import axios from "axios";
 import Container from "@mui/material/Container";
 import CircularProgress from "@mui/material/CircularProgress";
 import f3 from '../asset/f3.png'
+import { createTheme } from '@mui/material/styles';
 
 export default function OrderCheckout() {
 
+  //get the total amount using params
   let total = window.location.search;
   const urlParams = new URLSearchParams(total);
   const totalAmount = urlParams.get("total");
@@ -39,6 +41,14 @@ export default function OrderCheckout() {
   console.log(orderDetails);
   console.log(totalAmount);
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFA500', //primary color here
+      },
+    },
+  });
+
   function getCurrentDate() {
     const today = new Date();
     const year = today.getFullYear();
@@ -61,7 +71,7 @@ export default function OrderCheckout() {
           mobileNumber: "",
           city: "",
           deliverLocation: "",
-          deliverDate: "",
+          deliverDate: getCurrentDate(),
           totalAmount: ""
         });
       })
@@ -134,7 +144,7 @@ export default function OrderCheckout() {
 <Box
       sx={{
         display: "flex",
-        minHeight: "80vh",
+        minHeight: "100vh",
         backgroundColor: 'whitesmoke',
         alignItems: "center", // Center the content vertically
       }}
@@ -157,8 +167,9 @@ export default function OrderCheckout() {
                 backgroundColor: "white",
                 boxShadow: "8px 8px 8px rgba(0, 0, 0, 0.1)",
                 borderRadius: "4px",
-                padding: "30px",
-                marginTop: "2rem",
+                padding: "2rem",
+                minHeight: '70vh',
+                mt: -5
               }}
             >
               <Typography component="h1" variant="h4" sx={{ mb: 4 }}>
@@ -192,6 +203,7 @@ export default function OrderCheckout() {
                       name="mobileNumber"
                       required
                       fullWidth
+                      color="warning"
                       size="small"
                       id="mobileNumber"
                       label="Mobile Number"
@@ -209,6 +221,7 @@ export default function OrderCheckout() {
                     <TextField
                       name="city"
                       required
+                      color="warning"
                       fullWidth
                       size="small"
                       id="city"
@@ -227,6 +240,7 @@ export default function OrderCheckout() {
                     <TextField
                       name="deliverLocation"
                       required
+                      color="warning"
                       fullWidth
                       size="small"
                       id="deliverLocation"
@@ -247,6 +261,7 @@ export default function OrderCheckout() {
                       min={getCurrentDate()}
                       name="deliverDate"
                       required
+                      color="warning"
                       fullWidth
                       size="small"
                       id="deliverDate"
@@ -267,6 +282,7 @@ export default function OrderCheckout() {
                       required
                       fullWidth
                       size="small"
+                      color="warning"
                       id="totalAmount"
                       label="Total Amount"
                       autoFocus
@@ -285,7 +301,7 @@ export default function OrderCheckout() {
                   variant="contained"
                   color="warning"
                   onClick={() => navigate("/cartItem")}
-                  sx={{ mt: 3, width: '100%' }}
+                  sx={{ mt: 2, width: '100%' }}
                 >
                   Cancel Order
                 </Button>
@@ -294,7 +310,7 @@ export default function OrderCheckout() {
                   variant="contained"
                   color="warning"
                   disabled={isSubmiting}
-                  sx={{ mt: 3, width: '100%' }}
+                  sx={{ mt: 2, width: '100%' }}
                 >
                   Submit Order
                 </Button>

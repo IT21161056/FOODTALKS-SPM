@@ -15,13 +15,13 @@ import { createTheme } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material";
 
 const UpdateOrder = () => {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: "#FFA500", // Your primary color here
-      },
-    },
-  });
+  // const theme = createTheme({
+  //   palette: {
+  //     primary: {
+  //       main: "#FFA500", // Your primary color here
+  //     },
+  //   },
+  // });
 
   const { id } = useParams();
   console.log("in update order >>>", id);
@@ -41,12 +41,23 @@ const UpdateOrder = () => {
 
   console.log(orderDetails);
 
-  const employeeId = useParams();
-  const employeeName = employee.name;
-  console.log(employee);
+  // const employeeId = useParams();
+  // const employeeName = employee.name;
+  // console.log(employee);
 
   const orderName = orderDetails.customerName;
   console.log("customer name >>> " + orderName);
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#FFA500', // Your primary color here
+      },
+      secondary: {
+        main: '#fff'
+      }
+    },
+  });
 
   useEffect(() => {
     function fetchAllData() {
@@ -219,7 +230,7 @@ const UpdateOrder = () => {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Select
                   name="deliveryPerson"
                   required
@@ -230,12 +241,12 @@ const UpdateOrder = () => {
                   onChange={onChange}
                   value={orderDetails.deliveryPerson || ""}
                 >
-                  {/* <option>Select delivery person</option>
+                  <option>Select delivery person</option>
                   {
                     employee.map(( deliverPerson ) => {
                     return <option key={ deliverPerson._id } value={ deliverPerson.name }>{ deliverPerson.name }</option>
                   })
-                 } */}
+                 }
 
                   <MenuItem value="">Select delivery person</MenuItem>
                   {employee.map((deliverPerson) => (
@@ -247,7 +258,7 @@ const UpdateOrder = () => {
                     </MenuItem>
                   ))}
                 </Select>
-              </Grid>
+              </Grid> */}
             </Grid>
             <Button
               type="submit"
